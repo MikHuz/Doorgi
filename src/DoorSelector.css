@@ -1,0 +1,72 @@
+*{
+  margin:0;
+  padding:0;
+}
+/*Door Selection Page*/
+#build-door-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 10px 20px;
+  background-color: darkslategray;
+  opacity: 0.8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom:30px;
+
+}
+
+#build-door-btn:hover{
+  background-color: orangered;
+}
+
+#carouselItem{
+  text-align: center;
+  margin-bottom:20px;
+ 
+}
+
+#carouselInner {
+  border: 2px solid purple;
+  margin-top:10px;
+  margin-bottom:10px;
+
+}
+
+#carouselItem img {
+ width:500px;
+ height:500px;
+}
+
+#prevDoor{
+  left: 330px;
+}
+
+#nextDoor{
+  right: 330px;
+}
+
+#doorSelectorContainer{
+  background-color: blueviolet;
+  margin-bottom: 30px;
+}
+#nextDoor,#prevDoor{
+  top: 50%;
+  height:50px;
+  width:50px;
+  background-color: orange; 
+  opacity: 0.5;             
+  border: none;
+}
+#nextDoor:hover, #prevDoor:hover{
+  outline: none;
+  opacity: 1; 
+}
+
+#slide-btn{
+  background-color: black;
+}
