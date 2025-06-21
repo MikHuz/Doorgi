@@ -23,15 +23,15 @@ return (
 
 function SlideShow(props){ 
   let doorElements = doors.map((imgSrc, i) => (
-    <div id="item-slide" className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i}>
+    <div id="homeItemSlide" className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i}>
       <img src={imgSrc} className="img-fluid" alt={`Garage door ${i + 1}`} />
     </div>
   ));
 
   return (
     <>
-      <div id={props.id} className="carousel carousel-dark slide">
-        <div className="carousel-inner">
+      <div id={props.id} className="carousel carousel-dark slide homeCarousel">
+        <div className="carousel-inner" id="homeCarouselInner">
           {doorElements}
         </div>
 
@@ -49,7 +49,7 @@ function SlideShow(props){
 
 function HomePage() {
   return (
-    <div className="container-fluid" style={{ border: "2px solid black" }}>
+    <div className="container-fluid" id="homeContainer">
       <div className="row justify-content-center row-slide">
         <div className="col col-fit">
           <h1>Traditional</h1>
@@ -81,9 +81,10 @@ function Footer(){
 
 
 function App() {
-  const [selectedDoor,setSelectedDoor] = useState(0)
-  const handleDoorSelection = (doorIndex) =>{
-    setSelectedDoor(doorIndex)
+  const [selectedDoor,setSelectedDoor] = useState(null)
+  const handleDoorSelection = (door) =>{
+   // alert("Selected:" + door.name)
+    setSelectedDoor(door)
   }
 
   return (

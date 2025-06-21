@@ -1,8 +1,9 @@
 /*homePage*/
-html{
-}
 body{
   background-color: orange;
+}
+#homeContainer{
+  bordeR:2x solid black;
 }
 .row-slide{
   border:2px solid purple;
@@ -20,22 +21,22 @@ body{
   padding:0;
   margin:0
 }
-.carousel{
+.homeCarousel{
   flex:0 0 75%;
   height:75%;
   border:2px solid green;
   margin:0;
 }
-.carousel-inner{
+#homeCarouselInner{
   height:100%;
   /*bordeR:2px solid red;*/
 }
-#item-slide{
+#homeItemSlide{
   height:100%;
   /*bordeR:2px solid brown;*/
   text-align: center;
 }
-#item-slide img{
+#homeItemSlide img{
   height:100%;
   width:100%;
   /*bordeR:2px solid blue;*/
