@@ -5,4 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/test-deployment/dist/',
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://chi-api.renoworks.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      }
+    }
+  }
 })
