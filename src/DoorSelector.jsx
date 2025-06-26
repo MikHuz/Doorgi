@@ -6,10 +6,33 @@ import RaisedPanel from './assets/Raised_Panel.jpg';
 import StampedCarriage from './assets/Stamped_Carriage_House.jpg';
 import StampedShaker from './assets/Stamped_Shaker.jpg';
 const Doors=[
-{name:"Raised Panel",img:RaisedPanel,id:"Raised"},
-{name:"Stamped Carriage House",img:StampedCarriage,id:"StampedCarriage"},
-{name:"Stamped Shaker",img:StampedShaker,id:"StampedShaker" }]
-
+{name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"ShortPanel",defaultColor:"White",rwd:"CHI_Raised.rwd",
+ colors:{White:"#EAEEED",Sandstone:"#E0E0D4",Almond:"#E1D9C4",Brown:"#4D3B37",Red:"red",blue:"blue"},
+ designs:{"short Panel":"img_here","long Panel":"Img_here"},
+ windows:{
+    position:{},
+    glass:{},
+    inserts:{}
+  }
+},
+{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"ShortPanel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
+ colors:{White:"#EAEEED",Sandstone:"#E0E0D4",Almond:"#E1D9C4",Brown:"#4D3B37",Red:"red",blue:"blue"},
+ designs:{"short Panel":"img_here","long Panel":"Img_here"},
+ windows:{
+    position:{},
+    glass:{},
+    inserts:{}
+  }
+},
+{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"White",rwd:"CHI_StampedShaker.rwd",
+ colors:{White:"#EAEEED",Sandstone:"#E0E0D4",Almond:"#E1D9C4",Brown:"#4D3B37",Red:"red",blue:"blue",},
+ designs:{"short Panel":"img_here","long Panel":"Img_here"},
+ windows:{
+    position:{},
+    glass:{},
+    inserts:{}
+  }
+}]
 
 function DoorSelector({handleDoorSelection,doorType}) {
   const [doorIndex, setDoorIndex] = useState(0)//Still must be defined at the top level
@@ -23,7 +46,7 @@ function DoorSelector({handleDoorSelection,doorType}) {
       console.log("EVENT:",  event)
       const newIndex = event.to;
       setDoorIndex(newIndex);
-      alert("Changed to door index: " + newIndex);
+      /*alert("Changed to door index: " + newIndex);*/
     };
 
     if (carousel) {
@@ -47,7 +70,7 @@ function DoorSelector({handleDoorSelection,doorType}) {
     doorElements.push(
       <div className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i} id="doorSelectCarouselItem">
           <div><b>{Doors[i].name}</b></div>
-        <img src={Doors[i].img} className="img-fluid" alt={`Garage door ${i + 1}`} />
+        <img src={Doors[i].defaultImg} className="img-fluid" alt={`Garage door ${i + 1}`} />
       </div>
     );
     //console.log(elements[0])
