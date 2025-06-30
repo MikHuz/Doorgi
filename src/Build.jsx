@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
-import './Build.css'
+import './css/Build.css'
 import DoorSelector from "./DoorSelector.jsx";
 import door from './assets/Raised_Panel.jpg';
 import shortDoor from'./assets/Raised_Panel_Short.jpg';
@@ -32,26 +32,28 @@ function Windows(props){
 
     </>);
 }
-function Colors(props){
-  const [IconColor,setIconColor] = useState(null)
-  const colors=['Blue','Black','Brown','Grey','Green', 'Purple', "Lime"]//Use props colors based on selected door
+function Colors(props) {
+  const [IconColor, setIconColor] = useState(null);
 
-  const handleColor = (event, color)=>{
-    setIconColor(color)
-    props.setUserColor(color)
-  }
-   let colorDivs = colors.map( (color) =>{
-      return(
+  const handleColor = (event, color) => {
+    setIconColor(color);
+    props.handleColor(color);
+  };
+
+  const colorDivs = Object.entries(props.colors).map(([colorName, hexCode]) => (
+    <div className="color-box" key={colorName}>
+      <h5>{colorName}</h5>
       <div
-        key={color}
-        style={{backgroundColor:`${color}`}}
-        className={IconColor === color ? 'selected' : ''}
-        onClick={(event) => handleColor(event, color)} >
-      </div> ) } );
+        style={{ backgroundColor: hexCode }}
+        className={IconColor === colorName ? 'selected' : ''}
+        onClick={(event) => handleColor(event, colorName)}
+      />
+    </div>
+  ));
 return(
 <>   
-<div id="colors">
-  <h1>Color</h1>
+<div id="colors-container">
+  <p style={{border:"2px solid black",display:"block",flexBasis:"100%"}}><span>Color</span>  |   <span>Wood Tone</span></p>
   {colorDivs}
 </div>
 </>
@@ -76,7 +78,6 @@ export default function Build(props) {
   const [Price, setPrice] = useState(1000)
   const [Size,setSize] = useState("Double")
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
-  const [nextImage, setNextImage] = useState(null);
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
   const [loading,setLoading] = useState(false);
@@ -106,30 +107,26 @@ export default function Build(props) {
       document.body.classList.remove('build-page');
     };
   }, []);
-  useEffect(() => {
-  if (!loading && nextImage) {
-    setImage(nextImage);
-    setNextImage(null);
-  }
-  }, [loading, nextImage]);
-
-  const setUserColor = (userColor)=>{
-    alert(userColor)
-    setColor(userColor)
-  }
   const getPattern = (size, design)=>{
-    let key = selectedDoor.id + size + design;
+    let key = selectedDoor.id + size +design.replace(/ /g, '');;
     console.log("key: ",key)
     let pattern = patterns[key]
     return pattern;
 
   }
-  const handleSize = (e,size)=>{
+  const handleColor= (userColor)=>{
+    setColor(userColor)
+    setLoading(true)
+    var apiWidth = Size=="Single" ? "640":"1280"
+    fetchDoor(getPattern(Size,Design),{"Solid Color":userColor},{"APIWidth":apiWidth})
 
+  }
+
+  const handleSize = (e,size)=>{
     setSize(size);
     var apiWidth = size=="Single" ? "640":"1280"
        setLoading(true)
-    setTimeout(() => {fetchDoor(getPattern(size,Design),{"Width":size},{"APIWidth":apiWidth})},1500);
+       fetchDoor(getPattern(size,Design),{"Width":size},{"APIWidth":apiWidth})
   }
 
   function fetchDoor(pattern, parameter,APIImageSize){
@@ -139,7 +136,7 @@ export default function Build(props) {
     let gridSettings={
       Width:Size,
       Design:Design,
-      Color:Color,
+      "Solid Color":Color,
       Windows:null
     }
     for (let key in parameter){
@@ -159,8 +156,8 @@ export default function Build(props) {
     console.log(gridSettingsParameter)
     const formBody = new URLSearchParams();
     formBody.append("rwd", rwd);
-    formBody.append("pattern", pattern);
     formBody.append("gridSettings", gridSettingsParameter);
+    formBody.append("pattern", pattern);
     formBody.append("width", width); // width must be a string like "640"
     formBody.append("height", height);
     formBody.append("site", site);
@@ -196,27 +193,28 @@ export default function Build(props) {
         setImage(responsePath+url)})
     .catch((err) => console.error("Error:", err))
     .finally(() => {
-      setLoading(false);
+      setLoading(false)
+     
     });
   }
   return (
     <>
     <div className="container-fluid" id='buildContainer'>
       <div className="row gy-0">
-        <div id="col-img"className='col-12 col-md-8 d-flex flex-column align-items-center gy-0'>
-          <h1 id="doorName">{selectedDoor.name}</h1>
+        <div id="col-img"className='col-12 col-lg-8 d-flex flex-column align-items-center gy-0'>
+          <h1>{selectedDoor.name}</h1>
           <div style={{textAlign:"center", width: "100%",border:"2px solid red"}}>
-            <img src={loading ? doorgiLogo:Image} className={`img-fluid ${loading ? "loading-style" : ""}`} style={{ borderRadius: "5%" }} />
+            <img src={loading ? doorgiLogo:Image} className={`img-fluid ${loading ? "loading-style" : ""}`} />
             {loading && <p style={{fontSize:"clamp(1rem,2vw,2rem)",marginTop:"2%"}}><b>Loading...</b></p>}
           </div>
         </div>
-          <div id="col-options" className='col12 col-md-4 d-flex flex-column gap-1'>
-            <div id="sizeContainer" style={{display:"flex", flexWrap:"wrap", justifyContent:"center",   columnGap: "1vw"}}> 
-              <h1 style={{flexGrow:"1", border:"2px solid blue"}}>Size</h1>
-              <span onClick={(e) => handleSize(e,"Single")} >Single Door 8' X 7'</span>
-              <span onClick={(e) => handleSize(e,"Double")}>Double Door 16' X 7'</span>
+          <div id="col-options" className='col12 col-lg-4 d-flex flex-column gap-1'>
+            <div id="size-container"> 
+              <h1>Size</h1>
+              <p onClick={(e) => handleSize(e,"Single")}><b>Single Door 8' X 7'</b></p>
+              <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
-           <Colors setUserColor={setUserColor}/>
+           <Colors handleColor={handleColor} colors={selectedDoor.colors}/>
            <Windows/>
           </div>
       </div>

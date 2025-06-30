@@ -1,8 +1,6 @@
+/*NOT in use*/
 /*HomePage*/
-
-
 /*Door style selection*/
-
 body{
   background-color: orange;
 }
@@ -74,49 +72,8 @@ width:100vw;
 }
 
 .row{margin:0;}
-
-
+#slide-btn
 #slide-btn{
   background-color: black;
 }
 
-/*Build Page styles*/
-#build-container {
-  min-height: 100vh; 
-}
-
-#options-col {
-  overflow-y: scroll;       
-  overflow-x: hidden;        
- 
-}
-
-[class*="col"]{
-  border:1px solid white;
-  /* matches any element with "col" in the class list */
-}
-
-#colorColumns div{
-  height: 50%;
-  width:60%;
-  border-radius: 50%;
-  transition: 0.2s;
-}
-
-#colorColumns div:hover{
-  transition:0.2s;
-  transform:scale(1.2)
-}
-
-#colorRows{
-  height:15vh;
-}
-.row{
-  border:1px solid black;
-}
-
-.selected {
-  border:2px solid white;
-  transform:scale(1.5)
-
-}
