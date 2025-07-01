@@ -34,10 +34,10 @@ function Windows(props){
 }
 function Colors(props) {
   const [IconColor, setIconColor] = useState(null);
-
-  const handleColor = (event, color) => {
+  const [colorType, setColorType] = useState("Solid Color")
+  const handleColor = (event, color, type) => {
     setIconColor(color);
-    props.handleColor(color);
+    props.handleColor(color,type);
   };
 
   const colorDivs = Object.entries(props.colors).map(([colorName, hexCode]) => (
@@ -46,15 +46,23 @@ function Colors(props) {
       <div
         style={{ backgroundColor: hexCode }}
         className={IconColor === colorName ? 'selected' : ''}
-        onClick={(event) => handleColor(event, colorName)}
+        onClick={(event) => handleColor(event, colorName, "Solid Color")}
       />
-    </div>
-  ));
+    </div>));
+  const woodDivs = Object.entries(props.woods).map( ([woodName,woodUrl]) => (
+       <div className="color-box" key={woodName}>
+      <h5>{woodName}</h5>
+      <div
+        style={{  backgroundImage: `url(${woodUrl})`}}
+        className={IconColor === woodName ? 'selected' : ''}
+        onClick={(event) => handleColor(event, woodName,"Accents Woodtones")}
+      />
+    </div>) )
 return(
 <>   
 <div id="colors-container">
-  <p style={{border:"2px solid black",display:"block",flexBasis:"100%"}}><span>Color</span>  |   <span>Wood Tone</span></p>
-  {colorDivs}
+  <div><span onClick ={() =>setColorType("Solid Color")}>Color</span><span>|</span><span onClick ={() =>setColorType("Wood")}>Wood Tone</span></div>
+  {colorType === "Solid Color" ? colorDivs: woodDivs}
 </div>
 </>
     )
@@ -80,6 +88,7 @@ export default function Build(props) {
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
+  const [colorType,setColorType] = useState("Solid Color")
   const [loading,setLoading] = useState(false);
   const rwd = selectedDoor.rwd
   const URL = "https://chi-api.renoworks.com/RenderGrid"
@@ -114,12 +123,12 @@ export default function Build(props) {
     return pattern;
 
   }
-  const handleColor= (userColor)=>{
+  const handleColor= (userColor, type)=>{
     setColor(userColor)
+    setColorType(type)
     setLoading(true)
     var apiWidth = Size=="Single" ? "640":"1280"
-    fetchDoor(getPattern(Size,Design),{"Solid Color":userColor},{"APIWidth":apiWidth})
-
+    fetchDoor(getPattern(Size,Design),{[type]:userColor},{"APIWidth":apiWidth})
   }
 
   const handleSize = (e,size)=>{
@@ -130,13 +139,16 @@ export default function Build(props) {
   }
 
   function fetchDoor(pattern, parameter,APIImageSize){
- 
-    //alert("Size is now:"+ parameter.Width)
+    console.log("Paramter passed:",parameter)
     console.log(pattern)
+    for (let key in parameter){
+      var solidColorOrWood = (key == "Accents Woodtones" ||key == "Solid Color" ? key : colorType )
+  }
+    console.log("Color Type:",solidColorOrWood)
     let gridSettings={
       Width:Size,
       Design:Design,
-      "Solid Color":Color,
+      [solidColorOrWood]:Color,
       Windows:null
     }
     for (let key in parameter){
@@ -189,7 +201,7 @@ export default function Build(props) {
         };
   }).then((url) => {
         console.log("Success:", url)
-        console.log(responsePath+url)
+        console.log(responsePath+url+"\n\n\n\n\n\n\n\n")
         setImage(responsePath+url)})
     .catch((err) => console.error("Error:", err))
     .finally(() => {
@@ -214,7 +226,7 @@ export default function Build(props) {
               <p onClick={(e) => handleSize(e,"Single")}><b>Single Door 8' X 7'</b></p>
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
-           <Colors handleColor={handleColor} colors={selectedDoor.colors}/>
+           <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
            <Windows/>
           </div>
       </div>

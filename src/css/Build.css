@@ -8,31 +8,31 @@
 h1{
   border:2px solid black;
   width:100%;
-  margin:2% 2%;
+
 }
 h5{
   border:2px solid green;
   margin:0;
   padding: 0;
-  height:1.5em;
+  height:2.0em;
 }
 p{
   text-align: center;
 }
 span{
   display: inline-block;
-  font-size:1.5rem;
   transition:0.2s
 }
 span:hover{
-  transform:scale(1.2);
-   transition:0.2s
+  transform:scale(1.1);
+  text-decoration: underline;
+  transition:0.2s
 }
 @media (min-width:1280px){
-  h1{font-size:1.5rem;}h5{font-size:1.1rem }p{font-size:1.2rem;}
+  h1{font-size:1.5rem;}h5{font-size:1.1rem }p{font-size:1.2rem;}span{font-size:1.5rem;}
 }
 @media (max-width:1280px){
-   h1{font-size:1.5rem;}h5{font-size:1.1rem; }p{font-size:1.2rem;}
+   h1{font-size:1.5rem;}h5{font-size:1.1rem; }p{font-size:1.2rem;}span{font-size:1.5rem;}
 }
 #buildContainer {
   max-width: 100vw;
@@ -75,12 +75,21 @@ span:hover{
 #colors-container{
   display:flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   padding: 0;
   align-items: baseline;
   align-content: flex-start;
   border:2px solid black;
   background-color: red;
+}#colors-container > div:first-child{
+  display: flex;
+  justify-content: center;
+  column-gap: 2%;
+  border: 2px solid purple;
+  flex-basis: 100%;
+}
+.color-box:last-child{
+  margin-bottom:5%;
 }
 .color-box {/*Holds Header and Color Icon*/
   display: flex;
