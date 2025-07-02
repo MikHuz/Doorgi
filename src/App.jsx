@@ -2,7 +2,7 @@ import { useState, useEffect} from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
 import DoorSelector from "./DoorSelector.jsx";
 import Build from './Build.jsx'
-import './Home.css'
+import './css/Home.css'
 import door from './assets/door.jpg';
 import door2 from './assets/door2.jfif';
 import door3 from './assets/door3.jpg';

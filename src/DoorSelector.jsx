@@ -1,23 +1,52 @@
 import { useState, useEffect} from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
-import './DoorSelector.css'
+import './css/DoorSelector.css'
 import Build from './Build.jsx'
 import RaisedPanel from './assets/Raised_Panel.jpg';
 import StampedCarriage from './assets/Stamped_Carriage_House.jpg';
+import cedar from './assets/Colors/woods/accents-cedar.jpg';
+import carbon from './assets/Colors/woods/accents-carbonOak.jpg';
+import natural from './assets/Colors/woods/accents-naturalOak.jpg';
+import darkOak from './assets/Colors/woods/accents-darkOak.jpg';
+import mahogany from './assets/Colors/woods/accents-mahogany.jpg';
+import driftwood from './assets/Colors/woods/accents-driftwood.jpg';
+import walnut from './assets/Colors/woods/accents-walnut.jpg';
+import shortPanelRaised from './assets/Designs/Raised_Panel_Short.jpg'
+import longPanelRaised from './assets/Designs/Raised_Panel_Long.jpg'
+import shortPanelStamped from './assets/Designs/Stamped_Carriage_Short.jpg'
+import longPanelStamped from './assets/Designs/Stamped_Carriage_Long.jpg'
 import StampedShaker from './assets/Stamped_Shaker.jpg';
 const Doors=[
-{name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"ShortPanel",defaultColor:"White",rwd:"CHI_Raised.rwd",
- colors:{White:"#EAEEED",Sandstone:"#E0E0D4",Almond:"#E1D9C4",Brown:"#4D3B37",Red:"red",blue:"blue"},
- designs:{"short Panel":"img_here","long Panel":"Img_here"},
+{name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_Raised.rwd",
+ colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+},
+ designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised},
  windows:{
     position:{},
     glass:{},
     inserts:{}
   }
 },
-{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"ShortPanel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
- colors:{White:"#EAEEED",Sandstone:"#E0E0D4",Almond:"#E1D9C4",Brown:"#4D3B37",Red:"red",blue:"blue"},
- designs:{"short Panel":"img_here","long Panel":"Img_here"},
+{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
+colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+}, 
+designs:{"Short Panel":"img_here","Long Panel":"Img_here"},
  windows:{
     position:{},
     glass:{},
@@ -25,8 +54,17 @@ const Doors=[
   }
 },
 {name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"White",rwd:"CHI_StampedShaker.rwd",
- colors:{White:"#EAEEED",Sandstone:"#E0E0D4",Almond:"#E1D9C4",Brown:"#4D3B37",Red:"red",blue:"blue",},
- designs:{"short Panel":"img_here","long Panel":"Img_here"},
+colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+}, 
+designs:{"Short Panel":"img_here","Long Panel":"Img_here"},
  windows:{
     position:{},
     glass:{},
@@ -35,7 +73,7 @@ const Doors=[
 }]
 
 function DoorSelector({handleDoorSelection,doorType}) {
-  const [doorIndex, setDoorIndex] = useState(0)//Still must be defined at the top level
+  const [doorIndex, setDoorIndex] = useState(0)
 
   useEffect(() => {
     console.log("INSIDE USEEFFECT")
