@@ -11,6 +11,10 @@ import darkOak from './assets/Colors/woods/accents-darkOak.jpg';
 import mahogany from './assets/Colors/woods/accents-mahogany.jpg';
 import driftwood from './assets/Colors/woods/accents-driftwood.jpg';
 import walnut from './assets/Colors/woods/accents-walnut.jpg';
+import shortPanelRaised from './assets/Designs/Raised_Panel_Short.jpg'
+import longPanelRaised from './assets/Designs/Raised_Panel_Long.jpg'
+import shortPanelStamped from './assets/Designs/Stamped_Carriage_Short.jpg'
+import longPanelStamped from './assets/Designs/Stamped_Carriage_Long.jpg'
 import StampedShaker from './assets/Stamped_Shaker.jpg';
 const Doors=[
 {name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_Raised.rwd",
@@ -24,7 +28,7 @@ woods: {
   Driftwood: driftwood,
   Walnut: walnut
 },
- designs:{"Short Panel":"img_here","Long Panel":"Img_here"},
+ designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised},
  windows:{
     position:{},
     glass:{},
@@ -60,7 +64,7 @@ woods: {
   Driftwood: driftwood,
   Walnut: walnut
 }, 
-designs:{"ShortPanel":"img_here","LongPanel":"Img_here"},
+designs:{"Short Panel":"img_here","Long Panel":"Img_here"},
  windows:{
     position:{},
     glass:{},

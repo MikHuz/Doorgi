@@ -67,6 +67,33 @@ return(
 </>
     )
 }
+
+function Designs(props){
+  //console.log("INSIDE COMPONENT:",props.designs)
+  const [designStyle,setDesignStyle] = useState(null)
+  const handleDesign = (design)=>{
+    //console.log("STYLING:",design)
+    setDesignStyle(design)
+    props.handleDesign(design)
+  }
+  const designDivs = Object.entries(props.designs).map(([design,url]) =>{
+  //console.log("DESIGN:",design,"URL:",url);
+  return (<div key={design}>
+    <h5>{design}</h5>
+    <img   
+    className={`design-imgs ${designStyle === design ? "selected-design" : ""}`}
+    src={url}
+    alt={design}
+    onClick={() =>handleDesign(design)}/>
+  </div>)})
+  //console.log(designDivs)
+ return(
+ <div id="design-container">
+  <h1>Designs</h1>
+  {designDivs}
+ </div>)
+}
+
 function PersistentState(key,defaultDoor){
   if (defaultDoor){
     /*alert("Setting door")*/
@@ -83,6 +110,7 @@ function PersistentState(key,defaultDoor){
 }
 export default function Build(props) {
   const selectedDoor = PersistentState("selectedDoor",props.selectedDoor)
+ // console.log("DESIGNS OF CURRENT DOOR",selectedDoor.designs)
   const [Price, setPrice] = useState(1000)
   const [Size,setSize] = useState("Double")
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
@@ -121,46 +149,50 @@ export default function Build(props) {
     console.log("key: ",key)
     let pattern = patterns[key]
     return pattern;
+  }
+    const handleSize = (e,size)=>{
+    setSize(size);
+    setLoading(true)
+    fetchDoor(getPattern(size,Design),{"Width":size})
+  }
+  const handleDesign= (design)=>{
+    alert("Inside design")
+    setDesign(design)
+    setLoading(true)
+    fetchDoor(getPattern(Size,design), {Design:design})
 
   }
   const handleColor= (userColor, type)=>{
     setColor(userColor)
     setColorType(type)
     setLoading(true)
-    var apiWidth = Size=="Single" ? "640":"1280"
-    fetchDoor(getPattern(Size,Design),{[type]:userColor},{"APIWidth":apiWidth})
+    fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not "type"*/
   }
 
-  const handleSize = (e,size)=>{
-    setSize(size);
-    var apiWidth = size=="Single" ? "640":"1280"
-       setLoading(true)
-       fetchDoor(getPattern(size,Design),{"Width":size},{"APIWidth":apiWidth})
-  }
-
-  function fetchDoor(pattern, parameter,APIImageSize){
+  function fetchDoor(pattern, parameter){
     console.log("Paramter passed:",parameter)
     console.log(pattern)
-    for (let key in parameter){
+    for (let key in parameter){/*Handle color type and API width header parm*/
       var solidColorOrWood = (key == "Accents Woodtones" ||key == "Solid Color" ? key : colorType )
-  }
+      if (key=="Width"){
+         var width = (parameter[key] == "Single"?"640":"1280");
+      }
+      else{
+        var width = (Size=="Single"?"640":"1280");
+      }
+    }
     console.log("Color Type:",solidColorOrWood)
     let gridSettings={
       Width:Size,
       Design:Design,
-      [solidColorOrWood]:Color,
+      [solidColorOrWood]:Color,/*Use actual value inside variable, not its name*/
       Windows:null
     }
-    for (let key in parameter){
-      //alert("Key is "+key)
+    for (let key in parameter){/*Handles gridSettings field for the API body*/
       gridSettings[key] = parameter[key]
     }
-    //console.log(e)
-    var width = APIImageSize.APIWidth;var height="560"
-    console.log("Width: " + width + " Height: " + height)
     let gridSettingsParameter = ""
     for (let key in gridSettings) {
-      console.log("Key: " + key + " Value: " + gridSettings[key]);
       if (gridSettings[key] != null){
         gridSettingsParameter += (key + "=" + gridSettings[key] +"|")
       }
@@ -170,8 +202,8 @@ export default function Build(props) {
     formBody.append("rwd", rwd);
     formBody.append("gridSettings", gridSettingsParameter);
     formBody.append("pattern", pattern);
-    formBody.append("width", width); // width must be a string like "640"
-    formBody.append("height", height);
+    formBody.append("width", width); 
+    formBody.append("height", "560");
     formBody.append("site", site);
     formBody.append("ppf", ppf);
     formBody.append("firstRun", firstRun);
@@ -205,7 +237,7 @@ export default function Build(props) {
         setImage(responsePath+url)})
     .catch((err) => console.error("Error:", err))
     .finally(() => {
-      setLoading(false)
+      setTimeout(() =>setLoading(false), 500 )
      
     });
   }
@@ -215,17 +247,18 @@ export default function Build(props) {
       <div className="row gy-0">
         <div id="col-img"className='col-12 col-lg-8 d-flex flex-column align-items-center gy-0'>
           <h1>{selectedDoor.name}</h1>
-          <div style={{textAlign:"center", width: "100%",border:"2px solid red"}}>
+          <div id="img-container">
             <img src={loading ? doorgiLogo:Image} className={`img-fluid ${loading ? "loading-style" : ""}`} />
             {loading && <p style={{fontSize:"clamp(1rem,2vw,2rem)",marginTop:"2%"}}><b>Loading...</b></p>}
           </div>
         </div>
-          <div id="col-options" className='col12 col-lg-4 d-flex flex-column gap-1'>
+          <div id="col-options" className='col12 col-lg-4 d-flex flex-column gap-3 gy-0'>
             <div id="size-container"> 
               <h1>Size</h1>
               <p onClick={(e) => handleSize(e,"Single")}><b>Single Door 8' X 7'</b></p>
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
+           <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
            <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
            <Windows/>
           </div>
