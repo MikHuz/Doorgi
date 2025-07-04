@@ -15,10 +15,16 @@ import shortPanelRaised from './assets/Designs/Raised_Panel_Short.jpg'
 import longPanelRaised from './assets/Designs/Raised_Panel_Long.jpg'
 import shortPanelStamped from './assets/Designs/Stamped_Carriage_Short.jpg'
 import longPanelStamped from './assets/Designs/Stamped_Carriage_Long.jpg'
+import stampedShakerDesign from './assets/Designs/Stamped_Shaker.jpg'
+import plain from './assets/Glass/Thumb_Plain.jpg'
+import tinted from './assets/Glass/Thumb_Tinted.jpg'
+import obscure from './assets/Glass/Thumb_Obscure.jpg'
+import frosted from './assets/Glass/Thumb_Frosted.jpg'
+import glueChips from './assets/Glass/Thumb_GlueChips.jpg'
 import StampedShaker from './assets/Stamped_Shaker.jpg';
 const Doors=[
 {name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_Raised.rwd",
- colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+ colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"/*,"Ever Green":"#114c36"*/},
 woods: {
   Cedar: cedar,
   "Carbon Oak": carbon,
@@ -31,7 +37,7 @@ woods: {
  designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised},
  windows:{
     position:{},
-    glass:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     inserts:{}
   }
 },
@@ -46,7 +52,7 @@ woods: {
   Driftwood: driftwood,
   Walnut: walnut
 }, 
-designs:{"Short Panel":"img_here","Long Panel":"Img_here"},
+designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
  windows:{
     position:{},
     glass:{},
@@ -64,7 +70,7 @@ woods: {
   Driftwood: driftwood,
   Walnut: walnut
 }, 
-designs:{"Short Panel":"img_here","Long Panel":"Img_here"},
+designs:{"Shaker":stampedShakerDesign},
  windows:{
     position:{},
     glass:{},

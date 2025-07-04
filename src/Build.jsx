@@ -10,27 +10,46 @@ import doorgiLogo from '/logo.png'
 const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 function Windows(props){
+  const [showWindows,setShowWindows] = useState(false)
   const [selectedWindow,setSelectedWindow] = useState(null)
+  const [showInserts,setShowInserts] = useState(false)
   const windows=['Blue','Black','Brown','Grey','Green', 'Purple', "Lime"]//Use props colors based on selected door
-
-  const handleWindow = (event, window)=>{
+  console.log("WIBODES:",props.windows)
+  const handleWindow = (event, glass)=>{
+    setShowInserts(!showInserts)
+    setSelectedWindow(glass)
     alert(window)
   }
-
-   let windowDivs = windows.map( (window) =>{
+   let windowDivs = Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
-      <div
-        key={window}
-        className={selectedWindow === window ? 'selected' : ''}
-        onClick={(event) => handleWindow(event, window)} >
-      </div> ) } );
+      <div key={glass} className='window-box'>
+        <h5>{glass}</h5>
+        <div
+          key={glass}
+          style={{  backgroundImage: `url(${url})`}}
+          className={selectedWindow === glass ? 'selected-glass' : ''}
+          onClick={(event) => handleWindow(event, glass)} >
+        </div> 
+      </div>) } );
   return (<>
-  <div id="windows">
-    <h1 style={{color:"black"}}>Windows</h1>
-   {windowDivs}
-  </div>
+    <div id="windows">
+      <label style={{width:"100%"}}>
+        <b>Choose Windows:</b>
+        <input type="checkbox"  style={{margin:"1%"}}onClick={()=>setShowWindows(!showWindows)}/>
+      </label>
+      {showWindows && (
+        <>
+          <h1 style={{ color: "black" }}>Windows</h1>
+          {windowDivs}
+        </>
+      )}
+      {showInserts &&
+      <>
+      {<h1>window inserts here</h1>}
+      </>}
 
-    </>);
+    </div>
+  </>);
 }
 function Colors(props) {
   const [IconColor, setIconColor] = useState(null);
@@ -127,7 +146,9 @@ export default function Build(props) {
     RaisedDoubleShortPanel: "21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
     RaisedDoubleLongPanel: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
     StampedCarriageSingleShortPanel: "21|-|-;21|-|-;21|-|-;21|-|-;",/*Short/Long have same pattern*/
-    StampedCarriageDoubleShortPanel: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",/*Short/Long have same pattern*/
+    StampedCarriageSingleLongPanel:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    StampedCarriageDoubleShortPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    StampedCarriageDoubleLongPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",/*Short/Long have same pattern*/
     StampedShakerSingleShaker: "21|-|-;21|-|-;21|-|-;21|-|-;",
     StampedShakerDoubleShaker: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;"
   };
@@ -168,7 +189,9 @@ export default function Build(props) {
     setLoading(true)
     fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not "type"*/
   }
+  const handleGlass = ()=>{
 
+  }
   function fetchDoor(pattern, parameter){
     console.log("Paramter passed:",parameter)
     console.log(pattern)
@@ -225,7 +248,6 @@ export default function Build(props) {
   }).then((res) => {
        if (!res.ok) throw new Error("Network response was not ok " + res.statusText);
        const contentType = res.headers.get("content-type") || "";
-       console.log("CONTENT TYPE:", contentType)
        if (contentType.includes("application/json")) {
         return res.json();
       } else {
@@ -258,9 +280,12 @@ export default function Build(props) {
               <p onClick={(e) => handleSize(e,"Single")}><b>Single Door 8' X 7'</b></p>
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
-           <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
+         
+           <Windows handleGlass={handleGlass} windows={selectedDoor.windows}/>
+             <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
            <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
-           <Windows/>
+              <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
+             <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
           </div>
       </div>
     </div>

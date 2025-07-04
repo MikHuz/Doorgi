@@ -167,6 +167,11 @@ span:hover{
   outline:2px solid black;
   transform:scale(1.1);
 }
+
+.selected-glass{
+ outline:2px solid black;
+  transform:scale(1.1);
+}
 #windows{
   display:flex;
   flex-wrap:wrap;
@@ -174,29 +179,37 @@ span:hover{
   margin-top:1vh;
   align-items: baseline;
   align-content: flex-start;
+  column-gap: 2vw;
   justify-content: center;
   row-gap:2vh;
-  column-gap: 3%;
   padding-top:1vh;
 }
 
-#windows div{
-  width:18%;
+.window-box{
+  width:25%;
   aspect-ratio: 1;
-  max-width:70px;
-  max-height: 70px;
+  max-width:100px;
+  max-height: auto;
   border-radius: 10%;
-  border:2px solid black;
-  transition:0.2s;
+  border:2px solid purple;
+}
+.window-box h5{
+  height:2.5em;
 }
 
+.window-box div{
+width:100%;
+aspect-ratio: 1;
+border-radius: 10%;
+ transition:0.2s;
+}
 @media (min-width: 1024px) and (pointer: fine) {
  .color-box div:hover{
   transform:scale(1.2);
   transition:0.2s;
 }
 
-#windows div:hover{
+.window-box div:hover{
   transform:scale(1.2);
   transition:0.2s;
 }
