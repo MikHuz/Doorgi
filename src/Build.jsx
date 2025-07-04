@@ -13,12 +13,17 @@ function Windows(props){
   const [showWindows,setShowWindows] = useState(false)
   const [selectedWindow,setSelectedWindow] = useState(null)
   const [showInserts,setShowInserts] = useState(false)
-  const windows=['Blue','Black','Brown','Grey','Green', 'Purple', "Lime"]//Use props colors based on selected door
-  console.log("WIBODES:",props.windows)
   const handleWindow = (event, glass)=>{
-    setShowInserts(!showInserts)
+    setShowInserts(true)
     setSelectedWindow(glass)
-    alert(window)
+    props.handleWindow(glass)
+  }
+  const handleShowWindows = (e)=>{
+    setShowWindows(!showWindows)
+    setShowInserts(false)
+    if (!e.target.checked && selectedWindow!=null){
+      props.handleWindow(null)
+    }
   }
    let windowDivs = Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
@@ -35,7 +40,7 @@ function Windows(props){
     <div id="windows">
       <label style={{width:"100%"}}>
         <b>Choose Windows:</b>
-        <input type="checkbox"  style={{margin:"1%"}}onClick={()=>setShowWindows(!showWindows)}/>
+        <input type="checkbox"  style={{margin:"1%"}}onClick={(e) =>handleShowWindows(e)}/>
       </label>
       {showWindows && (
         <>
@@ -135,6 +140,9 @@ export default function Build(props) {
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
+  const [windowPosition, setWindowPosition] = useState("FIRST ROW")
+  const [Glass, setGlass] = useState(null)
+  const [windowInserts, setWindowInserts] = useState("No Inserts")
   const [colorType,setColorType] = useState("Solid Color")
   const [loading,setLoading] = useState(false);
   const rwd = selectedDoor.rwd
@@ -189,7 +197,11 @@ export default function Build(props) {
     setLoading(true)
     fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not "type"*/
   }
-  const handleGlass = ()=>{
+  const handleWindow= (glass)=>{
+    console.log("INSIDE HANLDE GLASS:",glass)
+    setGlass(glass)
+    setLoading(true)
+    fetchDoor(getPattern(Size,Design),{Glass:glass})
 
   }
   function fetchDoor(pattern, parameter){
@@ -209,10 +221,16 @@ export default function Build(props) {
       Width:Size,
       Design:Design,
       [solidColorOrWood]:Color,/*Use actual value inside variable, not its name*/
-      Windows:null
+      Glass:Glass,
+      Position:windowPosition,
+      Inserts:windowInserts
     }
     for (let key in parameter){/*Handles gridSettings field for the API body*/
-      gridSettings[key] = parameter[key]
+      gridSettings[key] = parameter[key]/*Updates correct user parameter*/
+    }
+    if (gridSettings.Glass == null){
+      gridSettings.Position = null;
+      gridSettings.Inserts = null;
     }
     let gridSettingsParameter = ""
     for (let key in gridSettings) {
@@ -281,7 +299,7 @@ export default function Build(props) {
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
          
-           <Windows handleGlass={handleGlass} windows={selectedDoor.windows}/>
+           <Windows handleWindow={handleWindow} windows={selectedDoor.windows}/>
              <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
            <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
               <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
