@@ -8,7 +8,10 @@
 h1{
   border:2px solid black;
   width:100%;
-
+}
+h2{
+  width:100%;
+  font-size:1.2rem;
 }
 h5{
   border:2px solid green;
@@ -32,7 +35,7 @@ span:hover{
   h1{font-size:1.5rem;}h5{font-size:1.1rem }p{font-size:1.2rem;}span{font-size:1.5rem;}
 }
 @media (max-width:880px){
-   h1{font-size:1.3rem;}h5{font-size:0.9rem; }p{font-size:1rem;}span{font-size:1.2rem;}
+   h1{font-size:1.3rem;}h5{font-size:0.9rem; }h2{font-size:1rem;}p{font-size:1rem;}span{font-size:1.2rem;}
 }
 .build-page{
   overflow:hidden;
@@ -157,21 +160,6 @@ span:hover{
   margin-top:10%;
   transition:0.2s;
 }
-
-.selected {
-  border:2px solid white;
-  transform:scale(1.1);
-}
-
-.selected-design{
-  outline:2px solid black;
-  transform:scale(1.1);
-}
-
-.selected-glass{
- outline:2px solid black;
-  transform:scale(1.1);
-}
 #windows{
   display:flex;
   flex-wrap:wrap;
@@ -184,7 +172,13 @@ span:hover{
   row-gap:2vh;
   padding-top:1vh;
 }
-
+#windows h1 + div{
+  display: flex;
+  justify-content: center;
+  flex-basis: 100%;
+  column-gap: 2%;
+  border:2px solid turquoise;
+}
 .window-box{
   width:25%;
   aspect-ratio: 1;
@@ -192,28 +186,92 @@ span:hover{
   max-height: auto;
   border-radius: 10%;
   border:2px solid purple;
+    transition:0.2s;
 }
 .window-box h5{
   height:2.5em;
 }
-
 .window-box div{
 width:100%;
 aspect-ratio: 1;
 border-radius: 10%;
- transition:0.2s;
+transition:0.2s;
 }
+.designer-box{
+  width:25%;
+  aspect-ratio: 1;
+  max-width:100px;
+  max-height: auto;
+  border-radius: 10%;
+  border:2px solid purple;
+    transition:0.2s;
+}
+.designer-box h5{
+  height:3.5em;
+}
+.designer-box div{
+width:100%;
+aspect-ratio: 1;
+border-radius: 10%;
+transition:0.2s;
+}
+.designer-box:last-child{
+  margin-bottom:5%;
+}
+
+#inserts{
+  display:flex;
+  flex-wrap:wrap;
+  border:2px solid black;
+  align-items: baseline;
+  align-content: flex-start;
+  justify-content: center;
+  column-gap:1.5%;
+  row-gap:2vh;
+}
+#inserts h5{
+  font-size: clamp(0.8rem, 1.3vw, 1.5rem);
+  height:2.5em;
+}
+.insert-box{
+  width:23%;
+  aspect-ratio: 1;
+  border-radius: 10%;
+  border:2px solid purple;
+  transition:0.2s;
+}
+.insert-box > div{
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 50%;
+  transition:0.2s;
+}
+@media (max-width:991.98px){
+  .insert-box > div{
+    height:50%;
+  }
+}
+.insert-box:last-child,.designer-box:last-child,.window-box:last-child{
+  margin-bottom:5%;
+}
+
 @media (min-width: 1024px) and (pointer: fine) {
  .color-box div:hover{
   transform:scale(1.2);
   transition:0.2s;
 }
 
-.window-box div:hover{
+.window-box:hover, .designer-box:hover{
   transform:scale(1.2);
   transition:0.2s;
 }
+.insert-box:hover{
+  transform: scale(1.1);
+  transition:0.2s;
 }
+}
+
 @keyframes pulseOpacity {
   0% {
     opacity: 1;
@@ -238,6 +296,22 @@ img.img-fluid {
 }
 img.img-fluid.loading-style {
   opacity: 0.5;
+}
+.selected {
+  border:2px solid white;
+  transform:scale(1.1);
+}
+.selected-design{
+  outline:2px solid black;
+  transform:scale(1.1);
+}
+.selected-glass{
+ outline:2px solid black;
+transform:scale(1.1);
+}
+.selected-insert{
+transform:scale(1.1);
+outline: 2px solid red;
 }
 /*Pure FlexBox stuff
 *{

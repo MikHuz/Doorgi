@@ -12,18 +12,38 @@ const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiu
 function Windows(props){
   const [showWindows,setShowWindows] = useState(false)
   const [selectedWindow,setSelectedWindow] = useState(null)
+  const [glassType, setGlassType] = useState(null)
   const [showInserts,setShowInserts] = useState(false)
-  const handleWindow = (event, glass)=>{
-    setShowInserts(true)
+  const [selectedInsert,setInsert] = useState("No Insert")
+  const handleWindow = (glass,glassType)=>{
+    setGlassType(glassType)
+    glassType=="Glass" ? setShowInserts(true) : ""
+    if (glassType=="Designer Glass"){
+      setShowInserts(false)
+      setInsert(null)
+    }
     setSelectedWindow(glass)
-    props.handleWindow(glass)
+    props.handleWindow(glass,glassType)
   }
   const handleShowWindows = (e)=>{
     setShowWindows(!showWindows)
     setShowInserts(false)
     if (!e.target.checked && selectedWindow!=null){
-      props.handleWindow(null)
+      props.handleWindow(null,glassType)
     }
+  }
+const handleGlassType = (type) =>{
+  setGlassType(type);
+  if (type =="Glass"){
+    setShowInserts(true); 
+  }
+  else{
+    setShowInserts(false)
+  }
+}
+  const handleInsert = (insert) =>{
+    setInsert(insert)
+    props.handleWindowInserts( (insert=="Sunburst"?"4 piece Sunburst" : insert))
   }
    let windowDivs = Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
@@ -33,9 +53,33 @@ function Windows(props){
           key={glass}
           style={{  backgroundImage: `url(${url})`}}
           className={selectedWindow === glass ? 'selected-glass' : ''}
-          onClick={(event) => handleWindow(event, glass)} >
+          onClick={() => handleWindow(glass, "Glass")} >
         </div> 
       </div>) } );
+
+    let windowDesignerDivs = Object.entries(props.windows.designerGlass).map( ([glass,url])=>{
+    return(
+      <div key={glass} className='designer-box'>
+        <h5>{glass}</h5>
+        <div
+          key={glass}
+          style={{
+            backgroundImage: `url(${url})`}}
+          className={selectedWindow === glass ? 'selected-glass' : ''}
+          onClick={() => handleWindow(glass,"Designer Glass")} >
+        </div> 
+      </div>) } );
+
+    let insertDivs = Object.entries(props.windows.inserts).map( ([insert,url]) =>{
+      return (
+        <div key={insert} className='insert-box'>
+          <h5>{insert}</h5>
+          <div 
+            style={{  backgroundImage: `url(${url})`}}
+            className={selectedInsert === insert ? 'selected-insert' : ''}
+            onClick={() => handleInsert(insert,"Inserts")} >
+            </div>
+        </div>)})
   return (<>
     <div id="windows">
       <label style={{width:"100%"}}>
@@ -45,15 +89,22 @@ function Windows(props){
       {showWindows && (
         <>
           <h1 style={{ color: "black" }}>Windows</h1>
-          {windowDivs}
+          <div id="glass-type">
+            <span onClick={() => handleGlassType("Glass")}>Glass</span>
+            <span>|</span>
+            <span onClick={() => handleGlassType("Designer Glass")}>Designer Glass</span>
+           </div>
+          {glassType=="Glass"||glassType==null ? windowDivs: windowDesignerDivs}
         </>
       )}
+     </div>
       {showInserts &&
       <>
-      {<h1>window inserts here</h1>}
+      <div id="inserts">
+        <h2>Choose a  Window Insert</h2>
+        {insertDivs}
+      </div>
       </>}
-
-    </div>
   </>);
 }
 function Colors(props) {
@@ -140,10 +191,11 @@ export default function Build(props) {
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
+  const [colorType,setColorType] = useState("Solid Color")
   const [windowPosition, setWindowPosition] = useState("FIRST ROW")
   const [Glass, setGlass] = useState(null)
+  const [glassType,setGlassType] = useState("Glass")
   const [windowInserts, setWindowInserts] = useState("No Inserts")
-  const [colorType,setColorType] = useState("Solid Color")
   const [loading,setLoading] = useState(false);
   const rwd = selectedDoor.rwd
   const URL = "https://chi-api.renoworks.com/RenderGrid"
@@ -197,18 +249,25 @@ export default function Build(props) {
     setLoading(true)
     fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not "type"*/
   }
-  const handleWindow= (glass)=>{
+  const handleWindow= (glass,glassType)=>{
     console.log("INSIDE HANLDE GLASS:",glass)
     setGlass(glass)
+    setGlassType(glassType)
     setLoading(true)
-    fetchDoor(getPattern(Size,Design),{Glass:glass})
+    fetchDoor(getPattern(Size,Design),{[glassType]:glass})
+  }
 
+  const handleWindowInserts = (insert)=>{
+    console.log("INSIDE INSERT")
+    setWindowInserts(insert)
+    setLoading(true)
+    fetchDoor(getPattern(Size,Design),{"Window Inserts":insert})
   }
   function fetchDoor(pattern, parameter){
-    console.log("Paramter passed:",parameter)
-    console.log(pattern)
-    for (let key in parameter){/*Handle color type and API width header parm*/
+    console.log("Paramter passed:",parameter)/*Parameter refers to the door option(Ex. Color:Blue) user has selected at this time*/
+    for (let key in parameter){/*Handle color type, glass type,and API width header parm*/
       var solidColorOrWood = (key == "Accents Woodtones" ||key == "Solid Color" ? key : colorType )
+      var glassOrDesigner = (key == "Glass" || key=="Designer Glass" ? key :glassType)
       if (key=="Width"){
          var width = (parameter[key] == "Single"?"640":"1280");
       }
@@ -216,25 +275,26 @@ export default function Build(props) {
         var width = (Size=="Single"?"640":"1280");
       }
     }
-    console.log("Color Type:",solidColorOrWood)
+    //console.log("Color Type:",solidColorOrWood)
+    //console.log("Glass TYPE:",glassOrDesigner)
     let gridSettings={
       Width:Size,
       Design:Design,
       [solidColorOrWood]:Color,/*Use actual value inside variable, not its name*/
-      Glass:Glass,
+      [glassOrDesigner]:Glass,
       Position:windowPosition,
-      Inserts:windowInserts
+      "Window Inserts":windowInserts
     }
     for (let key in parameter){/*Handles gridSettings field for the API body*/
       gridSettings[key] = parameter[key]/*Updates correct user parameter*/
     }
-    if (gridSettings.Glass == null){
+    if (gridSettings[glassOrDesigner] == null){/*Handles glass settings*/
       gridSettings.Position = null;
       gridSettings.Inserts = null;
     }
     let gridSettingsParameter = ""
     for (let key in gridSettings) {
-      if (gridSettings[key] != null){
+      if (gridSettings[key] != null){/*Stringifies Gridparameter to inject into API body*/
         gridSettingsParameter += (key + "=" + gridSettings[key] +"|")
       }
     }
@@ -299,7 +359,7 @@ export default function Build(props) {
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
          
-           <Windows handleWindow={handleWindow} windows={selectedDoor.windows}/>
+           <Windows handleWindow={handleWindow} handleWindowInserts={handleWindowInserts}windows={selectedDoor.windows}/>
              <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
            <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
               <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
