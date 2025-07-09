@@ -12,6 +12,12 @@ import longPanelRaised from './assets/Designs/Raised_Panel_Long.jpg'
 import shortPanelStamped from './assets/Designs/Stamped_Carriage_Short.jpg'
 import longPanelStamped from './assets/Designs/Stamped_Carriage_Long.jpg'
 import stampedShakerDesign from './assets/Designs/Stamped_Shaker.jpg'
+/*Contemporary Doors*/
+import Sterling  from './assets/Sterling.jpg'
+import Planks from './assets/Planks.jpg'
+import SkylineFlush from './assets/Flush.jpg'
+/*contemporaryDesigns*/
+import flush from './assets/Designs/Flush.jpg'
 /*Wood Types*/
 import cedar from './assets/Colors/woods/accents-cedar.jpg';
 import carbon from './assets/Colors/woods/accents-carbonOak.jpg';
@@ -35,6 +41,9 @@ import raisedSomsertSetBrass from './assets/Glass/Designer_Glass/short_somerset_
 import raisedSomsertSetPlat from './assets/Glass/Designer_Glass/short_somerset_platinum.jpg'
 import raisedHawthorneBrass from './assets/Glass/Designer_Glass/short_hawthorne_brass.jpg'
 import raisedHawthornePlat from './assets/Glass/Designer_Glass/short_hawthorne_platinum.jpg'
+import carriageTemple from './assets/Glass/Designer_Glass/Long_Temple.png'
+import carriageNewport from './assets/Glass/Designer_Glass/Long_Newport.png'
+import carriageFlorence from './assets/Glass/Designer_Glass/Long_Florence.png'
 
 /*Glass Inserts*/
 import noInserts from './assets/Inserts/no-insert-long.jpg'
@@ -45,8 +54,8 @@ import sunburst from './assets/Inserts/sunburst-long.jpg'
 import waterton from './assets/Inserts/waterton-long.jpg'
 import madison from './assets/Inserts/madison-long.jpg'
 import cascade from './assets/Inserts/cascade-long.jpg'
-
-const Doors=[
+import cathedral from './assets/Inserts/cathedral-short.jpg'
+const traditionalDoors=[
 {name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_Raised.rwd",
  colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"/*,"Ever Green":"#114c36"*/},
 woods: {
@@ -77,9 +86,10 @@ woods: {
     Stockton: stockton,
     Sunburst: sunburst,
     Waterton: waterton,
-    Madison: madison,
+    Cathedral: cathedral,
     Cascade: cascade
-  }
+  },
+  hardware:null
   }
 },
 {name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
@@ -97,8 +107,17 @@ designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
-    designerGlass:{},
-    inserts:{}
+    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+       inserts: {
+    "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
+    Stockton: stockton,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Madison: madison,
+    Cascade: cascade
+  }
   }
 },
 {name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"White",rwd:"CHI_StampedShaker.rwd",
@@ -115,14 +134,96 @@ woods: {
 designs:{"Shaker":stampedShakerDesign},
  windows:{
     position:{},
-     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
-    inserts:{}
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
+    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+    inserts: {
+    "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
+    Stockton: stockton,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Madison: madison,
+    Cascade: cascade
   }
+  },
+  hardware:{}
+}]
+
+const contemporaryDoors = [
+{name:"Sterling",defaultImg:Sterling,id:"Sterling",defaultDesign:"Flush",defaultColor:"Deep Black",rwd:"CHI_Sterling.rwd",
+colors:{"Bone White":"#F8F4EC","Sandstone":"#E8E4d4",Almond:"#E8dCC4","Medium Bronze":"#584C3C",Charcoal:"#404444","Slate Gray":"#807c74","Deep Black":"#281c24", "Hartford Green":"#283c3c"},
+woods:null,
+designs:{Flush:flush},
+ windows:{
+    position:{},
+    glass:{"Tinted": tinted},
+    designerGlass:null,
+   inserts:null,
+  hardware:null
+  }
+},
+{name:"Planks",defaultImg:Planks,id:"Planks",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
+colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+}, 
+designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
+    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+       inserts: {
+    "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
+    Stockton: stockton,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Madison: madison,
+    Cascade: cascade
+  }
+  }
+},
+{name:"Skyline Flush",defaultImg:SkylineFlush,id:"SkylineFlush",defaultDesign:"Shaker",defaultColor:"White",rwd:"CHI_StampedShaker.rwd",
+colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+}, 
+designs:{"Shaker":stampedShakerDesign},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
+    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+    inserts: {
+    "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
+    Stockton: stockton,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Madison: madison,
+    Cascade: cascade
+  }
+  },
+  hardware:{}
 }]
 
 function DoorSelector({handleDoorSelection,doorType}) {
   const [doorIndex, setDoorIndex] = useState(0)
-
+  const Doors = doorType=="traditional" ?traditionalDoors : contemporaryDoors
   useEffect(() => {
     console.log("INSIDE USEEFFECT")
     //Runs after render. This React hoook is used to handle interactions after everything in the component has rendered

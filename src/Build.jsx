@@ -16,6 +16,13 @@ function Windows(props){
   const [showInserts,setShowInserts] = useState(false)
   const [selectedInsert,setInsert] = useState("No Insert")
   const handleWindow = (glass,glassType)=>{
+    if (props.door== "Sterling"){
+      alert("Sterling")
+      glassType="Infinity Windows"
+    }
+    else{
+      console.log(props)
+    }
     setGlassType(glassType)
     glassType=="Glass" ? setShowInserts(true) : ""
     if (glassType=="Designer Glass"){
@@ -34,18 +41,18 @@ function Windows(props){
   }
 const handleGlassType = (type) =>{
   setGlassType(type);
-  if (type =="Glass"){
-    setShowInserts(true); 
-  }
-  else{
-    setShowInserts(false)
-  }
+if (type=="Designer Glass"){
+  setShowInserts(false)
+}
+else{
+  setShowInserts(true)
+}
 }
   const handleInsert = (insert) =>{
     setInsert(insert)
     props.handleWindowInserts( (insert=="Sunburst"?"4 piece Sunburst" : insert))
   }
-   let windowDivs = Object.entries(props.windows.glass).map( ([glass,url]) =>{
+   let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
       <div key={glass} className='window-box'>
         <h5>{glass}</h5>
@@ -55,9 +62,9 @@ const handleGlassType = (type) =>{
           className={selectedWindow === glass ? 'selected-glass' : ''}
           onClick={() => handleWindow(glass, "Glass")} >
         </div> 
-      </div>) } );
+      </div>) } ): null);
 
-    let windowDesignerDivs = Object.entries(props.windows.designerGlass).map( ([glass,url])=>{
+    let windowDesignerDivs = (props.windows.designerGlass!=null?Object.entries(props.windows.designerGlass).map( ([glass,url])=>{
     return(
       <div key={glass} className='designer-box'>
         <h5>{glass}</h5>
@@ -68,9 +75,9 @@ const handleGlassType = (type) =>{
           className={selectedWindow === glass ? 'selected-glass' : ''}
           onClick={() => handleWindow(glass,"Designer Glass")} >
         </div> 
-      </div>) } );
+      </div>) } ) : null);
 
-    let insertDivs = Object.entries(props.windows.inserts).map( ([insert,url]) =>{
+    let insertDivs =(props.windows.insert!=null ? Object.entries(props.windows.inserts).map( ([insert,url]) =>{
       return (
         <div key={insert} className='insert-box'>
           <h5>{insert}</h5>
@@ -79,7 +86,9 @@ const handleGlassType = (type) =>{
             className={selectedInsert === insert ? 'selected-insert' : ''}
             onClick={() => handleInsert(insert,"Inserts")} >
             </div>
-        </div>)})
+        </div>)}): null);
+    
+      
   return (<>
     <div id="windows">
       <label style={{width:"100%"}}>
@@ -90,15 +99,17 @@ const handleGlassType = (type) =>{
         <>
           <h1 style={{ color: "black" }}>Windows</h1>
           <div id="glass-type">
+            {props.door=="Sterling" ? 
+            <span onClick={() => handleGlassType("Infinity Windows")}>Infinity Windows</span>:<>
             <span onClick={() => handleGlassType("Glass")}>Glass</span>
             <span>|</span>
-            <span onClick={() => handleGlassType("Designer Glass")}>Designer Glass</span>
+            <span onClick={() => handleGlassType("Designer Glass")}>Designer Glass</span></>}
            </div>
           {glassType=="Glass"||glassType==null ? windowDivs: windowDesignerDivs}
         </>
       )}
      </div>
-      {showInserts &&
+      {showInserts && props.windows.inserts!=null &&
       <>
       <div id="inserts">
         <h2>Choose a  Window Insert</h2>
@@ -110,11 +121,11 @@ const handleGlassType = (type) =>{
 function Colors(props) {
   const [IconColor, setIconColor] = useState(null);
   const [colorType, setColorType] = useState("Solid Color")
+  const [hasWood] = props.woods==null ? useState(false) : useState(true)
   const handleColor = (event, color, type) => {
     setIconColor(color);
     props.handleColor(color,type);
   };
-
   const colorDivs = Object.entries(props.colors).map(([colorName, hexCode]) => (
     <div className="color-box" key={colorName}>
       <h5>{colorName}</h5>
@@ -124,7 +135,8 @@ function Colors(props) {
         onClick={(event) => handleColor(event, colorName, "Solid Color")}
       />
     </div>));
-  const woodDivs = Object.entries(props.woods).map( ([woodName,woodUrl]) => (
+ if (hasWood){
+  var woodDivs = Object.entries(props.woods).map( ([woodName,woodUrl]) => (
        <div className="color-box" key={woodName}>
       <h5>{woodName}</h5>
       <div
@@ -133,10 +145,13 @@ function Colors(props) {
         onClick={(event) => handleColor(event, woodName,"Accents Woodtones")}
       />
     </div>) )
+}
 return(
 <>   
 <div id="colors-container">
-  <div><span onClick ={() =>setColorType("Solid Color")}>Color</span><span>|</span><span onClick ={() =>setColorType("Wood")}>Wood Tone</span></div>
+  {hasWood &&<div><span onClick ={() =>setColorType("Solid Color")}>Color</span>
+  <span>|</span><span onClick ={() =>setColorType("Wood")}>Wood Tone</span></div>}
+  {!hasWood && <div><span onClick ={() =>setColorType("Solid Color")}>Color</span> </div>}
   {colorType === "Solid Color" ? colorDivs: woodDivs}
 </div>
 </>
@@ -192,7 +207,7 @@ export default function Build(props) {
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
   const [colorType,setColorType] = useState("Solid Color")
-  const [windowPosition, setWindowPosition] = useState("FIRST ROW")
+  const [windowPosition, setWindowPosition] = selectedDoor.id=="Sterling" ? useState("TOP ROW"):useState("FIRST ROW")
   const [Glass, setGlass] = useState(null)
   const [glassType,setGlassType] = useState("Glass")
   const [windowInserts, setWindowInserts] = useState("No Inserts")
@@ -210,7 +225,9 @@ export default function Build(props) {
     StampedCarriageDoubleShortPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
     StampedCarriageDoubleLongPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",/*Short/Long have same pattern*/
     StampedShakerSingleShaker: "21|-|-;21|-|-;21|-|-;21|-|-;",
-    StampedShakerDoubleShaker: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;"
+    StampedShakerDoubleShaker: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    SterlingDoubleFlush:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    SterlingSingleFlush:"21|-|-;21|-|-;21|-|-;21|-|-;"
   };
   const site ="CHI"
   const ppf= "80"
@@ -244,6 +261,9 @@ export default function Build(props) {
 
   }
   const handleColor= (userColor, type)=>{
+    if (selectedDoor.id == "Sterling"){
+      userColor += " (Standard)"
+    }
     setColor(userColor)
     setColorType(type)
     setLoading(true)
@@ -265,9 +285,10 @@ export default function Build(props) {
   }
   function fetchDoor(pattern, parameter){
     console.log("Paramter passed:",parameter)/*Parameter refers to the door option(Ex. Color:Blue) user has selected at this time*/
+    console.log(pattern)
     for (let key in parameter){/*Handle color type, glass type,and API width header parm*/
       var solidColorOrWood = (key == "Accents Woodtones" ||key == "Solid Color" ? key : colorType )
-      var glassOrDesigner = (key == "Glass" || key=="Designer Glass" ? key :glassType)
+      var glassOrDesigner = (key == "Glass" || key=="Designer Glass" ||key=="Infinity Windows"? key :glassType)
       if (key=="Width"){
          var width = (parameter[key] == "Single"?"640":"1280");
       }
@@ -359,7 +380,7 @@ export default function Build(props) {
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
          
-           <Windows handleWindow={handleWindow} handleWindowInserts={handleWindowInserts}windows={selectedDoor.windows}/>
+           <Windows door ={selectedDoor.id} handleWindow ={handleWindow} handleWindowInserts={handleWindowInserts}windows={selectedDoor.windows}/>
              <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
            <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
               <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
