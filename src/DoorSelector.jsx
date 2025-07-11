@@ -3,21 +3,27 @@ import { Routes, Route, Link } from 'react-router-dom';
 import './css/DoorSelector.css'
 import Build from './Build.jsx'
 /*Traditional Doors*/
-import RaisedPanel from './assets/Raised_Panel.jpg';
-import StampedCarriage from './assets/Stamped_Carriage_House.jpg';
-import StampedShaker from './assets/Stamped_Shaker.jpg';
+import RaisedPanel from './assets/door_imgs/traditional/Raised_Panel.jpg';
+import StampedCarriage from './assets/door_imgs/traditional/Stamped_Carriage_House.jpg';
+import StampedShaker from './assets/door_imgs/traditional/Stamped_Shaker.jpg';
+import RecessedPanel from  './assets/door_imgs/traditional/Recessed_Panel.jpg';
 /*Traditional Designs*/
-import shortPanelRaised from './assets/Designs/Raised_Panel_Short.jpg'
-import longPanelRaised from './assets/Designs/Raised_Panel_Long.jpg'
-import shortPanelStamped from './assets/Designs/Stamped_Carriage_Short.jpg'
-import longPanelStamped from './assets/Designs/Stamped_Carriage_Long.jpg'
-import stampedShakerDesign from './assets/Designs/Stamped_Shaker.jpg'
+import shortPanelRaised from './assets/Designs/traditional/Raised_Panel_Short.jpg'
+import longPanelRaised from './assets/Designs/traditional/Raised_Panel_Long.jpg'
+import shortPanelStamped from './assets/Designs/traditional/Stamped_Carriage_Short.jpg'
+import longPanelStamped from './assets/Designs/traditional/Stamped_Carriage_Long.jpg'
+import stampedShakerDesign from './assets/Designs/traditional/Stamped_Shaker.jpg'
+import flush from './assets/Designs/contemporary/Flush.jpg'
 /*Contemporary Doors*/
-import Sterling  from './assets/Sterling.jpg'
-import Planks from './assets/Planks.jpg'
-import SkylineFlush from './assets/Flush.jpg'
-/*contemporaryDesigns*/
-import flush from './assets/Designs/Flush.jpg'
+import Sterling  from './assets/door_imgs/contemporary/Sterling.jpg'
+import Planks from './assets/door_imgs/contemporary/Planks.jpg'
+import SkylineFlush from './assets/door_imgs/contemporary/Flush.jpg'
+import Aluminum from './assets/door_imgs/contemporary/Aluminum.jpg'
+/*Contemporary Designs*/
+import shortWindows from './assets/Designs/contemporary/No_Or_Short_Windows.jpg'
+import longWindows from './assets/Designs/contemporary/Long_Windows.jpg'
+import overSizedWindows from './assets/Designs/contemporary/Oversized_Windows.jpg'
+import fullView from './assets/Designs/contemporary/Full_View_Aluminum.jpg'
 /*Wood Types*/
 import cedar from './assets/Colors/woods/accents-cedar.jpg';
 import carbon from './assets/Colors/woods/accents-carbonOak.jpg';
@@ -35,15 +41,15 @@ import frosted from './assets/Glass/Thumb_Frosted.jpg'
 import glueChips from './assets/Glass/Thumb_GlueChips.jpg'
 import seeded from './assets/Glass/Thumb_Seeded.jpg'
 /*Designer Glass*/
-import raisedTemple from './assets/Glass/Designer_Glass/short_Temple.png'
-import raisedNewPort from './assets/Glass/Designer_Glass/short_Newport.png'
-import raisedSomsertSetBrass from './assets/Glass/Designer_Glass/short_somerset_brass.jpg'
-import raisedSomsertSetPlat from './assets/Glass/Designer_Glass/short_somerset_platinum.jpg'
-import raisedHawthorneBrass from './assets/Glass/Designer_Glass/short_hawthorne_brass.jpg'
-import raisedHawthornePlat from './assets/Glass/Designer_Glass/short_hawthorne_platinum.jpg'
-import carriageTemple from './assets/Glass/Designer_Glass/Long_Temple.png'
-import carriageNewport from './assets/Glass/Designer_Glass/Long_Newport.png'
-import carriageFlorence from './assets/Glass/Designer_Glass/Long_Florence.png'
+import raisedTemple from './assets/Designer_Glass/short_Temple.png'
+import raisedNewPort from './assets/Designer_Glass/short_Newport.png'
+import raisedSomsertSetBrass from './assets/Designer_Glass/short_somerset_brass.jpg'
+import raisedSomsertSetPlat from './assets/Designer_Glass/short_somerset_platinum.jpg'
+import raisedHawthorneBrass from './assets/Designer_Glass/short_hawthorne_brass.jpg'
+import raisedHawthornePlat from './assets/Designer_Glass/short_hawthorne_platinum.jpg'
+import carriageTemple from './assets/Designer_Glass/Long_Temple.png'
+import carriageNewport from './assets/Designer_Glass/Long_Newport.png'
+import carriageFlorence from './assets/Designer_Glass/Long_Florence.png'
 
 /*Glass Inserts*/
 import noInserts from './assets/Inserts/no-insert-long.jpg'
@@ -88,6 +94,22 @@ woods: {
     Waterton: waterton,
     Cathedral: cathedral,
     Cascade: cascade
+  },
+  hardware:null
+  }
+},
+{name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
+ colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
+  woods: null,
+ designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush,},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    designerGlass: null,
+    inserts: {
+    "No Inserts": noInserts,
+    Stockton: stockton,
+    Madison:madison
   },
   hardware:null
   }
@@ -163,35 +185,23 @@ designs:{Flush:flush},
   hardware:null
   }
 },
-{name:"Planks",defaultImg:Planks,id:"Planks",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
+{name:"Planks",defaultImg:Planks,id:"Planks",defaultDesign:"No Or Short windows",defaultColor:"White",rwd:"CHI_Planks.rwd",
 colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods: {
-  Cedar: cedar,
-  "Carbon Oak": carbon,
-  "Natural Oak": natural,
-  "Dark Oak": darkOak,
-  Mahogany: mahogany,
-  Driftwood: driftwood,
-  Walnut: walnut
-}, 
-designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
+woods:null,
+designs:{"No Or Short Windows":shortWindows ,"Long Windows":longWindows,"Oversized Windows":overSizedWindows},
  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
-    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
-       inserts: {
+    designerGlass:{Newport:carriageNewport,Florence:carriageFlorence},
+    inserts: {
     "No Inserts": noInserts,
-    Prairie: prarire,
-    Sherwood: sherwood,
     Stockton: stockton,
-    Sunburst: sunburst,
-    Waterton: waterton,
+    Cascade: cascade,
     Madison: madison,
-    Cascade: cascade
   }
   }
 },
-{name:"Skyline Flush",defaultImg:SkylineFlush,id:"SkylineFlush",defaultDesign:"Shaker",defaultColor:"White",rwd:"CHI_StampedShaker.rwd",
+{name:"Skyline Flush",defaultImg:SkylineFlush,id:"SkylineFlush",defaultDesign:"No Or Short Windows",defaultColor:"Natural Oak",rwd:"CHI_SkylineFlush.rwd",
 colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
 woods: {
   Cedar: cedar,
@@ -202,24 +212,42 @@ woods: {
   Driftwood: driftwood,
   Walnut: walnut
 }, 
-designs:{"Shaker":stampedShakerDesign},
+designs:{"No Or Short Windows":shortWindows ,"Long Windows":longWindows,"Oversized Windows":overSizedWindows},
  windows:{
     position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
-    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
-    inserts: {
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    designerGlass: {
+    Temple: raisedTemple,
+    Newport: raisedNewPort,
+    "Somerset Brass": raisedSomsertSetBrass,
+    "Somerset Platinum": raisedSomsertSetPlat,
+    "Hawthorne Brass": raisedHawthorneBrass,
+    "Hawthorne Platinum": raisedHawthornePlat
+    },
+   inserts: {
     "No Inserts": noInserts,
     Prairie: prarire,
     Sherwood: sherwood,
     Stockton: stockton,
     Sunburst: sunburst,
     Waterton: waterton,
-    Madison: madison,
+    Cathedral: cathedral,
     Cascade: cascade
   }
   },
   hardware:{}
-}]
+},
+{name:"Aluminum",defaultImg:Aluminum,id:"Aluminum",defaultDesign:"Full View",defaultColor:"Anodized",rwd:"CHI_AluminumFullview.rwd",
+colors:{Anodized:"#a0a4ac",White:"#EAEEED"},
+woods:null, 
+designs:{"Full View":fullView},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    designerGlass: null,
+   inserts: null,
+  hardware:{}
+}}]
 
 function DoorSelector({handleDoorSelection,doorType}) {
   const [doorIndex, setDoorIndex] = useState(0)

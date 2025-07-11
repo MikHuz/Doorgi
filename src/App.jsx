@@ -3,11 +3,11 @@ import { Routes, Route, Link } from 'react-router-dom';
 import DoorSelector from "./DoorSelector.jsx";
 import Build from './Build.jsx'
 import './css/Home.css'
-import door from './assets/door.jpg';
-import door2 from './assets/door2.jfif';
-import door3 from './assets/door3.jpg';
-import door4 from './assets/door4.jpg';
-import door5 from './assets/door5.jpg';
+import door from './assets/door_imgs/door.jpg';
+import door2 from './assets/door_imgs/door2.jfif';
+import door3 from './assets/door_imgs/door3.jpg';
+import door4 from './assets/door_imgs/door4.jpg';
+import door5 from './assets/door_imgs/door5.jpg';
 let doors=[door,door2,door3,door4,door5]
 
 function Traditional(){

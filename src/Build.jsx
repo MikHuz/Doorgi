@@ -2,10 +2,6 @@ import { useState, useEffect} from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
 import './css/Build.css'
 import DoorSelector from "./DoorSelector.jsx";
-import door from './assets/Raised_Panel.jpg';
-import shortDoor from'./assets/Raised_Panel_Short.jpg';
-import door2 from './assets/Stamped_Carriage_House.jpg';
-import door3 from './assets/Stamped_Shaker.jpg';
 import doorgiLogo from '/logo.png'
 const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
@@ -77,7 +73,7 @@ else{
         </div> 
       </div>) } ) : null);
 
-    let insertDivs =(props.windows.insert!=null ? Object.entries(props.windows.inserts).map( ([insert,url]) =>{
+    let insertDivs =(props.windows.inserts!=null ? Object.entries(props.windows.inserts).map( ([insert,url]) =>{
       return (
         <div key={insert} className='insert-box'>
           <h5>{insert}</h5>
@@ -99,8 +95,9 @@ else{
         <>
           <h1 style={{ color: "black" }}>Windows</h1>
           <div id="glass-type">
-            {props.door=="Sterling" ? 
-            <span onClick={() => handleGlassType("Infinity Windows")}>Infinity Windows</span>:<>
+            {props.door=="Sterling" &&<span onClick={() => handleGlassType("Infinity Windows")}>Infinity Windows</span>}
+            {props.door=="Recessed" &&  <span onClick={() => handleGlassType("Glass")}>Glass</span>}
+            {props.door!="Sterling" &&<>
             <span onClick={() => handleGlassType("Glass")}>Glass</span>
             <span>|</span>
             <span onClick={() => handleGlassType("Designer Glass")}>Designer Glass</span></>}
@@ -206,7 +203,7 @@ export default function Build(props) {
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
-  const [colorType,setColorType] = useState("Solid Color")
+  const [colorType,setColorType] = useState(Color in selectedDoor.colors? "Solid Color":"Accents Woodtones")
   const [windowPosition, setWindowPosition] = selectedDoor.id=="Sterling" ? useState("TOP ROW"):useState("FIRST ROW")
   const [Glass, setGlass] = useState(null)
   const [glassType,setGlassType] = useState("Glass")
@@ -216,18 +213,46 @@ export default function Build(props) {
   const URL = "https://chi-api.renoworks.com/RenderGrid"
   const patterns = {
     /*NameSizeDesign*/
+    /*Traditional*/
     RaisedSingleShortPanel: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",             
     RaisedSingleLongPanel: "21|-|-;21|-|-;21|-|-;21|-|-;",
-    RaisedDoubleShortPanel: "21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
+    RaisedDoubleShortPanel: "21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",             
     RaisedDoubleLongPanel: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    RecessedSingleShortPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    RecessedSingleLongPanel:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    RecessedSingleFlush:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    RecessedDoubleShortPanel:"21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
+    RecessedDoubleLongPanel: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    RecessedDoubleFlush:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
     StampedCarriageSingleShortPanel: "21|-|-;21|-|-;21|-|-;21|-|-;",/*Short/Long have same pattern*/
     StampedCarriageSingleLongPanel:"21|-|-;21|-|-;21|-|-;21|-|-;",
     StampedCarriageDoubleShortPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
     StampedCarriageDoubleLongPanel:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",/*Short/Long have same pattern*/
     StampedShakerSingleShaker: "21|-|-;21|-|-;21|-|-;21|-|-;",
     StampedShakerDoubleShaker: "21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    /*Contemporary*/
     SterlingDoubleFlush:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
-    SterlingSingleFlush:"21|-|-;21|-|-;21|-|-;21|-|-;"
+    SterlingSingleFlush:"21|-|-;21|-|-;21|-|-;21|-|-;",
+
+    PlanksSingleNoOrShortWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    PlanksSingleLongWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    PlanksSingleOversizedWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    PlanksDoubleNoOrShortWindows:"21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
+    PlanksDoubleLongWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    PlanksDoubleOversizedWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+
+   SkylineFlushSingleNoOrShortWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+   SkylineFlushSingleLongWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
+   SkylineFlushSingleOversizedWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
+   SkylineFlushDoubleNoOrShortWindows:"21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
+   SkylineFlushDoubleLongWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+   SkylineFlushDoubleOversizedWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+
+   AluminumSingleFullView:"21|-|-;21|-|-;21|-|-;21|-|-;",
+   AluminumDoubleFullView:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;"
+
+
+
   };
   const site ="CHI"
   const ppf= "80"
@@ -330,7 +355,7 @@ export default function Build(props) {
     formBody.append("ppf", ppf);
     formBody.append("firstRun", firstRun);
     formBody.append("api_key", api_key);
-    console.log(formBody.toString())
+    console.log(formBody)
 
     fetch('/api/RenderGrid', {
     method: "POST",
