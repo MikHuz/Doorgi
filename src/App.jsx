@@ -86,17 +86,24 @@ function App() {
    // alert("Selected:" + door.name)
     setSelectedDoor(door)
   }
-
+const doorTypes = 
+{traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
+contemporary:["sterling","planks","skyline_flush","aluminum"]}
+let generatedRoutes = []
+for (const type in doorTypes){
+  generatedRoutes.push(<Route path={`${type}/`} 
+    element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type}/>} />)
+  for (const doorName of doorTypes[type]){
+    generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} />} />)
+  }
+ }console.log(generatedRoutes)
   return (
     <>
       {/*<Header/>*/}
-      <Routes>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/traditional" element={ <DoorSelector handleDoorSelection={handleDoorSelection} doorType="traditional"/>}/>
-        <Route path="/contemporary" element={ <DoorSelector handleDoorSelection={handleDoorSelection}  doorType="contemporary"/>}/>
-        <Route path="/traditional/build" element={<Build selectedDoor={selectedDoor}/>} />
-        <Route path="/contemporary/build" element={<Build selectedDoor={selectedDoor}/>} />
-      </Routes>
+<Routes>
+  <Route path="/" element={<HomePage />} />
+   {generatedRoutes}
+</Routes>
 
       {/*<Footer/>*/}
     </>

@@ -13,8 +13,7 @@ function Windows(props){
   const [selectedInsert,setInsert] = useState("No Insert")
 
   const handleWindow = (glass,glassType)=>{/*Handles Actual Window Selection*/
-    alert("Inside window")
-    position="FIRST ROW"/*Right now this is the default for all doors*/
+    position="FIRST ROW"/*Right now a single row is the default for all doors*/
     if (props.door=="Sterling"){ glassType="Infinity Windows";var position="TOP ROW"}
     setGlassType(glassType)
     if (glassType=="Glass"){ setShowInserts(true)}
@@ -30,8 +29,8 @@ function Windows(props){
     setShowInserts(false)
     setSelectedWindow(null)
     setInsert(null)
+    setGlassType("Glass")
     if (!e.target.checked && selectedWindow!=null){
-      alert("Running handleWindow")
       props.handleWindow(null,"Glass",null,null)/*To display a Windowless door*/
     }
   }
@@ -292,6 +291,8 @@ export default function Build(props) {
     console.log("INSIDE HANLDE GLASS:",glass)
     setGlass(glass)
     setGlassType(glassType)
+    setWindowInserts(insert)
+    setWindowPosition(position)
     setLoading(true)
     fetchDoor(getPattern(Size,Design),{[glassType]:glass,"Window Inserts":insert,Position:position})
   }
@@ -395,9 +396,7 @@ export default function Build(props) {
          
            <Windows door ={selectedDoor.id} handleWindow ={handleWindow} windows={selectedDoor.windows}/>
              <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
-           <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
-              <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
-             <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
+             {Color &&<Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>}
           </div>
       </div>
     </div>

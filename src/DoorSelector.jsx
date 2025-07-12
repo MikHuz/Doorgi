@@ -24,6 +24,13 @@ import shortWindows from './assets/Designs/contemporary/No_Or_Short_Windows.jpg'
 import longWindows from './assets/Designs/contemporary/Long_Windows.jpg'
 import overSizedWindows from './assets/Designs/contemporary/Oversized_Windows.jpg'
 import fullView from './assets/Designs/contemporary/Full_View_Aluminum.jpg'
+/*Carriage Doors */
+import Shoreline from './assets/door_imgs/carriage/Shoreline.jpg'
+/*Carriage Designs*/
+import tenA from './assets/Designs/carriage/10A.jpg'
+import elevenA from './assets/Designs/carriage/11A.jpg'
+import twelveA from './assets/Designs/carriage/12A.jpg'
+import thiryThreeA from './assets/Designs/carriage/33A.jpg'
 /*Wood Types*/
 import cedar from './assets/Colors/woods/accents-cedar.jpg';
 import carbon from './assets/Colors/woods/accents-carbonOak.jpg';
@@ -266,10 +273,103 @@ designs:{"Full View":fullView},
    inserts: null,
   hardware:{}
 }}]
+const carriageDoors=[
+{name:"Shorline",defaultImg:Shoreline,id:"Shoreline",defaultDesign:"10A",defaultColor:null,rwd:"CHI_Shoreline.rwd",
+ style:"Accents Overlay",
+ colors:null,
+ woods:null,
+ designs:{"10A":tenA,"11A":elevenA,"12A":twelveA,"33A":thiryThreeA},
+ windows:null,
+hardware:null
+},
+{name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
+ colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
+  woods: null,
+ designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush,},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    designerGlass: null,
+    inserts: {
+    "No Inserts": noInserts,
+    Stockton: stockton,
+    Madison:madison
+  },
+  hardware:null
+  }
+},
+{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"Brown",rwd:"CHI_StampedCarriageHouse.rwd",
+colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+}, 
+designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
+    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+       inserts: {
+    "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
+    Stockton: stockton,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Madison: madison,
+    Cascade: cascade
+  }
+  }
+},
+{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"Gray",rwd:"CHI_StampedShaker.rwd",
+colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+woods: {
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+}, 
+designs:{"Shaker":stampedShakerDesign},
+ windows:{
+    position:{},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
+    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+    inserts: {
+    "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
+    Stockton: stockton,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Madison: madison,
+    Cascade: cascade
+  }
+  },
+  hardware:{}
+}]
+
 
 function DoorSelector({handleDoorSelection,doorType}) {
   const [doorIndex, setDoorIndex] = useState(0)
-  const Doors = doorType=="traditional" ?traditionalDoors : contemporaryDoors
+  var Doors;
+  switch(doorType){
+    case("traditional"): Doors = traditionalDoors
+    break;
+    case("contemporary"): Doors = contemporaryDoors
+    break;
+    case("carriage"): Doors = carriageDoors
+    break;
+  }
+  const doorName = Doors[doorIndex].name.replace(/ /g, '_').toLowerCase()
+
   useEffect(() => {
     console.log("INSIDE USEEFFECT")
     //Runs after render. This React hoook is used to handle interactions after everything in the component has rendered
@@ -294,6 +394,7 @@ function DoorSelector({handleDoorSelection,doorType}) {
   }, []);
 
   const handleBuildBtn = () =>{
+    //alert(doorName)
     handleDoorSelection(Doors[doorIndex]) 
   }
 
@@ -337,7 +438,7 @@ function DoorSelector({handleDoorSelection,doorType}) {
             <span className="visually-hidden">Previous</span>
           </button>
 
-          <Link to={`/${doorType}/build`}>
+          <Link to={`/${doorType}/${doorName}/build`}>
           <button id="build-door-btn" onClick={handleBuildBtn}>Build</button>
           </Link>
 
