@@ -62,7 +62,7 @@ import madison from './assets/Inserts/madison-long.jpg'
 import cascade from './assets/Inserts/cascade-long.jpg'
 import cathedral from './assets/Inserts/cathedral-short.jpg'
 const traditionalDoors=[
-{name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_Raised.rwd",
+{name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"Almond",rwd:"CHI_Raised.rwd",
  colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"/*,"Ever Green":"#114c36"*/},
 woods: {
   Cedar: cedar,
@@ -114,7 +114,7 @@ woods: {
   hardware:null
   }
 },
-{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"White",rwd:"CHI_StampedCarriageHouse.rwd",
+{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"Brown",rwd:"CHI_StampedCarriageHouse.rwd",
 colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
 woods: {
   Cedar: cedar,
@@ -142,7 +142,7 @@ designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
   }
   }
 },
-{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"White",rwd:"CHI_StampedShaker.rwd",
+{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"Gray",rwd:"CHI_StampedShaker.rwd",
 colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
 woods: {
   Cedar: cedar,
@@ -173,7 +173,7 @@ designs:{"Shaker":stampedShakerDesign},
 }]
 
 const contemporaryDoors = [
-{name:"Sterling",defaultImg:Sterling,id:"Sterling",defaultDesign:"Flush",defaultColor:"Deep Black",rwd:"CHI_Sterling.rwd",
+{name:"Sterling",defaultImg:Sterling,id:"Sterling",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Sterling.rwd",
 colors:{"Bone White":"#F8F4EC","Sandstone":"#E8E4d4",Almond:"#E8dCC4","Medium Bronze":"#584C3C",Charcoal:"#404444","Slate Gray":"#807c74","Deep Black":"#281c24", "Hartford Green":"#283c3c"},
 woods:null,
 designs:{Flush:flush},
@@ -185,19 +185,37 @@ designs:{Flush:flush},
   hardware:null
   }
 },
-{name:"Planks",defaultImg:Planks,id:"Planks",defaultDesign:"No Or Short windows",defaultColor:"White",rwd:"CHI_Planks.rwd",
+{name:"Planks",defaultImg:Planks,id:"Planks",defaultDesign:"No Or Short Windows",defaultColor:"Cedar",rwd:"CHI_Planks.rwd",
 colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods:null,
+woods:{
+  Cedar: cedar,
+  "Carbon Oak": carbon,
+  "Natural Oak": natural,
+  "Dark Oak": darkOak,
+  Mahogany: mahogany,
+  Driftwood: driftwood,
+  Walnut: walnut
+},
 designs:{"No Or Short Windows":shortWindows ,"Long Windows":longWindows,"Oversized Windows":overSizedWindows},
  windows:{
     position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
-    designerGlass:{Newport:carriageNewport,Florence:carriageFlorence},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    designerGlass:{  
+      Temple: raisedTemple,
+      Newport: raisedNewPort,
+      "Somerset Brass": raisedSomsertSetBrass,
+      "Somerset Platinum": raisedSomsertSetPlat,
+      "Hawthorne Brass": raisedHawthorneBrass,
+      "Hawthorne Platinum": raisedHawthornePlat},
     inserts: {
     "No Inserts": noInserts,
+    Prairie: prarire,
+    Sherwood: sherwood,
     Stockton: stockton,
-    Cascade: cascade,
-    Madison: madison,
+    Sunburst: sunburst,
+    Waterton: waterton,
+    Cathedral: cathedral,
+    Cascade: cascade
   }
   }
 },

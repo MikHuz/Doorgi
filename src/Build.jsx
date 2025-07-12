@@ -11,44 +11,42 @@ function Windows(props){
   const [glassType, setGlassType] = useState(null)
   const [showInserts,setShowInserts] = useState(false)
   const [selectedInsert,setInsert] = useState("No Insert")
-  const handleWindow = (glass,glassType)=>{
-    if (props.door== "Sterling"){
-      alert("Sterling")
-      glassType="Infinity Windows"
-    }
-    else{
-      console.log(props)
-    }
+
+  const handleWindow = (glass,glassType)=>{/*Handles Actual Window Selection*/
+    alert("Inside window")
+    position="FIRST ROW"/*Right now this is the default for all doors*/
+    if (props.door=="Sterling"){ glassType="Infinity Windows";var position="TOP ROW"}
     setGlassType(glassType)
-    glassType=="Glass" ? setShowInserts(true) : ""
-    if (glassType=="Designer Glass"){
+    if (glassType=="Glass"){ setShowInserts(true)}
+    else if (glassType=="Designer Glass"){
       setShowInserts(false)
       setInsert(null)
     }
     setSelectedWindow(glass)
-    props.handleWindow(glass,glassType)
+    props.handleWindow(glass,glassType,selectedInsert,position)
   }
-  const handleShowWindows = (e)=>{
+  const handleShowWindows = (e)=>{/*Handles the Show Window Checkbox*/
     setShowWindows(!showWindows)
     setShowInserts(false)
+    setSelectedWindow(null)
+    setInsert(null)
     if (!e.target.checked && selectedWindow!=null){
-      props.handleWindow(null,glassType)
+      alert("Running handleWindow")
+      props.handleWindow(null,"Glass",null,null)/*To display a Windowless door*/
     }
   }
-const handleGlassType = (type) =>{
-  setGlassType(type);
-if (type=="Designer Glass"){
-  setShowInserts(false)
-}
-else{
-  setShowInserts(true)
-}
-}
+  const handleGlassType = (type) =>{
+    setGlassType(type);
+    alert("Glass type currently: "+glassType)
+    setShowInserts(type =="Glass" && (selectedWindow in props.windows.glass)? true : false )
+  }
   const handleInsert = (insert) =>{
     setInsert(insert)
-    props.handleWindowInserts( (insert=="Sunburst"?"4 piece Sunburst" : insert))
+    props.handleWindow(selectedWindow,glassType,
+    (insert=="Sunburst"?"4 piece Sunburst" : insert),
+    (props.door == "Sterling") ? "TOP ROW": "FIRST ROW")
   }
-   let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
+  let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
       <div key={glass} className='window-box'>
         <h5>{glass}</h5>
@@ -82,9 +80,7 @@ else{
             className={selectedInsert === insert ? 'selected-insert' : ''}
             onClick={() => handleInsert(insert,"Inserts")} >
             </div>
-        </div>)}): null);
-    
-      
+        </div>)}): null); 
   return (<>
     <div id="windows">
       <label style={{width:"100%"}}>
@@ -95,14 +91,15 @@ else{
         <>
           <h1 style={{ color: "black" }}>Windows</h1>
           <div id="glass-type">
-            {props.door=="Sterling" &&<span onClick={() => handleGlassType("Infinity Windows")}>Infinity Windows</span>}
-            {props.door=="Recessed" &&  <span onClick={() => handleGlassType("Glass")}>Glass</span>}
-            {props.door!="Sterling" &&<>
+            {props.door=="Sterling" ? <span onClick={() => handleGlassType("Infinity Windows")}>Infinity Windows</span>
+            : (<>
             <span onClick={() => handleGlassType("Glass")}>Glass</span>
+            {props.windows.designerGlass!= null && <>
             <span>|</span>
             <span onClick={() => handleGlassType("Designer Glass")}>Designer Glass</span></>}
-           </div>
-          {glassType=="Glass"||glassType==null ? windowDivs: windowDesignerDivs}
+            </>)}
+          </div>
+          {glassType=="Designer Glass"? windowDesignerDivs : windowDivs}
         </>
       )}
      </div>
@@ -154,7 +151,6 @@ return(
 </>
     )
 }
-
 function Designs(props){
   //console.log("INSIDE COMPONENT:",props.designs)
   const [designStyle,setDesignStyle] = useState(null)
@@ -180,7 +176,6 @@ function Designs(props){
   {designDivs}
  </div>)
 }
-
 function PersistentState(key,defaultDoor){
   if (defaultDoor){
     /*alert("Setting door")*/
@@ -204,10 +199,10 @@ export default function Build(props) {
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
   const [Color, setColor] = useState(selectedDoor.defaultColor)
   const [colorType,setColorType] = useState(Color in selectedDoor.colors? "Solid Color":"Accents Woodtones")
-  const [windowPosition, setWindowPosition] = selectedDoor.id=="Sterling" ? useState("TOP ROW"):useState("FIRST ROW")
+  const [windowPosition, setWindowPosition] = useState(null)
   const [Glass, setGlass] = useState(null)
   const [glassType,setGlassType] = useState("Glass")
-  const [windowInserts, setWindowInserts] = useState("No Inserts")
+  const [windowInserts, setWindowInserts] = useState(null)
   const [loading,setLoading] = useState(false);
   const rwd = selectedDoor.rwd
   const URL = "https://chi-api.renoworks.com/RenderGrid"
@@ -241,12 +236,12 @@ export default function Build(props) {
     PlanksDoubleLongWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
     PlanksDoubleOversizedWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
 
-   SkylineFlushSingleNoOrShortWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
-   SkylineFlushSingleLongWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
-   SkylineFlushSingleOversizedWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
-   SkylineFlushDoubleNoOrShortWindows:"21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
-   SkylineFlushDoubleLongWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
-   SkylineFlushDoubleOversizedWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    SkylineFlushSingleNoOrShortWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    SkylineFlushSingleLongWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    SkylineFlushSingleOversizedWindows:"21|-|-;21|-|-;21|-|-;21|-|-;",
+    SkylineFlushDoubleNoOrShortWindows:"21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;21|-|-|-|-|-|-|-|-;",
+    SkylineFlushDoubleLongWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
+    SkylineFlushDoubleOversizedWindows:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;",
 
    AluminumSingleFullView:"21|-|-;21|-|-;21|-|-;21|-|-;",
    AluminumDoubleFullView:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;"
@@ -269,7 +264,7 @@ export default function Build(props) {
   }, []);
   const getPattern = (size, design)=>{
     let key = selectedDoor.id + size +design.replace(/ /g, '');;
-    console.log("key: ",key)
+    console.log("Pattern key: ",key)
     let pattern = patterns[key]
     return pattern;
   }
@@ -279,7 +274,6 @@ export default function Build(props) {
     fetchDoor(getPattern(size,Design),{"Width":size})
   }
   const handleDesign= (design)=>{
-    alert("Inside design")
     setDesign(design)
     setLoading(true)
     fetchDoor(getPattern(Size,design), {Design:design})
@@ -294,26 +288,22 @@ export default function Build(props) {
     setLoading(true)
     fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not "type"*/
   }
-  const handleWindow= (glass,glassType)=>{
+  const handleWindow= (glass,glassType,insert,position)=>{
     console.log("INSIDE HANLDE GLASS:",glass)
     setGlass(glass)
     setGlassType(glassType)
     setLoading(true)
-    fetchDoor(getPattern(Size,Design),{[glassType]:glass})
-  }
-
-  const handleWindowInserts = (insert)=>{
-    console.log("INSIDE INSERT")
-    setWindowInserts(insert)
-    setLoading(true)
-    fetchDoor(getPattern(Size,Design),{"Window Inserts":insert})
+    fetchDoor(getPattern(Size,Design),{[glassType]:glass,"Window Inserts":insert,Position:position})
   }
   function fetchDoor(pattern, parameter){
     console.log("Paramter passed:",parameter)/*Parameter refers to the door option(Ex. Color:Blue) user has selected at this time*/
     console.log(pattern)
+    var solidColorOrWood = colorType
+    var glassOrDesigner = glassType
     for (let key in parameter){/*Handle color type, glass type,and API width header parm*/
-      var solidColorOrWood = (key == "Accents Woodtones" ||key == "Solid Color" ? key : colorType )
-      var glassOrDesigner = (key == "Glass" || key=="Designer Glass" ||key=="Infinity Windows"? key :glassType)
+      if (key == "Accents Woodtones" ||key == "Solid Color") {solidColorOrWood = key}
+      if (key == "Glass" || key=="Designer Glass" ||key=="Infinity Windows"){glassOrDesigner = key}
+      console.log("GLASSORDESIGNER: ",glassOrDesigner)
       if (key=="Width"){
          var width = (parameter[key] == "Single"?"640":"1280");
       }
@@ -323,7 +313,7 @@ export default function Build(props) {
     }
     //console.log("Color Type:",solidColorOrWood)
     //console.log("Glass TYPE:",glassOrDesigner)
-    let gridSettings={
+    let gridSettings={/*Create the gridSettings based on current door*/
       Width:Size,
       Design:Design,
       [solidColorOrWood]:Color,/*Use actual value inside variable, not its name*/
@@ -332,15 +322,13 @@ export default function Build(props) {
       "Window Inserts":windowInserts
     }
     for (let key in parameter){/*Handles gridSettings field for the API body*/
-      gridSettings[key] = parameter[key]/*Updates correct user parameter*/
+      gridSettings[key] = parameter[key]/*Updates correct user parameter inside gridSettings*/
     }
-    if (gridSettings[glassOrDesigner] == null){/*Handles glass settings*/
-      gridSettings.Position = null;
-      gridSettings.Inserts = null;
-    }
+    console.log(gridSettings)
+
     let gridSettingsParameter = ""
     for (let key in gridSettings) {
-      if (gridSettings[key] != null){/*Stringifies Gridparameter to inject into API body*/
+      if (gridSettings[key] != null){/*Stringifies GridSettings to inject into API body*/
         gridSettingsParameter += (key + "=" + gridSettings[key] +"|")
       }
     }
@@ -405,7 +393,7 @@ export default function Build(props) {
               <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
             </div>
          
-           <Windows door ={selectedDoor.id} handleWindow ={handleWindow} handleWindowInserts={handleWindowInserts}windows={selectedDoor.windows}/>
+           <Windows door ={selectedDoor.id} handleWindow ={handleWindow} windows={selectedDoor.windows}/>
              <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
            <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
               <Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>
