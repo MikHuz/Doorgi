@@ -3,6 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import './css/Build.css'
 import DoorSelector from "./DoorSelector.jsx";
 import doorgiLogo from '/logo.png'
+import RaisedPanel from './assets/door_imgs/traditional/Raised_Panel.jpg';
 const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 function Windows(props){
@@ -36,7 +37,6 @@ function Windows(props){
   }
   const handleGlassType = (type) =>{
     setGlassType(type);
-    alert("Glass type currently: "+glassType)
     setShowInserts(type =="Glass" && (selectedWindow in props.windows.glass)? true : false )
   }
   const handleInsert = (insert) =>{
@@ -47,26 +47,23 @@ function Windows(props){
   }
   let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
-      <div key={glass} className='window-box'>
+      <div key={glass} className='window-box' onClick={() => handleWindow(glass, "Glass")}>
         <h5>{glass}</h5>
         <div
           key={glass}
           style={{  backgroundImage: `url(${url})`}}
-          className={selectedWindow === glass ? 'selected-glass' : ''}
-          onClick={() => handleWindow(glass, "Glass")} >
+          className={selectedWindow === glass ? 'selected-glass' : ''} >
         </div> 
       </div>) } ): null);
 
     let windowDesignerDivs = (props.windows.designerGlass!=null?Object.entries(props.windows.designerGlass).map( ([glass,url])=>{
     return(
-      <div key={glass} className='designer-box'>
+      <div key={glass} className='window-box'  onClick={() => handleWindow(glass,"Designer Glass")}>
         <h5>{glass}</h5>
         <div
           key={glass}
-          style={{
-            backgroundImage: `url(${url})`}}
-          className={selectedWindow === glass ? 'selected-glass' : ''}
-          onClick={() => handleWindow(glass,"Designer Glass")} >
+          style={{ backgroundImage: `url(${url})`}}
+          className={selectedWindow === glass ? 'selected-glass' : ''} >
         </div> 
       </div>) } ) : null);
 
@@ -78,37 +75,46 @@ function Windows(props){
             style={{  backgroundImage: `url(${url})`}}
             className={selectedInsert === insert ? 'selected-insert' : ''}
             onClick={() => handleInsert(insert,"Inserts")} >
-            </div>
+          </div>
         </div>)}): null); 
   return (<>
-    <div id="windows">
-      <label style={{width:"100%"}}>
-        <b>Choose Windows:</b>
-        <input type="checkbox"  style={{margin:"1%"}}onClick={(e) =>handleShowWindows(e)}/>
+    <div id="windows-container">
+      <label id="windows-checkbox-label">
+        <h3 className='bolder'>Choose Windows?</h3>
+        <input type="checkbox" onClick={(e) =>handleShowWindows(e)}/>
       </label>
-      {showWindows && (
-        <>
-          <h1 style={{ color: "black" }}>Windows</h1>
-          <div id="glass-type">
-            {props.door=="Sterling" ? <span onClick={() => handleGlassType("Infinity Windows")}>Infinity Windows</span>
-            : (<>
-            <span onClick={() => handleGlassType("Glass")}>Glass</span>
-            {props.windows.designerGlass!= null && <>
-            <span>|</span>
-            <span onClick={() => handleGlassType("Designer Glass")}>Designer Glass</span></>}
-            </>)}
-          </div>
-          {glassType=="Designer Glass"? windowDesignerDivs : windowDivs}
-        </>
+      {showWindows && (<>
+      <div id="glass-type">
+        {props.door === "Sterling" && <h2> 
+        <span onClick={() => handleGlassType("Infinity Windows")}>
+        Infinity Windows
+        </span></h2>}
+
+        {props.windows.designerGlass == null && props.windows.Glass!= null && <h2>
+        <span onClick={() => handleGlassType("Glass")}>
+            Glass
+        </span> </h2>}
+
+        {props.windows.designerGlass != null && <h2>
+        <span className="attention" onClick={() => handleGlassType("Glass")}>
+          Glass
+        </span>
+        <span>|</span> 
+        <span className="attention"onClick={() => handleGlassType("Designer Glass")}>
+          Designer Glass
+        </span></h2>}
+      </div>
+      <div id="windows">
+        {glassType=="Designer Glass"? windowDesignerDivs : windowDivs}
+      </div>
+      </>
       )}
      </div>
       {showInserts && props.windows.inserts!=null &&
-      <>
       <div id="inserts">
-        <h2>Choose a  Window Insert</h2>
+        <h2>Choose a Window Insert</h2>
         {insertDivs}
-      </div>
-      </>}
+      </div>}
   </>);
 }
 function Colors(props) {
@@ -142,10 +148,12 @@ function Colors(props) {
 return(
 <>   
 <div id="colors-container">
-  {hasWood &&<div><span onClick ={() =>setColorType("Solid Color")}>Color</span>
-  <span>|</span><span onClick ={() =>setColorType("Wood")}>Wood Tone</span></div>}
-  {!hasWood && <div><span onClick ={() =>setColorType("Solid Color")}>Color</span> </div>}
-  {colorType === "Solid Color" ? colorDivs: woodDivs}
+  {!hasWood && <h2><span>Solid Color</span></h2> }
+  {hasWood && <h2><span className="attention" onClick ={() =>setColorType("Solid Color")}>Solid Color</span> 
+  <span>|</span> 
+  <span  className="attention" onClick ={() =>setColorType("Wood")}>Wood</span> </h2>}
+
+  {colorType === "Solid Color" ? colorDivs: woodDivs}{/*Conditional Rendering for Color/wood*/}
 </div>
 </>
     )
@@ -160,18 +168,19 @@ function Designs(props){
   }
   const designDivs = Object.entries(props.designs).map(([design,url]) =>{
   //console.log("DESIGN:",design,"URL:",url);
-  return (<div key={design}>
-    <h5>{design}</h5>
-    <img   
-    className={`design-imgs ${designStyle === design ? "selected-design" : ""}`}
-    src={url}
-    alt={design}
-    onClick={() =>handleDesign(design)}/>
-  </div>)})
+    return (
+      <div className="design-box"key={design}>
+        <h3>{design}</h3>
+        <img   
+          className={`${designStyle === design ? "selected-design" : ""}`}
+          src={url}
+          alt={design}
+          onClick={() =>handleDesign(design)}/>
+      </div>)})
   //console.log(designDivs)
  return(
  <div id="design-container">
-  <h1>Designs</h1>
+  <h2>Designs</h2>
   {designDivs}
  </div>)
 }
@@ -254,9 +263,7 @@ export default function Build(props) {
   const api_key= "5809bc44-3cf7-42c5-8395-a9558bb40647"
   const responsePath = "https://chi-api.renoworks.com/data/CHI/"
   useEffect(() => {/*effect for ScrollBar removal*/ 
-    // Add class when component mounts
     document.body.classList.add('build-page');
-      // Remove class when component unmounts
     return () => {
       document.body.classList.remove('build-page');
     };
@@ -377,29 +384,23 @@ export default function Build(props) {
     });
   }
   return (
-    <>
-    <div className="container-fluid" id='buildContainer'>
-      <div className="row gy-0">
-        <div id="col-img"className='col-12 col-lg-8 d-flex flex-column align-items-center gy-0'>
-          <h1>{selectedDoor.name}</h1>
-          <div id="img-container">
-            <img src={loading ? doorgiLogo:Image} className={`img-fluid ${loading ? "loading-style" : ""}`} />
-            {loading && <p style={{fontSize:"clamp(1rem,2vw,2rem)",marginTop:"2%"}}><b>Loading...</b></p>}
-          </div>
-        </div>
-          <div id="col-options" className='col12 col-lg-4 d-flex flex-column gap-3 gy-0'>
-            <div id="size-container"> 
-              <h1>Size</h1>
-              <p onClick={(e) => handleSize(e,"Single")}><b>Single Door 8' X 7'</b></p>
-              <p onClick={(e) => handleSize(e,"Double")}><b>Double Door 16' X 7'</b></p>
-            </div>
-         
-           <Windows door ={selectedDoor.id} handleWindow ={handleWindow} windows={selectedDoor.windows}/>
-             <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
-             {Color &&<Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>}
-          </div>
-      </div>
+  <div id="build-page-grid">
+    <div id="door-section">
+      <h2 style={{fontSize: selectedDoor.name.length > 14 && "1.3rem"}}>
+        {selectedDoor.name}</h2>
+      <img src={loading ? doorgiLogo:Image} className={`${loading ? "loading-style" : ""}`} />
+      {!loading ? <h2>Price: ${Price} </h2>:<h2>Loading...</h2>} 
     </div>
-   </>
+    <div id="options-section">
+      <div id="size-container"> 
+        <h2>Size</h2>
+        <p onClick={(e) => handleSize(e,"Single")} >Single Door 8' X 7'</p>
+        <p onClick={(e) => handleSize(e,"Double")} >Double Door 16' X 7'</p>
+      </div>
+      <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
+      {Color &&<Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>}
+      <Windows door ={selectedDoor.id} handleWindow ={handleWindow} windows={selectedDoor.windows}/>
+    </div>
+  </div>
   );
 }

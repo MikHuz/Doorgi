@@ -1,0 +1,56 @@
+/* 1. Root font-size scales with viewport */
+html {
+  /* never smaller than 14px, never larger than 20px, fluid in between */
+  font-size: clamp(14px, 1vw + 1rem, 20px);
+  line-height: 1.5; /* good default rhythm */
+}
+
+/* 2. Body defaults */
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem; /* 16px–20px depending on clamp() */
+  margin: 0;
+  padding: 0;
+  color: #222;
+  background-color: #fff;
+}
+
+/* 3. Headings: scale in rem (relative to root) */
+h1 { font-size: 2.5rem; font-weight: 700; margin: 0 0 1rem; }
+h2 { font-size: 2rem;   font-weight: 600; margin: 0 0 0.75rem; }
+h3 { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem; }
+
+p {
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+
+/* 4. Spacing scale using rem */
+:root {
+  --space-xs: 0.5rem;  /* ~8px–10px */
+  --space-sm: 1rem;    /* ~16px–20px */
+  --space-md: 1.5rem;  /* ~24px–30px */
+  --space-lg: 2rem;    /* ~32px–40px */
+  --space-xl: 3rem;    /* ~48px–60px */
+}
+
+/* 5. Utility examples */
+.section {
+  padding: var(--space-lg) var(--space-md);
+}
+
+.card {
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: #f9f9f9;
+  border-radius: 0.5rem;
+}
+
+.button {
+  font-size: 1rem;
+  padding: var(--space-xs) var(--space-sm);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  
+}

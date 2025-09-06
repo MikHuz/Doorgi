@@ -1,64 +1,65 @@
-/*homePage*/
-body{
-  background-color: orange;
-}
-#homeContainer{
-  bordeR:2x solid black;
-}
-.row-slide{
-  border:2px solid purple;
-  height:85vh;
-  margin-bottom:2vh;
-  margin-left:1vw;
-  margin-right:1vw
-}
-.col-fit {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border:2px solid white;
-  overflow: visible;
-  padding:0;
-  margin:0
+/* #fe8939 Main Doorgi Orange */
+/* #f45b0a Dark Doorgi Orange */
+/* #ffae69 Light Doorgi Orange */
+/* #ffc533 Doorgi Yellow */
+/* #463c3f Doorgi Grey */
+/* Homepage */
+.home-header{
+  margin-bottom:0.25em;
+  
+  text-align:center;
 }
 .homeCarousel{
-  flex:0 0 75%;
-  height:75%;
-  border:2px solid green;
-  margin:0;
+  width:85%;
+  height:70vh;
+  margin:0 auto;
+  outline:2px solid black;
+  border-radius: 8px;
+}
+@media (min-height:1150px){
+.homeCarousel{width:90%;height:35vh;}
+}
+@media (max-width:768px){
+.homeCarousel{width:90%;height:45vh;}
+}
+@media (max-width:450px){
+.homeCarousel{width:95%;height:35vh;}
 }
 #homeCarouselInner{
+  width:100%;
   height:100%;
-  /*bordeR:2px solid red;*/
+  border-radius: 8px;
+ /*border:2px solid red;*/
 }
 #homeItemSlide{
+  width:100%;
   height:100%;
+  border-radius: 8px;
   /*bordeR:2px solid brown;*/
-  text-align: center;
 }
 #homeItemSlide img{
-  height:100%;
   width:100%;
+   height:100%;
+   border-radius: 8px;
   /*bordeR:2px solid blue;*/
 }
+.carousel-control-prev, .carousel-control-next{border-radius: 8px}
+.carousel-control-prev:hover,.carousel-control-next:hover {background-color: rgba(70, 60, 63, 0.15); }
+#view-btn-link{
+  display: block;     /* make button block-level */
+  text-align:center;
+}
 #view-doors-type-btn {
-  background-color: darkslategray;
-  font-size: clamp(1rem, 2.5vh, 1.6rem);
-  padding:0.5em;
-  opacity: 0.8;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  background-color:var(--color-grey);
+  color:whitesmoke; 
+  margin:0.75em 0.75em;
+  font-weight:600;
+  min-width:50%;
 }
 #view-doors-type-btn:hover{
-  background-color: orangered;
+  background-color: var(  --color-orange-dark);
+  transform:scale(1.02);
+  transition:0.1s;
 }
-#view-btn-link{
-   flex:0 0 5%;
-  height:10%;
-  align-self: center; /* optional: centers horizontally */
-  padding: 0.2em 0.5em;
-  width:10;
-  margin-top:3vh;
-}
+
+/*Homepage*/
