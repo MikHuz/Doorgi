@@ -2,17 +2,25 @@
 #build-page-grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 40% 1fr; 
+  grid-template-rows: min(350px,45%) 1fr; 
   border: 2px solid black;
   height:95vh;
-  row-gap: 1.25rem;
   max-height: 95vh;
   width: 99vw;
   margin: 2.25vh auto;
 }
+@media(min-width:650px){
+  #build-page-grid {grid-template-rows: 50% 1fr; }
+}
+@media(min-width:1025px){
+  #build-page-grid {
+    grid-template-columns: 60% 1fr;
+    grid-template-rows: 100%;
+  }
+}
 #door-section{
   width:100%;
-  height:100%;
+  height:min(100%,600px);
   display:flex;
   justify-content:space-evenly;
   flex-direction: column;
@@ -21,10 +29,10 @@
 }
 
 #door-section img {
-  flex-basis:60%;
-  max-height:60%;
+  flex-basis:55%;
+  max-height:55%;
   width:auto;
-  max-width:98%;
+  max-width:95%;
   border-radius:18px;
   outline:2px solid black;
 }
@@ -45,21 +53,27 @@
   flex-wrap:wrap;  
   justify-content: center;
   row-gap:0.75em;
-  column-gap:1.75em;
+  column-gap:1.5em;
   background-color:var(--color-orange-dark)
 }
 #size-container h2{margin-bottom:0;flex-basis:100%;}
 #size-container p{
   flex:1 1 auto;
-  max-width:45%;
+  max-width:min(300px, 45%);
   outline:2px solid black;
   border-radius:8px;
   transition:0.2s;
   cursor:pointer;
 }
-#size-container p:hover{
+#size-container p:not(.selected-size):hover{
   transform:scale(1.05);
   color:var(--color-grey);
+  text-decoration: underline;;
+  transition:transform 0.2s;
+}
+.selected-size{
+  transform:scale(1.05);
+  color:rgb(199, 14, 14);
   text-decoration: underline;;
   transition:transform 0.2s;
 }
@@ -81,15 +95,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
   margin:0;
 }
 .design-box h3{margin-bottom:0.25em;}
-.design-box img{width:100%;height:auto;}
+.design-box img{  cursor: pointer;width:100%;height:auto;}
 .design-box img:hover{outline:2px solid black;}
 /* Design Option */
 
-/* Colors*/
+/* Colors Option*/
 #colors-container{
   display:flex;
   flex-wrap: wrap;
@@ -163,7 +176,7 @@
   row-gap:1em;
   width:25%;
   aspect-ratio: 1;
-  max-width:150px;
+  max-width:120px;
   max-height: auto;
   border-radius: 10%;
   outline:2px solid black;
@@ -174,7 +187,7 @@
 .window-box > h5{
   flex:1 1 auto;
 }
-.window-box div{/*Actual Window image*/
+.window-box > div{/*Actual Window image*/
 width:100%;
 aspect-ratio: 1;
 border-radius: 10%;
@@ -188,6 +201,7 @@ transition:0.2s;
   justify-content: center;
   column-gap:1em;
   row-gap:1em;
+  padding:1em;
 }
 #inserts h2{flex-basis:100%;}
 .insert-box{
@@ -199,9 +213,10 @@ transition:0.2s;
   transition:0.2s;
   margin:0;
 }
+
 .insert-box > h5{flex:1 0 auto}
 .insert-box > div{/*Actual insert image*/
-  height:8vw;
+  height: clamp(40px, 6vw, 120px);
   background-size:cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -210,49 +225,47 @@ transition:0.2s;
   transition:0.2s;
   outline: 2px solid black;
 }
-@media (min-width:990px){.insert-box {width:15%;}}
-/* @media (max-width:991.98px){
-  .insert-box > div{
-    height:50%;
-  }
-}
-.insert-box:last-child,.designer-box:last-child,.window-box:last-child{
+ @media (min-width:1025px){.insert-box >div {height:3.5vw}} 
 
-} */
-/*Window Inserts*/
+/*Windows*/
 
-@media (min-width: 1024px) and (pointer: fine) {
-  .color-box div:hover{
-    transform:scale(1.1);
-    transition:0.2s;
-  }
-  .window-box:hover, .designer-box:hover{
-    transform:scale(1.1);
-    transition:0.2s;
-  }
-  .insert-box>div:hover{
-    transform: scale(1.05);
-    transition:0.2s;
-  }
+/*hover and  selection styles*/
+.color-box > div:hover{
+  transform:scale(1.1);
+  transition:0.2s;
 }
-.selected {
-  border:3px solid black;
+.window-box:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+}
+.window-box.selected-glass {
+  transform: scale(1.1); /* keep the box enlarged */
+}
+.window-box.selected-glass > div {
+  transform: scale(1.1); /* extra boost only for the actual window icon*/
+  outline:3px solid black;
+  transition: 0.1s;
+}
+.insert-box > div:hover{
+  transform: scale(1.05);
+  transition:0.2s;
+}
+
+.selected {/*General selector*/
+  outline:3px solid black;
   transform:scale(1.1);
 }
 .selected-design{
   outline:2px solid black;
   transform:scale(1.05);
 }
-.selected-glass{
- outline:3px solid black;
-transform:scale(1.15);
-}
 .insert-box > div.selected-insert {
   transform:scale(1.05);
   outline: 2px solid red;
 }
 
-/*Windows*/
+/*hover and  selection styles*/
+
 /*Loading Animation*/
 @keyframes pulseOpacity {
   0% {

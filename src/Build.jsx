@@ -47,7 +47,7 @@ function Windows(props){
   }
   let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
-      <div key={glass} className='window-box' onClick={() => handleWindow(glass, "Glass")}>
+      <div key={glass} className={`window-box ${selectedWindow === glass ? 'selected-glass' : ''}`} onClick={() => handleWindow(glass, "Glass")}>
         <h5>{glass}</h5>
         <div
           key={glass}
@@ -58,12 +58,12 @@ function Windows(props){
 
     let windowDesignerDivs = (props.windows.designerGlass!=null?Object.entries(props.windows.designerGlass).map( ([glass,url])=>{
     return(
-      <div key={glass} className='window-box'  onClick={() => handleWindow(glass,"Designer Glass")}>
+      <div key={glass} className={`window-box ${selectedWindow === glass ? 'selected-glass' : ''}`}  onClick={() => handleWindow(glass,"Designer Glass")}>
         <h5>{glass}</h5>
         <div
           key={glass}
           style={{ backgroundImage: `url(${url})`}}
-          className={selectedWindow === glass ? 'selected-glass' : ''} >
+          className={`window-box ${selectedWindow === glass ? 'selected-glass' : ''}`}>
         </div> 
       </div>) } ) : null);
 
@@ -136,14 +136,14 @@ function Colors(props) {
     </div>));
  if (hasWood){
   var woodDivs = Object.entries(props.woods).map( ([woodName,woodUrl]) => (
-       <div className="color-box" key={woodName}>
-      <h5>{woodName}</h5>
-      <div
-        style={{  backgroundImage: `url(${woodUrl})`}}
-        className={IconColor === woodName ? 'selected' : ''}
-        onClick={(event) => handleColor(event, woodName,"Accents Woodtones")}
-      />
-    </div>) )
+      <div className="color-box" key={woodName}>
+        <h5>{woodName}</h5>
+        <div
+          style={{  backgroundImage: `url(${woodUrl})`}}
+          className={IconColor === woodName ? 'selected' : ''}
+          onClick={(event) => handleColor(event, woodName,"Accents Woodtones")}
+        />
+      </div>) )
 }
 return(
 <>   
@@ -394,8 +394,8 @@ export default function Build(props) {
     <div id="options-section">
       <div id="size-container"> 
         <h2>Size</h2>
-        <p onClick={(e) => handleSize(e,"Single")} >Single Door 8' X 7'</p>
-        <p onClick={(e) => handleSize(e,"Double")} >Double Door 16' X 7'</p>
+        <p className={`${Size === "Single" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Single")} >Single Door 8' X 7'</p>
+        <p className={`${Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Double Door 16' X 7'</p>
       </div>
       <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
       {Color &&<Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>}
