@@ -3,110 +3,76 @@
   display:flex;
   flex-direction: column;
   justify-content: center;
-  height:99vh;
-  width:99vw;
+  row-gap:1em;
+  min-height:100vh;
+  min-width:100vw;
+  background: rgba(0, 0, 0, 0.5); /* adjust opacity */
 }
-
 #doorSelectCarousel{
-  /*border:2px solid white;*/
+  display:flex;
+  flex-direction:column;
   width:100%;
-  height:90%;
+  height:auto;
+  row-gap:1em;
+  background-color: var(--color-orange-main);
+  border-radius:16px;
 }
-#doorName{
-  margin-bottom:0.5em;
-}
-@media (max-width:768px){#doorSelectCarousel{height:70%;width:100%}}
-@media (max-width:468px), (min-height:1100px){#doorSelectCarousel{height:50%;width:100%}}
-#doorSelectInner {
-  /*border: 2px solid purple;*/
-  width:100%;
-  height:100%;
+#doorSelectInner{
+  position:relative;
+  width:97%;
+  border-radius:16px;
 }
 #doorSelectCarouselItem{
-  width:100%;
-  height:100%;
-  /*border: 2px solid blue;*/
+
+}
+#doorSelectCarouselItem > h1{
+  height:3.5rem;
+}
+@media(min-width:1024px){
+  #doorSelectCarousel{
+    width:90%;
+  }
+    #doorSelectInner{
+    position:relative;
+    width:80%;
+  }
+  #centering-div{
+    background: rgba(0, 0, 0, 0.3)
+  }
+}
+#doorName{
+   /* padding:0.25em 0 0.25em; */
 }
 #doorSelectCarouselItem img {
   border-radius:16px;
-  outline:2px solid black;
-  width:98%;
-  height:75%;
+  border:3px solid black;
 }
-#prevDoor,#nextDoor {
-  height: 2rem;                 
-  width: 2rem;
-  top: 55%;                     
-  transform: translateY(-50%); 
-  background-color: var(--color-grey); 
-  border-radius: 50%; 
+#prevDoor,#nextDoor {     
+  width: 15%;   
+  top:3.5rem;            
+  color: orange;
+  border-radius: 16px;
+  background-color: var(--color-grey);  
+  opacity:0.1;
+  transition:0.2s;
 }
-#prevDoor { left: 1rem;}
-#nextDoor {right: 1rem;}
+
 #prevDoor > span,
-#nextDoor > span {         
-  height:80%;
-  width:80%;   
+#nextDoor > span{
+  border-radius:16px;
+  padding:2em;
 }
-@media (max-width:768px){
-  #prevDoor { left: 0.5rem;}
-  #nextDoor {right: 0.5rem;}
-}
-#prevDoor > span::before, #nextDoor > span::before { opacity: 0.2;}
-/* Override the Bootstrap buttons so they don’t stretch full height */
-.carousel-indicators{
-  display: flex;             
-  justify-content: center;    
-  align-items: center;       
-  gap: 0.5em;               
-  width: 100%;
-  margin: 0;                 
-  right: 0;
-  left: 0;
-}
-@media (max-height:720px){.carousel-indicators{margin-bottom:0;} }
-
-#slide-btn{
-  background-color: black;
-  border-radius: 0;
-  height: 2vh;
-  width:15%;
-}
-#btns{
-  display:flex;
+.carousel-indicators {
+  position: static;      
+  display: flex;
   justify-content: center;
-  align-items: center;
-  width:90%;
-  margin-top:0.5em;
-  gap:0.5rem;
-}
-#btns > a:first-child{width:35%;}
-#btns > a:last-child{width:65%;}
-#back-btn{
-  background-color:var(--color-yellow);
-  color:black;
-  margin:0.25em 0 0;
-  font-weight:600;
-  width:100%;
+  gap: 0.5em;
   margin:0;
 }
-#build-door-btn{
-  background-color:var(--color-grey);
-  color:white;
-  margin:0.25em 0 0;
-  font-weight:600;
-  width:100%;
-  margin:0;
+.carousel-indicators > .slide-btn{
+  height:3vh;
+  width:15%;
+  background-color: black;
 }
-@media (max-width:500px){#build-door-btn{width:100%}}
-#back-btn:hover{
-  background-color: var(  --color-orange-dark);
-  transform:scale(1.02);
-  transition:0.1s;
+#centering-div > .btns{
 }
-#build-door-btn:hover{
-  background-color: var(  --color-orange-dark);
-  transform:scale(1.02);
-  transition:0.1s;
-}
-

@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect,useRef} from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
 import './css/DoorSelector.css'
 import Build from './Build.jsx'
@@ -359,6 +359,10 @@ designs:{"Shaker":stampedShakerDesign},
 
 function DoorSelector({handleDoorSelection,doorType}) {
   const [doorIndex, setDoorIndex] = useState(0)
+  const carouselRef = useRef(null);
+  const headerRef = useRef(null);
+  const [buttonOffset, setButtonOffset] = useState(0);
+  const [ready, setReady] = useState(false);
   var Doors;
   switch(doorType){
     case("traditional"): Doors = traditionalDoors
@@ -369,28 +373,35 @@ function DoorSelector({handleDoorSelection,doorType}) {
     break;
   }
   const doorName = Doors[doorIndex].name.replace(/ /g, '_').toLowerCase()
-useEffect(() => {
-    console.log("INSIDE USEEFFECT")
-    //Runs after render. This React hoook is used to handle interactions after everything in the component has rendered
-    //React strictmode calls this twice for bug detecton(not in production builds), as such this creat two event listeners 
-    const carousel = document.getElementById("doorSelectCarousel");
-    const handleSlide = (event) => {
-      console.log("EVENT:",  event)
-      const newIndex = event.to;
-      setDoorIndex(newIndex);
-      /*alert("Changed to door index: " + newIndex);*/
-    };
+  useEffect(() => {
+      console.log("INSIDE USEEFFECT")
+      //Runs after render. This React hoook is used to handle interactions after everything in the component has rendered
+      //React strictmode calls this twice for bug detecton(not in production builds), as such this creat two event listeners 
+      const carousel = document.getElementById("doorSelectCarousel");
+      const handleSlide = (event) => {
+        console.log("EVENT:",  event)
+        const newIndex = event.to;
+        setDoorIndex(newIndex);
+        /*alert("Changed to door index: " + newIndex);*/
+      };
 
-    if (carousel) {
-      carousel.addEventListener("slid.bs.carousel", handleSlide);
-    }
-    //the return is optional and is the "cleanup function", react runs this upon the second useEffect call
-    return () => {
-      if (carousel) {//By remvoing the listener, you avoid the double behavior in strictMode
-        carousel.removeEventListener("slid.bs.carousel", handleSlide);
+      if (carousel) {
+        carousel.addEventListener("slid.bs.carousel", handleSlide);
       }
-    };
-  }, []);
+      //the return is optional and is the "cleanup function", react runs this upon the second useEffect call
+      return () => {
+        if (carousel) {//By remvoing the listener, you avoid the double behavior in strictMode
+          carousel.removeEventListener("slid.bs.carousel", handleSlide);
+        }
+      };
+    }, []);
+  useEffect(() => {
+    if (headerRef.current) {
+      setButtonOffset(headerRef.current.offsetHeight);
+      //alert(ready)
+        setReady(true)
+    }
+  }, []); // run once on mount; you can also run on resize
   const handleBuildBtn = () =>{
     handleDoorSelection(Doors[doorIndex]) 
   }
@@ -400,48 +411,49 @@ useEffect(() => {
   for (let i = 0; i < Doors.length; i++) {
     doorElements.push(
       <div className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i} id="doorSelectCarouselItem">
-        <h1 id="doorName">{Doors[i].name}</h1>
-        <img src={Doors[i].defaultImg}  alt={Doors[i].name} />
+        <h1 id="doorName" ref={i === 0 ? headerRef : null}>{Doors[i].name}</h1>
+        <img src={Doors[i].defaultImg}  className="img-fluid" alt={Doors[i].name} />
       </div>
     );
   }
+  console.log("IS READY?: ",ready)
 
   return (
   <div id="centering-div">
     <div id="doorSelectCarousel" className="carousel slide">
       <div className="carousel-inner" id="doorSelectInner">
         {doorElements}
-      </div>
-
-      <button id="prevDoor"className="carousel-control-prev" type="button" data-bs-target="#doorSelectCarousel" data-bs-slide="prev" >
+        <button id="prevDoor"className="carousel-control-prev" type="button" data-bs-target="#doorSelectCarousel" data-bs-slide="prev" 
+                 >
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
-      </button>
+        </button>
 
-      <button id="nextDoor"className="carousel-control-next" type="button" data-bs-target="#doorSelectCarousel" data-bs-slide="next" >
-        <span id="btn"className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span id="btn2"className="visually-hidden">Next</span>
-      </button>
+        <button id="nextDoor"className="carousel-control-next" type="button" data-bs-target="#doorSelectCarousel" data-bs-slide="next"
+                >
+          <span id="btn"className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span id="btn2"className="visually-hidden">Next</span>
+        </button>
+      </div>
       <div className="carousel-indicators" id="indicatorDiv">
         {Doors.map((_, i) => (
           <button
-            id='slide-btn'
             key={i}
             type="button"
             data-bs-target="#doorSelectCarousel"
             data-bs-slide-to={i}
-            className={i === 0 ? "active" : ""}
+            className={`slide-btn ${i === 0 ? "active" : ""}`}
             aria-current={i === 0}
             aria-label={Doors[i].name}
           /> ))}
       </div>
     </div>
-    <div id="btns">
+    <div className="btns">
       <Link to={`/`}>
-        <button id="back-btn" onClick={handleBuildBtn}>Back</button>
+        <button className="back-btn" onClick={handleBuildBtn}>Back</button>
       </Link>
       <Link to={`/${doorType}/${doorName}/build`}>
-        <button id="build-door-btn" onClick={handleBuildBtn}>Build</button>
+        <button className="continue-btn" onClick={handleBuildBtn}>Build</button>
       </Link>
     </div>
   </div>

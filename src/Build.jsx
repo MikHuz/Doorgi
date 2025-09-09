@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link,useLocation} from 'react-router-dom';
 import './css/Build.css'
 import DoorSelector from "./DoorSelector.jsx";
 import doorgiLogo from '/logo.png'
@@ -26,6 +26,7 @@ function Windows(props){
     props.handleWindow(glass,glassType,selectedInsert,position)
   }
   const handleShowWindows = (e)=>{/*Handles the Show Window Checkbox*/
+    props.showWindows(!showWindows)
     setShowWindows(!showWindows)
     setShowInserts(false)
     setSelectedWindow(null)
@@ -184,6 +185,7 @@ function Designs(props){
   {designDivs}
  </div>)
 }
+
 function PersistentState(key,defaultDoor){
   if (defaultDoor){
     /*alert("Setting door")*/
@@ -200,6 +202,7 @@ function PersistentState(key,defaultDoor){
 }
 export default function Build(props) {
   const selectedDoor = PersistentState("selectedDoor",props.selectedDoor)
+  console.log(props)
  // console.log("DESIGNS OF CURRENT DOOR",selectedDoor.designs)
   const [Price, setPrice] = useState(1000)
   const [Size,setSize] = useState("Double")
@@ -208,9 +211,11 @@ export default function Build(props) {
   const [Color, setColor] = useState(selectedDoor.defaultColor)
   const [colorType,setColorType] = useState(Color in selectedDoor.colors? "Solid Color":"Accents Woodtones")
   const [windowPosition, setWindowPosition] = useState(null)
+  const [browseWindows, setBrowseWindows] = useState(false)
   const [Glass, setGlass] = useState(null)
   const [glassType,setGlassType] = useState("Glass")
   const [windowInserts, setWindowInserts] = useState(null)
+  const [doorValid, setDoorValid] = useState(false)
   const [loading,setLoading] = useState(false);
   const rwd = selectedDoor.rwd
   const URL = "https://chi-api.renoworks.com/RenderGrid"
@@ -268,6 +273,23 @@ export default function Build(props) {
       document.body.classList.remove('build-page');
     };
   }, []);
+  useEffect(()=>{
+    console.log("Checking if door is valid")
+    console.log(Glass,glassType,windowInserts,windowPosition)
+    if (Size != "" && Color!= "" && Design!= ""){
+      console.log("Inside color check, browseWindows:",browseWindows)
+      if (browseWindows && Glass!= null && glassType!=null&&  windowInserts!= null && windowPosition!= null){
+        console.log("VALID WINDOW DOOR")
+        setDoorValid(true)
+        return;
+      }
+      else if(browseWindows){setDoorValid(false); return}
+      setDoorValid(true)
+    }
+    else{
+      setDoorValid(false)
+    }
+  })
   const getPattern = (size, design)=>{
     let key = selectedDoor.id + size +design.replace(/ /g, '');;
     console.log("Pattern key: ",key)
@@ -292,8 +314,10 @@ export default function Build(props) {
     setColor(userColor)
     setColorType(type)
     setLoading(true)
-    fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not "type"*/
+    fetchDoor(getPattern(Size,Design),{[type]:userColor})/*Inject actual value as the key, not literally "type"*/
   }
+
+  const showWindows = (browseWindows)=>{setBrowseWindows(browseWindows)}/*Indicates that windows are selected for door validity*/
   const handleWindow= (glass,glassType,insert,position)=>{
     console.log("INSIDE HANLDE GLASS:",glass)
     setGlass(glass)
@@ -386,10 +410,17 @@ export default function Build(props) {
   return (
   <div id="build-page-grid">
     <div id="door-section">
-      <h2 style={{fontSize: selectedDoor.name.length > 14 && "1.3rem"}}>
+      <h2>
         {selectedDoor.name}</h2>
       <img src={loading ? doorgiLogo:Image} className={`${loading ? "loading-style" : ""}`} />
       {!loading ? <h2>Price: ${Price} </h2>:<h2>Loading...</h2>} 
+       <div className="btns">
+           <Link to={`/${props.doorType}`}>
+             <button className="back-btn" >Back</button>
+           </Link>
+            <button className={`continue-btn ${doorValid ? "" : "disabled-btn"}`}>Continue</button>
+           
+         </div>
     </div>
     <div id="options-section">
       <div id="size-container"> 
@@ -399,7 +430,7 @@ export default function Build(props) {
       </div>
       <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/>
       {Color &&<Colors handleColor={handleColor} colors={selectedDoor.colors} woods={selectedDoor.woods}/>}
-      <Windows door ={selectedDoor.id} handleWindow ={handleWindow} windows={selectedDoor.windows}/>
+      <Windows door ={selectedDoor.id} handleWindow ={handleWindow} showWindows={showWindows} windows={selectedDoor.windows}/>
     </div>
   </div>
   );

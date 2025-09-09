@@ -1,0 +1,76 @@
+#doorSelectCarousel{
+  /*border:2px solid white;*/
+  width:90%;
+  height:95%;
+  background-color: var(--color-orange-main);
+  border-radius:8%;
+}
+#doorName{
+  margin-bottom:0.5em;
+}
+@media (max-width:768px){#doorSelectCarousel{height:50%;width:100%}}
+@media (max-width:468px), (min-height:1100px){#doorSelectCarousel{height:40%;width:100%}}
+@media (max-width:468px), (min-height:1100px){#doorSelectCarousel{height:40%;width:100%}}
+#doorSelectInner {
+  /*border: 2px solid purple;*/
+  width:100%;
+  height:100%;
+}
+#doorSelectCarouselItem{
+  width:100%;
+  height:100%;
+  /*border: 2px solid blue;*/
+}
+#doorSelectCarouselItem img {
+  border-radius:16px;
+  outline:2px solid black;
+  width:98%;
+  height:75%;
+}
+#prevDoor,#nextDoor {
+  /* height: 4rem;                 
+  width: 4rem;
+  top: 55%;                     
+  transform: translateY(-50%);  */
+  /* background-color: var(--color-grey);   */
+}
+/* #prevDoor { left: 1rem;} 
+#nextDoor {right: 1rem;} */
+#prevDoor > span,
+#nextDoor > span {         
+  height:80%;
+  width:100%;   
+} 
+@media (max-width:768px){
+  /* #prevDoor { left: 0.5rem;}
+  #nextDoor {right: 0.5rem;} */
+}
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%;          /* default width */
+  display: flex;
+  align-items: center;  /* vertically center */
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  opacity: 1;
+  transition: 0.15s ease;
+  z-index: 2;          /* above slides */
+}
+#prevDoor > span::before, #nextDoor > span::before { opacity: 0.2;}
+
+/* Override the Bootstrap buttons so they don’t stretch full height */
+.carousel-indicators{
+  display: flex;             
+  justify-content: center;    
+  align-items: center;       
+  gap: 0.5em;               
+  width: 100%;
+  margin: 0;                 
+  right: 0;
+  left: 0;
+}
+@media (max-height:720px){.carousel-indicators{margin-bottom:0;} }

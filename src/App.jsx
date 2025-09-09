@@ -102,7 +102,7 @@ function Footer(){
 
 function App() {
   const [selectedDoor,setSelectedDoor] = useState(null)
-  const handleDoorSelection = (door) =>{setSelectedDoor(door)}
+  const handleDoorSelection = (door) =>{setSelectedDoor(door);}
   const doorTypes = {traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
                     contemporary:["sterling","planks","skyline_flush","aluminum"],
                     carriage:["shoreline","overlay_shoreline"]}
@@ -111,10 +111,10 @@ function App() {
     generatedRoutes.push(<Route path={`${type}/`} 
     element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type}/>} />)
     for (const doorName of doorTypes[type]){/*Route for doorType/doorName*/
-      generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} />} />)
+      generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
     }
   }
-  //console.log(generatedRoutes)
+  console.log("ROUTES:", generatedRoutes)
   return (<>
   {/*<Header/>*/}
   <Routes>
