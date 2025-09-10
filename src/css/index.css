@@ -1,4 +1,4 @@
-/* Site Wide CSS rules and default browser overwrites */
+/* Global CSS rules and browser overwrites */
 :root {
   /* Colors */
   --color-orange-main:  #fe8939; /* Main Doorgi Orange */
@@ -22,7 +22,6 @@
 .bg-grey           { background-color: var(--color-grey); }
 .bg-browser-orange { background-color: var(--color-browser-orange); }
 
-
 .text-main           { color: var(--color-orange-main); }
 .text-dark           { color: var(--color-orange-dark); }
 .text-light          { color: var(--color-orange-light); }
@@ -30,6 +29,17 @@
 .text-grey           { color: var(--color-grey); }
 .text-browser-orange { color: var(--color-browser-orange); }
 
+::-webkit-scrollbar {
+  width: 14px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-grey)
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-orange-main);
+  border: 2px solid black;;
+  border-radius: 8px;
+}
 *,
 *::before,
 *::after {
@@ -52,9 +62,17 @@ body {
   min-height: 100vh;
   color: black;
   background-color: var(--color-orange-main);
+  font-family:'Courier New', Courier, monospace
+}
+.page-fade {
+  animation: fadeIn 0.6s ease-in-out forwards;
 }
 
-h1, h2, h3, h4, h5, h6,p{margin: 0;padding: 0; font-weight:400;}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+h1, h2, h3, h4, h5, h6,p{margin: 0;padding: 0; font-weight:600;}
 h1, h2{font-weight:600}
 p{font-size:1em;font-weight:600}
 span {
@@ -86,14 +104,51 @@ input[type="checkbox"] {
   width: 1.5em;  
   height: 1.5em;
   cursor:pointer;
-  accent-color: var(--color-grey)
+  accent-color: var(--color-yellow)
 }
+input[type="radio"] {
+  width: 1.5em;
+  height: 1.5em;
+}
+input[type="radio"]:disabled {
+  cursor: not-allowed; 
+}
+/* input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  display: flex;              
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="radio"]:checked::after {
+  content: '';
+  width: 0.75rem;
+  height:0.75rem;
+  background-color: var(--color-yellow);
+  border-radius: 50%;
+}
+
+input[type="radio"]:hover {
+  border-color: var(--color-yellow);
+}
+
+input[type="radio"]:focus {
+} */
 .attention{
   text-decoration: underline;
   cursor:pointer;
 }
+
 .attention:hover{transform:scale(1.05)}
-.bolder{font-weight:500}
+.bolder{font-weight:600}
 
 .btns{
   display:flex;

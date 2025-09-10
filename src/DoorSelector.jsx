@@ -2,6 +2,8 @@ import { useState, useEffect,useRef} from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
 import './css/DoorSelector.css'
 import Build from './Build.jsx'
+
+
 /*Traditional Doors*/
 import RaisedPanel from './assets/door_imgs/traditional/Raised_Panel.jpg';
 import StampedCarriage from './assets/door_imgs/traditional/Stamped_Carriage_House.jpg';
@@ -14,6 +16,7 @@ import shortPanelStamped from './assets/Designs/traditional/Stamped_Carriage_Sho
 import longPanelStamped from './assets/Designs/traditional/Stamped_Carriage_Long.jpg'
 import stampedShakerDesign from './assets/Designs/traditional/Stamped_Shaker.jpg'
 import flush from './assets/Designs/contemporary/Flush.jpg'
+
 /*Contemporary Doors*/
 import Sterling  from './assets/door_imgs/contemporary/Sterling.jpg'
 import Planks from './assets/door_imgs/contemporary/Planks.jpg'
@@ -24,6 +27,7 @@ import shortWindows from './assets/Designs/contemporary/No_Or_Short_Windows.jpg'
 import longWindows from './assets/Designs/contemporary/Long_Windows.jpg'
 import overSizedWindows from './assets/Designs/contemporary/Oversized_Windows.jpg'
 import fullView from './assets/Designs/contemporary/Full_View_Aluminum.jpg'
+
 /*Carriage Doors */
 import Shoreline from './assets/door_imgs/carriage/Shoreline.jpg'
 /*Carriage Designs*/
@@ -31,6 +35,7 @@ import tenA from './assets/Designs/carriage/10A.jpg'
 import elevenA from './assets/Designs/carriage/11A.jpg'
 import twelveA from './assets/Designs/carriage/12A.jpg'
 import thiryThreeA from './assets/Designs/carriage/33A.jpg'
+
 /*Wood Types*/
 import cedar from './assets/Colors/woods/accents-cedar.jpg';
 import carbon from './assets/Colors/woods/accents-carbonOak.jpg';
@@ -47,6 +52,7 @@ import obscure from './assets/Glass/Thumb_Obscure.jpg'
 import frosted from './assets/Glass/Thumb_Frosted.jpg'
 import glueChips from './assets/Glass/Thumb_GlueChips.jpg'
 import seeded from './assets/Glass/Thumb_Seeded.jpg'
+
 /*Designer Glass*/
 import raisedTemple from './assets/Designer_Glass/short_Temple.png'
 import raisedNewPort from './assets/Designer_Glass/short_Newport.png'
@@ -68,10 +74,23 @@ import waterton from './assets/Inserts/waterton-long.jpg'
 import madison from './assets/Inserts/madison-long.jpg'
 import cascade from './assets/Inserts/cascade-long.jpg'
 import cathedral from './assets/Inserts/cathedral-short.jpg'
+
+/*Insulation */
+import standardRaisedPanel from './assets/Insulation/traditional/raised/standard/2250_shortPanel.jpg' 
+import premiumRaisedPanel from './assets/Insulation/traditional/raised/premium/2283_shortPanel.jpg' 
+import standardStampedCarriage from './assets/Insulation/traditional/stampedCarriage/standard/5250_shortCarriage.jpg' 
+import premiumStampedCarriage  from './assets/Insulation/traditional/stampedCarriage/premium/5283_shortCarriage.jpg'
+import standardStampedShaker from './assets/Insulation/traditional/stampedShaker/standard/2550_stampedShaker.jpg'
+import premiumStampedShaker from './assets/Insulation/traditional/stampedShaker/premium/2583_stampedShaker.jpg'
+import premiumRecessed from './assets/Insulation/traditional/recessed/premium/2298_recessedShort.jpg'
+
+import premiumSterling from './assets/Insulation/contemporary/sterling/2783_sterling.jpg'
+import standardPlank from  './assets/Insulation/traditional/raised/standard/2250_shortPanel.jpg'
+import premiumPlank from  './assets/Insulation/contemporary/planks/premium/2328_short.jpg'
 const traditionalDoors=[
 {name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"Almond",rwd:"CHI_Raised.rwd",
- colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"/*,"Ever Green":"#114c36"*/},
-woods: {
+  colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"/*,"Ever Green":"#114c36"*/},
+  woods: {
   Cedar: cedar,
   "Carbon Oak": carbon,
   "Natural Oak": natural,
@@ -79,9 +98,11 @@ woods: {
   Mahogany: mahogany,
   Driftwood: driftwood,
   Walnut: walnut
-},
- designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised},
- windows:{
+  },
+  designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised},
+  Insulation:{"StandardImg":standardRaisedPanel,"Standard":{"Short Panel":2250,"Long Panel":4250}, 
+              "PremiumImg": premiumRaisedPanel, Premium:{"Short Panel":2283,"Long Panel":4283}},
+  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     designerGlass: {
@@ -92,7 +113,7 @@ woods: {
     "Hawthorne Brass": raisedHawthorneBrass,
     "Hawthorne Platinum": raisedHawthornePlat
     },
-   inserts: {
+    inserts: {
     "No Inserts": noInserts,
     Prairie: prarire,
     Sherwood: sherwood,
@@ -106,10 +127,12 @@ woods: {
   }
 },
 {name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
- colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
+  colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
   woods: null,
- designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush,},
- windows:{
+  designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush,},
+  Insulation:{"StandardImg":standardRaisedPanel, "Standard":null, 
+              "PremiumImg": premiumRecessed, Premium:{"Short Panel":2298,"Long Panel":2294,"Flush":2291}},
+  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     designerGlass: null,
@@ -122,8 +145,8 @@ woods: {
   }
 },
 {name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"Brown",rwd:"CHI_StampedCarriageHouse.rwd",
-colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods: {
+  colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+  woods: {
   Cedar: cedar,
   "Carbon Oak": carbon,
   "Natural Oak": natural,
@@ -131,13 +154,15 @@ woods: {
   Mahogany: mahogany,
   Driftwood: driftwood,
   Walnut: walnut
-}, 
-designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
- windows:{
+  }, 
+  designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
+  Insulation:{"StandardImg": standardStampedCarriage,"Standard":{"Short Panel":5250, "Long Panel":5950}, 
+              "PremiumImg": premiumStampedCarriage, "Premium":{"Short Panel":5283,"Long Panel":5983,}},
+  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
     designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
-       inserts: {
+    inserts: {
     "No Inserts": noInserts,
     Prairie: prarire,
     Sherwood: sherwood,
@@ -150,18 +175,20 @@ designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
   }
 },
 {name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"Gray",rwd:"CHI_StampedShaker.rwd",
-colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods: {
-  Cedar: cedar,
-  "Carbon Oak": carbon,
-  "Natural Oak": natural,
-  "Dark Oak": darkOak,
-  Mahogany: mahogany,
-  Driftwood: driftwood,
-  Walnut: walnut
-}, 
-designs:{"Shaker":stampedShakerDesign},
- windows:{
+  colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+  woods: {
+    Cedar: cedar,
+    "Carbon Oak": carbon,
+    "Natural Oak": natural,
+    "Dark Oak": darkOak,
+    Mahogany: mahogany,
+    Driftwood: driftwood,
+    Walnut: walnut
+  }, 
+  designs:{"Shaker":stampedShakerDesign},
+  Insulation:{"StandardImg": standardStampedShaker,"Standard":{"Shaker":2550}, 
+              "PremiumImg": premiumStampedShaker, "Premium":{"Shaker":2583}},
+  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
     designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
@@ -175,26 +202,28 @@ designs:{"Shaker":stampedShakerDesign},
     Madison: madison,
     Cascade: cascade
   }
-  },
-  hardware:{}
+},
+hardware:{}
 }]
 
 const contemporaryDoors = [
 {name:"Sterling",defaultImg:Sterling,id:"Sterling",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Sterling.rwd",
-colors:{"Bone White":"#F8F4EC","Sandstone":"#E8E4d4",Almond:"#E8dCC4","Medium Bronze":"#584C3C",Charcoal:"#404444","Slate Gray":"#807c74","Deep Black":"#281c24", "Hartford Green":"#283c3c"},
-woods:null,
-designs:{Flush:flush},
- windows:{
+  colors:{"Bone White":"#F8F4EC","Sandstone":"#E8E4d4",Almond:"#E8dCC4","Medium Bronze":"#584C3C",Charcoal:"#404444","Slate Gray":"#807c74","Deep Black":"#281c24", "Hartford Green":"#283c3c"},
+  woods:null,
+  designs:{Flush:flush},
+  Insulation:{"StandardImg": standardStampedShaker,"Standard":null, 
+              "PremiumImg": premiumSterling, "Premium":{"Flush":2783}},
+  windows:{
     position:{},
     glass:{"Tinted": tinted},
     designerGlass:null,
-   inserts:null,
+  inserts:null,
   hardware:null
   }
 },
 {name:"Planks",defaultImg:Planks,id:"Planks",defaultDesign:"No Or Short Windows",defaultColor:"Cedar",rwd:"CHI_Planks.rwd",
-colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods:{
+  colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
+  woods:{
   Cedar: cedar,
   "Carbon Oak": carbon,
   "Natural Oak": natural,
@@ -202,9 +231,11 @@ woods:{
   Mahogany: mahogany,
   Driftwood: driftwood,
   Walnut: walnut
-},
-designs:{"No Or Short Windows":shortWindows ,"Long Windows":longWindows,"Oversized Windows":overSizedWindows},
- windows:{
+  },
+  designs:{"No Or Short Windows":shortWindows ,"Long Windows":longWindows,"Oversized Windows":overSizedWindows},
+  Insulation:{"StandardImg": standardPlank,"Standard":null, 
+              "PremiumImg": premiumPlank, "Premium":{"No Or Short Windows":2327, "Long Windows":2347}},
+  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     designerGlass:{  
@@ -215,15 +246,15 @@ designs:{"No Or Short Windows":shortWindows ,"Long Windows":longWindows,"Oversiz
       "Hawthorne Brass": raisedHawthorneBrass,
       "Hawthorne Platinum": raisedHawthornePlat},
     inserts: {
-    "No Inserts": noInserts,
-    Prairie: prarire,
-    Sherwood: sherwood,
-    Stockton: stockton,
-    Sunburst: sunburst,
-    Waterton: waterton,
-    Cathedral: cathedral,
-    Cascade: cascade
-  }
+      "No Inserts": noInserts,
+      Prairie: prarire,
+      Sherwood: sherwood,
+      Stockton: stockton,
+      Sunburst: sunburst,
+      Waterton: waterton,
+      Cathedral: cathedral,
+      Cascade: cascade
+    }
   }
 },
 {name:"Skyline Flush",defaultImg:SkylineFlush,id:"SkylineFlush",defaultDesign:"No Or Short Windows",defaultColor:"Natural Oak",rwd:"CHI_SkylineFlush.rwd",

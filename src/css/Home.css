@@ -3,20 +3,24 @@
 /* #ffae69 Light Doorgi Orange */
 /* #ffc533 Doorgi Yellow */
 /* #463c3f Doorgi Grey */
+
 /* Homepage */
 .home-header{
-  margin-bottom:0.25em;
-  
+  margin-bottom:0.75rem;
   text-align:center;
 }
 .homeCarousel{
-  width:85%;
-  height:70vh;
+  width:95%;
+  height: clamp(230px, 50vw, 500px);
+  /* max-height:280px; */
   margin:0 auto;
   outline:2px solid black;
   border-radius: 8px;
 }
-@media (min-height:1150px){
+ @media (min-width:900px){
+.homeCarousel{width:75%;height:35vw}
+}  
+/* @media (min-height:1150px){
 .homeCarousel{width:90%;height:35vh;}
 }
 @media (max-width:768px){
@@ -24,7 +28,7 @@
 }
 @media (max-width:450px){
 .homeCarousel{width:95%;height:35vh;}
-}
+} */
 #homeCarouselInner{
   width:100%;
   height:100%;
@@ -46,15 +50,17 @@
 .carousel-control-prev, .carousel-control-next{border-radius: 8px}
 .carousel-control-prev:hover,.carousel-control-next:hover {background-color: rgba(70, 60, 63, 0.15); }
 #view-btn-link{
-  display: block;     /* make button block-level */
+  display: block;    
   text-align:center;
 }
 #view-doors-type-btn {
   background-color:var(--color-grey);
   color:whitesmoke; 
-  margin:0.75em 0.75em;
+  margin:1rem 1rem;
   font-weight:600;
-  min-width:50%;
+  font-size:1.2em;
+  min-width:60%;
+  min-height:2em;
 }
 #view-doors-type-btn:hover{
   background-color: var(  --color-orange-dark);

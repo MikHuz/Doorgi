@@ -1,15 +1,14 @@
-import { useState, useEffect} from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect,useRef} from 'react'
+import { Routes, Route, Link,useLocation} from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import DoorSelector from "./DoorSelector.jsx";
+import {getDoors} from './door_data.jsx'
 import Build from './Build.jsx'
 import './css/Home.css'
 import './css/index.css'
-import door from './assets/door_imgs/door.jpg';
-import door2 from './assets/door_imgs/door2.jfif';
-import door3 from './assets/door_imgs/door3.jpg';
-import door4 from './assets/door_imgs/door4.jpg';
-import door5 from './assets/door_imgs/door5.jpg';
-let doors=[door,door2,door3,door4,door5]/*Will need to be replaced with actual door images*/
+let tradDoors = getDoors('traditional')
+let contDoors = getDoors('contemporary')
+let carrDoors = getDoors('carriage')
 
 /*Two Placeholder components may be deleted*/
 function Traditional(){
@@ -32,7 +31,7 @@ function SlideShow(props){ /*Slideshow for each doorType carousel*/
         });*/
       }
   }, [props.id]);
-  let doorElements = doors.map((imgSrc, i) => (
+  let doorElements = props.doors.map((imgSrc, i) => (
     <div id="homeItemSlide" className={`carousel-item ${i === 0 ? 'active' : ''} `} key={i}>
       <img src={imgSrc} className="d-block w-100" alt={`Garage door ${i + 1}`} />
       {/*<div class="carousel-caption" style={{bottom:"0px"}}>
@@ -75,19 +74,19 @@ function HomePage() {
       <button>Click Me</button>
     </div>
     <h2 className="home-header">Traditional</h2>
-    <SlideShow id="Carousel-trad" />
+    <SlideShow id="Carousel-trad"  doors={tradDoors}/>
     <Link id="view-btn-link"to="/traditional">
       <button id="view-doors-type-btn" style={{}}>View Traditional Doors</button>
     </Link>
     
     <h2  className="home-header">Contemporary</h2>
-    <SlideShow id="Carousel-cont" />
+    <SlideShow id="Carousel-cont" doors={contDoors}/>
     <Link id="view-btn-link" to="/contemporary">
       <button id="view-doors-type-btn" style={{}}>View Contemporary Doors</button>
     </Link>
     
     <h2  className="home-header">Carriage</h2>
-    <SlideShow id="Carousel-carriage" />
+    <SlideShow id="Carousel-carriage"  doors={carrDoors}/>
     <Link id="view-btn-link" to="/carriage">
       <button id="view-doors-type-btn" style={{}}>View Carriage Doors</button>
     </Link>
@@ -102,6 +101,8 @@ function Footer(){
 
 function App() {
   const [selectedDoor,setSelectedDoor] = useState(null)
+  const nodeRef = useRef(null); 
+  const location = useLocation();
   const handleDoorSelection = (door) =>{setSelectedDoor(door);}
   const doorTypes = {traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
                     contemporary:["sterling","planks","skyline_flush","aluminum"],
@@ -114,13 +115,22 @@ function App() {
       generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
     }
   }
-  console.log("ROUTES:", generatedRoutes)
+  //console.log("ROUTES:", generatedRoutes)
+  useEffect(() => {
+    //alert("Changing page")
+    document.body.classList.add("page-fade");
+    const timeout = setTimeout(() => {
+      document.body.classList.remove("page-fade");
+    }, 600);
+
+    return () => clearTimeout(timeout);
+  }, [location.pathname]);
   return (<>
   {/*<Header/>*/}
-  <Routes>
-    <Route path="/" element={<HomePage />} />
-    {generatedRoutes}
-  </Routes>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      {generatedRoutes}
+    </Routes>
   {/*<Footer/>*/}
   </>);
 }
