@@ -106,7 +106,7 @@ function App() {
   const handleDoorSelection = (door) =>{setSelectedDoor(door);}
   const doorTypes = {traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
                     contemporary:["sterling","planks","skyline_flush","aluminum"],
-                    carriage:["shoreline","overlay_shoreline"]}
+                    carriage:["shoreline","overlay_shoreline", "steel_overlay","stamped_carriage_house","stamped_shaker","recessed_panel"]}
   let generatedRoutes = []
   for (const type in doorTypes){/*Route for each door type*/
     generatedRoutes.push(<Route path={`${type}/`} 
