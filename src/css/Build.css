@@ -66,20 +66,40 @@
   flex-wrap:wrap;  
   justify-content: center;
   row-gap:0.75em;
-  column-gap:1em;
+  column-gap:3em;
   background-color:var(--color-grey);
 }
+@media(min-width:1025px){
+  #size-container{column-gap: 1em;}
+}
 #size-container h2{margin-bottom:0;flex-basis:100%;}
-#size-container p{
-  flex:1 1 auto;
-  max-width:min(300px, 45%);
-  outline:2px solid black;
+.size-box{
+  flex:0 1 auto;
   border-radius:8px;
   transition:0.2s;
   cursor:pointer;
+  width:auto;
+  margin:0;
 }
+.size-box > img{
+  max-height:70px;
+  width:auto;
+}
+#size-container p{
+  outline:2px solid black;
+   border-radius:8px;
+   width:fit-content;
+   margin:0 auto;
+     margin-top:0.5em;
+     padding:0.25em;
+  /*flex:1 1 auto;
+  max-width:min(300px, 45%);
+  outline:2px solid black;
+  transition:0.2s;
+  cursor:pointer;*/
+} 
 @media(min-width:1025px){
-  #size-container p{font-size:0.75em}
+  #size-container p{font-size:0.8em}
 }
 #size-container p:not(.selected-size):hover{
   transform:scale(1.05);
@@ -268,9 +288,9 @@ li{text-align: left;}
   flex-direction:column;
   justify-content: center;
   row-gap:1em;
-  width:33%;
+  width:40%;
   aspect-ratio: 1;
-  max-width:200px;
+  max-width:220px;
   border-radius: 10%;
   outline:2px solid black;
   transition:0.2s;
@@ -278,32 +298,32 @@ li{text-align: left;}
   margin:0;
 }
 .window-box > h5{
-  flex: 1 0 auto;  /* fixed height */
+  flex: 0 0 auto;  /* fixed height */
   margin-top:0.5em;
 }
 .window-box > div{/*Actual Window image*/
 width:100%;
-height:6em;
+flex:1 1 0;
 border-radius: 10%;
 transition:0.2s;
 }
-
+@media(min-width:1025px){.window-box > h5 {font-size:0.70em;font-weight:900}}
 /*Window Inserts*/
 #inserts{
   display:flex;
   flex-wrap:wrap;
   justify-content: center;
-  column-gap:3em;
+  column-gap:1em;
   row-gap:1em;
-  padding:1em;
   background-color:var(--color-orange-light)
 }
 #inserts h2{flex-basis:100%;}
+@media(min-width:1025px){#inserts h2{font-size:1.3em}.insert-box > h5 {font-size:1em;}}
 .insert-box{
   display:flex;
   flex-direction:column;
   gap:1em;
-  width:40%;
+  width:25%;
   border-radius: 10%;
   transition:0.2s;
   margin:0;
@@ -311,7 +331,7 @@ transition:0.2s;
 
 .insert-box > h5{flex:1 0 auto}
 .insert-box > div{/*Actual insert image*/
-  height: clamp(40px, 6vw, 120px);
+  height: clamp(40px, 10vw, 120px);
   background-size:cover;
   background-repeat: no-repeat;
   background-position: center;

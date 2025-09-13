@@ -4,6 +4,8 @@ import './css/Build.css'
 import DoorSelector from "./DoorSelector.jsx";
 import doorgiLogo from '/logo.png'
 import RaisedPanel from './assets/door_imgs/traditional/Raised_Panel.jpg';
+import shortSize from './assets/door_imgs/carriage/Wood Overlay Short.jpg'
+import doubleSize from './assets/door_imgs/carriage/Wood Overlay.jpg'
 const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 function Colors(props) {
@@ -451,7 +453,7 @@ export default function Build(props) {
     setDesign(design)
     setLoading(true)
     if (Insulation!=""){
-      alert("Changing insulation from design")
+      //alert("Changing insulation from design")
       handleInsulation(InsulationType,design)
     }
     if (!selections["Design"]){markSelected("Design",true)}
@@ -624,8 +626,14 @@ export default function Build(props) {
     <div id="options-section">
       <div id="size-container"> 
         <h2>Size</h2>
-        <p className={`${selections["Size"]==true && Size === "Single" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Single")} >Single Door 8'X7'</p>
-        <p className={`${selections["Size"]==true && Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Double Door 16'X7'</p>
+        <div className='size-box'>
+          <img src={shortSize} className="img-fluid"/>
+          <p className={`${selections["Size"]==true && Size === "Single" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Single")} >Single Door 8'X7'</p>
+        </div>
+        <div className='size-box'>
+           <img src={doubleSize} className="img-fluid"/>
+          <p className={`${selections["Size"]==true && Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Double Door 16'X7'</p>
+        </div>
       </div>
       {selectedDoor.id != "Planks" && selectedDoor.id!= "SkylineFlush" &&
       (Object.keys(selectedDoor.designs).length > 1) ?/*Dont show designs if its only one design*/
