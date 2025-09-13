@@ -79,29 +79,52 @@ function Designs(props){
 }
 function Insulations(props){
   const { insulations, selectedInsulation, handleInsulationType } = props;
-  const [ showDialog,setShowDialog] = useState(false)
-   //console.log("Selected",selectedInsulation)
-   const handleDialog = (value)=>{
-      setShowDialog(value)
-   }
+  const [openDialog, setOpenDialog] = useState(null); 
+     //console.log("Selected",selectedInsulation)
+  const isDesktop = () => {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  };
+  const handleHover = (type) => {
+    if (isDesktop()) {
+      setOpenDialog(type);
+    }
+  };
+  const handleHoverLeave = (type) => {
+    if (isDesktop()) {
+      setOpenDialog(null); 
+    }
+  };
+  const toggleDialog = (type) => {
+    if (!isDesktop()){
+      setOpenDialog(type==openDialog ? null : type);/*For buttons clicks on mobile*/
+    }
+  };
+
   return (
-    <div id="insulation-opacity-box">
     <div id="insulation-container">
     <h2>Insulation</h2>
     <div className={`insulation-box ${insulations.Standard==null ? "void-box": ""}`}>
       <h3 className="insulation-header">
         Standard
         <button
-          className={`insulation-dialog-btn ${insulations.Standard==null ? "disabled-btn":""}`}
-          onClick={()=>handleDialog(true)}
+          className={`insulation-dialog-btn ${openDialog=="Standard"? "bg-orange-main": ""}`}
+          onMouseEnter={() => handleHover("Standard")}
+          onMouseLeave={() => handleHoverLeave("Standard")}
+          onClick={() => toggleDialog("Standard")}
           disabled={insulations.Standard==null ? true:false}
           >?</button>
-        <div className="insulation-dialog" style={{ display: showDialog ? 'block' : 'none' }}>
-          <p>Standard insulation details...</p>
-          <p>Standard insulation details...</p>
-          <p>Standard insulation details...</p>
-          <button onClick={()=>handleDialog(false)}>Close</button>
-        </div>
+
+        {openDialog === "Standard" && 
+        <div id="ins-standard-dialog" className="insulation-dialog">
+          <ul>
+            <li>No Insulation</li>
+            <li>No Thermal Rating</li>
+            <li>1 Sided Steel</li>
+            <li>Light Duty Steel</li>
+          </ul>
+          {/* <button onClick={closeDialog}>Close</button> */}
+        </div>}
+
       </h3>
       <img src={insulations.StandardImg}
            className={selectedInsulation === "Standard" ? "selected-ins" : ""}></img>
@@ -117,9 +140,24 @@ function Insulations(props){
       <h3 className="insulation-header">
         Premium
          <button
-          className="insulation-dialog-btn"
-          onClick={() => document.getElementById("premiumDialog").showModal()}
+          className={`insulation-dialog-btn ${openDialog=="Premium"? "bg-orange-main": ""}`}
+          onMouseEnter={() => handleHover("Premium")}
+          onMouseLeave={() => handleHoverLeave("Premium")}
+          onClick={() => toggleDialog("Premium")}
+          disabled={insulations.Premium==null ? true:false}
           >?</button>
+
+          {openDialog === "Premium" && 
+          <div id="ins-premium-dialog" className="insulation-dialog">
+          <ul>
+            <li>Good Insulation</li>
+            <li>Great Thermal Rating</li>
+            <li>2 Sided Steel</li>
+            <li>Medium Duty Steel</li>
+          </ul>
+          {/* <button onClick={closeDialog}>Close</button> */}
+        </div>}
+
       </h3>
       <img src={insulations.PremiumImg}  alt="Premium insulation"
           className={selectedInsulation === "Premium" ? "selected-ins" : ""}></img>
@@ -130,7 +168,6 @@ function Insulations(props){
         onChange={(e)=>handleInsulationType(e)}
       />
     </div>
-  </div>
   </div>
   )
 }
@@ -570,15 +607,6 @@ export default function Build(props) {
       setTimeout(() =>setLoading(false), 500 )
     });
   }
-  const dialogRef = useRef(null);
-
-  const openDialog = () => {
-    dialogRef.current.showModal();
-  };
-
-  const closeDialog = () => {
-    dialogRef.current.close();
-  };
   return (
   <div id="build-page-grid">
     <div id="door-section">
@@ -590,7 +618,7 @@ export default function Build(props) {
            <Link to={`/${props.doorType}`}>
              <button className="back-btn" >Back</button>
            </Link>
-            <button className={`continue-btn ${doorValid ? "" : "disabled-btn"}`}>Continue</button>
+            <button className={`continue-btn ${doorValid ? "" : "disabled-bt"}`} disabled={!doorValid}>Continue</button>
       </div>
     </div>
     <div id="options-section">

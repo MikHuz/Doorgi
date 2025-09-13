@@ -126,7 +126,7 @@
   justify-content: center;
   background-color:var(--color-grey);
   row-gap: 1em;
-  column-gap: 0em;
+  column-gap: 2em;
 }
 #insulation-container > h2{flex-basis:100%;}
 .insulation-box {
@@ -136,7 +136,7 @@
   align-items: center;
   row-gap: 0.5em;
   margin: 0;
-  width:10em;
+  width:9em;
   /* outline: 2px solid black; */
 }
 .insulation-box >h3{
@@ -160,21 +160,26 @@
   line-height: 1;
 }
 .insulation-dialog {
-  background-color: var(--color-orange-light);
-  border-radius:16px;
-  position: absolute;
-  top: 0;  
-  left: 90%;
-  z-index:5;   
+  background-color: var(--color-orange-main);
+  border-radius:8px;
+  position: absolute;   
   margin: 0;  
   font-size:0.6em;
+  padding:0.25em;
+  min-width: 13em;
+  white-space: nowrap;
+  top: 100%; 
 }
-.insulation-dialog > button{
-    font-size:0.6em;
+@media (min-width:1025px){
+#ins-premium-dialog{right:0;}
+#ins-standard-dialog{left:0;}
 }
-.insulation-dialog::after{
-  opacity:0.2;
+ul {
+  padding-left: 0;
+  list-style-position: inside; /* markers now count in the content box */
 }
+li{text-align: left;}
+.insulation-dialog > button{ font-size:0.6em;}
 .insulation-box > img {
   width: 100%; 
   height: auto;

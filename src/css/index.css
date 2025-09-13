@@ -15,9 +15,9 @@
   --space-lg: 1.5rem;  
   --space-xl: 2.5rem;  
 }
-
-.bg-orange-dark           { background-color: var(--color-orange-dark); }
-.bg-orange-light          { background-color: var(--color-orange-light); }
+.bg-orange-main    {background-color: var(--color-orange-main);}
+.bg-orange-dark    { background-color: var(--color-orange-dark); }
+.bg-orange-light   { background-color: var(--color-orange-light); }
 .bg-yellow         { background-color: var(--color-yellow); }
 .bg-grey           { background-color: var(--color-grey); }
 .bg-browser-orange { background-color: var(--color-browser-orange); }
@@ -86,19 +86,6 @@ span {
 button, input, select, textarea {
   font: inherit;cursor:pointer;
 }
-button {
-  font-size: 1rem;
-  font-family: sans-serif;
-  padding: var(--space-xs) var(--space-sm);
-  border: 2px solid black;
-  border-radius: 0.75rem;
-  cursor: pointer;
-  transition:0.1s 
-}
-button:hover {
-  transform: scale(1.05);
-  transition:0.1s;
-}
 img{
   display:block;
   max-width:100%;
@@ -113,38 +100,9 @@ input[type="radio"] {
   width: 1.5em;
   height: 1.5em;
 }
-input[type="radio"]:disabled {
-  cursor: not-allowed; 
+*:disabled {
+  cursor: default; 
 }
-/* input[type="radio"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 2px solid black;
-  border-radius: 50%;
-  cursor: pointer;
-  outline: none;
-  display: flex;              
-  align-items: center;
-  justify-content: center;
-}
-
-input[type="radio"]:checked::after {
-  content: '';
-  width: 0.75rem;
-  height:0.75rem;
-  background-color: var(--color-yellow);
-  border-radius: 50%;
-}
-
-input[type="radio"]:hover {
-  border-color: var(--color-yellow);
-}
-
-input[type="radio"]:focus {
-} */
 .attention{
   text-decoration: underline;
   cursor:pointer;
@@ -154,6 +112,25 @@ input[type="radio"]:focus {
 .attention:hover{transform:scale(1.02)}
 .bolder{font-weight:600}
 
+/*Buttons*/
+button {
+  font-size: 1rem;
+  font-family: sans-serif;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid black;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition:0.1s 
+}
+button:hover {
+  transform: scale(1.05);
+  transition:0.1s;
+}
+button:disabled{
+  pointer-events: none;
+  cursor:default;
+  opacity:0.8;
+}
 .btns{
   display:flex;
   justify-content: center;
@@ -191,27 +168,8 @@ input[type="radio"]:focus {
   transform:scale(1.02);
   transition:0.1s;
 }
-button:disabled {
-  opacity: 0.8;
-  cursor: default;
-  pointer-events: none;
-}
-button:disabled:hover {
-  background-color: var(--color-grey);
-  transform: none;
-}
-.disabled-btn {
-  opacity: 0.8;
-  cursor: default;
-  pointer-events: none; 
-}
-.disabled-btn:hover {
-  transform: none;
-}
 @media (max-width:500px){.build-door-btn{width:100%}}
-
-
-
+/*Buttons*/
 
 /*
 <div id="test-flex">
@@ -237,4 +195,33 @@ button:disabled:hover {
  background-color:var(--color-orange-light);
 }
 */
+/* input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  display: flex;              
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="radio"]:checked::after {
+  content: '';
+  width: 0.75rem;
+  height:0.75rem;
+  background-color: var(--color-yellow);
+  border-radius: 50%;
+}
+
+input[type="radio"]:hover {
+  border-color: var(--color-yellow);
+}
+
+input[type="radio"]:focus {
+} */
 
