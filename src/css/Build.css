@@ -21,12 +21,6 @@
     grid-template-columns: 65% 1fr;
     grid-template-rows: 100%;
   }
-  #options-section h2{
-  font-size:1.5rem;
-  }
-  #options-section h3{
-    font-size:1.2rem;
-  }
 }
 #door-section{
   width:100%;
@@ -55,7 +49,20 @@
   overflow-y: auto;  
 }
 #options-section > *{
-  padding:0.5rem 0 1rem;;width:100%;;
+  padding:0.5rem 0 1rem;;width:100%;
+}
+#options-section > :nth-child(odd){
+  background-color: var(--color-grey);
+}
+#options-section > :nth-child(even){
+  background-color: var(--color-orange-main);
+}
+@media(min-width:1025px){
+  #options-section h2{font-size:1.5rem;}
+  #options-section h3{font-size:1.2rem;}
+  #options-section > :nth-child(odd){border-top-left-radius:16px;border-bottom-left-radius:16px;}
+  /* #options-section > :first-child {border-top-left-radius: 16px;;}
+  #options-section > :last-child {border-bottom-left-radius: 16px;} */
 }
 /*Grid Settings */
 
@@ -67,7 +74,6 @@
   justify-content: center;
   row-gap:0.75em;
   column-gap:3em;
-  background-color:var(--color-grey);
 }
 @media(min-width:1025px){
   #size-container{column-gap: 1em;}
@@ -90,13 +96,8 @@
    border-radius:8px;
    width:fit-content;
    margin:0 auto;
-     margin-top:0.5em;
-     padding:0.25em;
-  /*flex:1 1 auto;
-  max-width:min(300px, 45%);
-  outline:2px solid black;
-  transition:0.2s;
-  cursor:pointer;*/
+    margin-top:0.5em;
+    padding:0.25em;
 } 
 @media(min-width:1025px){
   #size-container p{font-size:0.8em}
@@ -121,7 +122,6 @@
   flex-wrap: wrap;
   justify-content: center;
   gap:1em;
-  background-color:var(--color-orange-light)
 }
 #design-container h2{margin:0;flex-basis:100%;}
 
@@ -144,7 +144,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  background-color:var(--color-grey);
   row-gap: 1em;
   column-gap: 2em;
 }
@@ -222,7 +221,6 @@ li{text-align: left;}
   justify-content: center;
   width:100%;
   gap:2px;
-  background-color:var(--color-orange-light)
 }
 #colors-container > h2{
   display:flex;
@@ -259,7 +257,6 @@ li{text-align: left;}
   width:100%;
   flex-direction:column;
   row-gap:1em;
-  background-color:var(--color-grey)
 }
 #windows-checkbox-label{
   display:flex;
@@ -315,7 +312,6 @@ transition:0.2s;
   justify-content: center;
   column-gap:1em;
   row-gap:1em;
-  background-color:var(--color-orange-light)
 }
 #inserts h2{flex-basis:100%;}
 @media(min-width:1025px){#inserts h2{font-size:1.3em}.insert-box > h5 {font-size:1em;}}
@@ -348,12 +344,17 @@ transition:0.2s;
   outline:3px solid red;
   transform:scale(1.1);
 }
+.selected-color{
+     transform: (1.02);
+  color:red
+}
 .color-box > div:hover{
   transform:scale(1.1);
   transition:0.2s;
 }
 .selected-glass-type{
-  color:var(--color-orange-main)
+  transform: (1.02);
+  color:red
 }
 .window-box:hover {
   transform: scale(1.1);

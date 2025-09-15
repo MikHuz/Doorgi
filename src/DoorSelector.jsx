@@ -334,7 +334,9 @@ const carriageDoors=[
 {name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
  colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
  woods: null,
- designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush,},
+ designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush},
+ Insulation:{"StandardImg":standardRaisedPanel, "Standard":null, 
+              "PremiumImg": premiumRecessed, Premium:{"Short Panel":2298,"Long Panel":2294,"Flush":2291}},
  windows:{
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
@@ -415,7 +417,7 @@ function DoorSelector({handleDoorSelection,doorType}) {
   const carouselRef = useRef(null);
   const headerRef = useRef(null);
   const [buttonOffset, setButtonOffset] = useState(0);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(false);/*Waiting for header to load fully before JSX CSS positioning, to avoid load in artifacts*/
   var Doors;
   switch(doorType){
     case("traditional"): Doors = traditionalDoors
@@ -469,8 +471,8 @@ function DoorSelector({handleDoorSelection,doorType}) {
       </div>
     );
   }
-  console.log("IS READY?: ",ready)
-    console.log("DOORNAME:",doorName)
+  //console.log("IS READY?: ",ready)
+  //console.log("DOORNAME:",doorName)
 
   return (
   <div id="centering-div">

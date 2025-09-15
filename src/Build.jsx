@@ -14,6 +14,7 @@ function Colors(props) {
   const [hasColor] = props.colors==null ? useState(false): useState(true)
   const [colorType,setColorType] = useState(props.colorType)
   const handleColor = (event, color, type) => {
+    console.log("Color type:",type)
     setIconColor(color);
     props.handleColor(color,type);
   };
@@ -44,9 +45,9 @@ return(
 <div id="colors-container">
   {!hasWood && hasColor && <h2><span>Solid Color</span></h2> }
   {hasWood && !hasColor && <h2><span>Wood</span></h2> }
-  {hasWood && hasColor && <h2><span className="attention" onClick ={() =>setColorType("Solid Color")}>Solid Color</span> 
+  {hasWood && hasColor && <h2><span className={`attention ${colorType=="Solid Color" ? "selected-color":""}`} onClick ={() =>setColorType("Solid Color")}>Solid Color</span> 
   <span>|</span> 
-  <span  className="attention" onClick ={() =>setColorType("Wood")}>Wood</span> </h2>}
+  <span  className={`attention ${colorType=="Accents Woodtones" ? "selected-color":""}`} onClick ={() =>setColorType("Accents Woodtones")}>Wood</span> </h2>}
 
   {colorType === "Solid Color" ? colorDivs: woodDivs}{/*Conditional Rendering for Color/wood*/}
 </div>
@@ -296,6 +297,7 @@ function Windows(props){
   }
   // Case: Design supports Stylelite Glass as well
   else if (props.design == "Long Windows"){
+    //alert("Stylelite support")
     glassTypes = (
       <h2 className="small-font">
         <span
@@ -323,6 +325,7 @@ function Windows(props){
   }
   // Case: Only Glass available
   else if (props.windows.designerGlass == null && props.windows.glass != null) {
+   // alert("Glass Only")
     glassTypes = (
       <h2>
         <span>Glass</span>
@@ -331,10 +334,11 @@ function Windows(props){
   }
   // Case: Glass + Designer Glass available
   else if (props.windows.designerGlass != null) {
+    //alert("Glass and Designer")
     glassTypes = (
       <h2>
         <span
-           className={`attention ${glassType === 'Glass' ? 'selected-glass-type' : ''}`}
+          className={`attention ${glassType === 'Glass' ? 'selected-glass-type' : ''}`}
           onClick={() => handleGlassType("Glass")}
         >
           Glass
@@ -349,6 +353,7 @@ function Windows(props){
       </h2>
     );
   }
+  //console.log("Glass types:",glassTypes)
 
   return (<>
     <div id="windows-container">
@@ -393,7 +398,7 @@ export default function Build(props) {
   const [windowInserts, setWindowInserts] = useState(null)
   const [doorValid, setDoorValid] = useState(false)
   const [loading,setLoading] = useState(false);
-  console.log("Model insulation:",Insulation)
+  //console.log("Model insulation:",Insulation)
   const [selections, setSelections] = useState({
     "Size":  false, 
     "Color": false,
@@ -412,7 +417,7 @@ export default function Build(props) {
     let validity = false;
     if (selections["Size"] && selections["Color"]==true && Design !== "" && Insulation !== "") {/*Base Cases for all doors*/
       validity = true;
-      //console.log("BASE CASES CHECKED")
+      console.log("BASE CASES CHECKED")
       // Some Designs are special cases
       if (Design === "No Or Short Windows") {
        //console.log("No or short windows")
@@ -426,7 +431,7 @@ export default function Build(props) {
         return;
       }
       if (showWindows) {
-        console.log("Checked if windows are complete")
+        console.log("Checking if windows are complete")
         validity = isWindowSelectionComplete(Glass, glassType, windowInserts, windowPosition);
       }
       setDoorValid(validity)
@@ -435,6 +440,10 @@ export default function Build(props) {
       setDoorValid(validity);
     }
   })
+  const isWindowSelectionComplete = (Glass, glassType, windowInserts, windowPosition) =>{
+    console.log(Glass,glassType,windowInserts,windowPosition)
+    return Glass != null && glassType != null && windowInserts != null && windowPosition != null;
+  }
   const markSelected = (option,value)=>{
     /*Some state options need to always be selected for API to work properly
       thus a separate attribute is used for door completion checks and styles */ 
@@ -511,9 +520,6 @@ export default function Build(props) {
     setWindowPosition(position)
     setLoading(true)
     fetchDoor(getPattern(Size,Design),{[glassType]:glass,"Window Inserts":insert,Position:position})
-  }
-  const isWindowSelectionComplete = (Glass, glassType, windowInserts, windowPosition) =>{
-    return Glass != null && glassType != null && windowInserts != null && windowPosition != null;
   }
   const getPattern = (size, design)=>{
   let key = selectedDoor.id + size +design.replace(/ /g, '');;
@@ -635,7 +641,7 @@ export default function Build(props) {
           <p className={`${selections["Size"]==true && Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Double Door 16'X7'</p>
         </div>
       </div>
-      {selectedDoor.id != "Planks" && selectedDoor.id!= "SkylineFlush" &&
+      {selectedDoor.id != "Planks" && selectedDoor.id!= "SkylineFlush" &&/*Some doors rewuire desings in other places*/
       (Object.keys(selectedDoor.designs).length > 1) ?/*Dont show designs if its only one design*/
       <Designs handleDesign={handleDesign} designs={selectedDoor.designs}/> : ""}
 
@@ -648,8 +654,8 @@ export default function Build(props) {
         <input type="checkbox" onClick={(e) =>handleShowWindows(e)}/>
       </label>}
 
-   {showWindows && (<>
-    {selectedDoor.id === "Planks" || selectedDoor.id === "SkylineFlush" ? (
+      {showWindows && (<>
+      {selectedDoor.id === "Planks" || selectedDoor.id === "SkylineFlush" ? (
       <>
         {/* Special case doors, design section merged with windows */}
         <Designs handleDesign={handleDesign} designs={selectedDoor.designs} />
@@ -674,7 +680,7 @@ export default function Build(props) {
       />
     )}
   </>
-)}
+      )}
     </div>
   </div>
   );
