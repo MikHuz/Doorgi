@@ -1,10 +1,6 @@
 /*NOT in use*/
 /*HomePage*/
 /*Door style selection*/
-body{
-  background-color: orange;
-}
-
 #build-door-btn {
   width:10%;
   height:7%;
@@ -45,13 +41,6 @@ width:100vw;
   border:2px solid green;
   position:relative;
 }
-.carousel-control-prev {
-
-}
-
-.carousel-control-next{
-
-}
 .container-fluid{
   margin-bottom: 30px;
 
@@ -68,7 +57,6 @@ width:100vw;
 }
 .control-btn:focus {
   outline: none;
-  /*background-color: orange;*/
 }
 
 .row{margin:0;}

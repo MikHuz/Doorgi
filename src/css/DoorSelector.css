@@ -1,82 +1,78 @@
-*{
-  margin:0;
-  padding:0;
-}
 /*Door Selection Page*/
-#build-door-btn {
-  position: absolute;
-  bottom: 7%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  font-size:clamp(1rem,2vw,3rem);
-  padding: 0.2em 0.5em;
-  background-color: darkslategray;
-  opacity: 0.8;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-#build-door-btn:hover{
-  background-color: orangered;
-}
-#doorSelectorContainer{
-  height:100vh;
-  width:100vw;
+#centering-div{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap:1em;
+  min-height:100vh;
+  min-width:100vw;
+  background: rgba(0, 0, 0, 0.5); /* adjust opacity */
 }
 #doorSelectCarousel{
-  border:2px solid white;
+  display:flex;
+  flex-direction:column;
   width:100%;
+  height:auto;
+  row-gap:1em;
+  background-color: var(--color-orange-main);
+  border-radius:16px;
 }
-#doorSelectInner {
-  border: 2px solid purple;
-  margin-top:10px;
-  margin-bottom:10px;
-  width:100%;
+#doorSelectInner{
+  position:relative;
+  width:97%;
+  border-radius:16px;
 }
 #doorSelectCarouselItem{
-  border: 2px solid blue;
-  text-align: center;
+
+}
+#doorSelectCarouselItem > h1{
+  height:3.5rem;
+}
+@media(min-width:1024px){
+  #doorSelectCarousel{
+    width:90%;
+  }
+  #doorSelectInner{
+    position:relative;
+    width:80%;
+  }
+  #centering-div{
+    background: rgba(0, 0, 0, 0.)
+  }
+}
+#doorName{
+   /* padding:0.25em 0 0.25em; */
 }
 #doorSelectCarouselItem img {
+  border-radius:16px;
+  border:3px solid black;
+}
+#prevDoor,#nextDoor {     
+  width: 15%;   
+  top:3.5rem;            
+  color: orange;
+  border-radius: 16px;
+  background-color: var(--color-grey);  
+  opacity:0.1;
+  transition:0.2s;
+}
 
-  width:90vw;
+#prevDoor > span,
+#nextDoor > span{
+  border-radius:16px;
+  padding:2em;
 }
-#prevDoor{
-  left:5%;
- 
-}
-#nextDoor{
- right:5%;
-}
-#nextDoor,#prevDoor{
-  top: 50%;
-  width:40px;
-  height:40px;
-  display:flex;
+.carousel-indicators {
+  position: static;      
+  display: flex;
   justify-content: center;
-  aspect-ratio: 1;
-  padding:0;
-  background-color: orange; 
-  opacity: 0.5;             
-  border: none;
+  gap: 0.5em;
+  margin:0;
 }
-#btn2{
-  bordeR:2px solid black;
-  background-color: aquamarine;
-}
-#nextDoor:hover, #prevDoor:hover{
-  outline: none;
-  opacity: 1; 
-}
-#indicatorDiv{
-  position:absolute;
-  bottom:-30px;
-}
-#slide-btn{
+.carousel-indicators > .slide-btn{
+  height:3vh;
+  width:15%;
   background-color: black;
-  height:1vh;
-  width:6vw
 }
-
+#centering-div > .btns{
+}
