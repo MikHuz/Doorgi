@@ -10,17 +10,6 @@ let tradDoors = getDoors('traditional')
 let contDoors = getDoors('contemporary')
 let carrDoors = getDoors('carriage')
 
-/*Two Placeholder components may be deleted*/
-function Traditional(){
-return (<h1>Traditonal</h1>)
-}
-
-function Contemporary(){
-return (
-  <h1> Contemporary</h1>
-)
-}
-
 function SlideShow(props){ /*Slideshow for each doorType carousel*/
     useEffect(() => {
       const carouselEl = document.getElementById(props.id);
@@ -62,7 +51,7 @@ function SlideShow(props){ /*Slideshow for each doorType carousel*/
 
 function HomePage() {
   return (<>  
-    <div id="test-flex">
+    {/* <div id="test-flex">
       <h1 className="bg-orange-main">Header 1</h1>
       <h2 className="bg-orange-dark">Header 2</h2>
       <h3 className="bg-orange-light">Header 3</h3>
@@ -72,7 +61,7 @@ function HomePage() {
       <p>This is a paragraph of text to test scaling. Resize the window to see how clamp() behaves.</p>
       <span>This is a span element (inline by default).</span>
       <button>Click Me</button>
-    </div>
+    </div> */}
     <h2 className="home-header">Traditional</h2>
     <SlideShow id="Carousel-trad"  doors={tradDoors}/>
     <Link id="view-btn-link"to="/traditional">

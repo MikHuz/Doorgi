@@ -129,7 +129,7 @@ button:hover {
 button:disabled{
   pointer-events: none;
   cursor:default;
-  opacity:0.8;
+  opacity:0.6;
 }
 .btns{
   display:flex;
@@ -138,6 +138,7 @@ button:disabled{
   width:75%;
   gap:0.5rem;
 }
+.btns  button{font-weight:600}
 .btns > a:first-child{width:35%;}
 .btns > a:last-child{width:65%;}
 .btns > button:first-child{width:35%;}
@@ -146,7 +147,7 @@ button:disabled{
   background-color:var(--color-yellow);
   color:black;
   margin:0.25em 0 0;
-  font-weight:600;
+
   width:100%;
   margin:0;
 }
@@ -154,7 +155,7 @@ button:disabled{
   background-color:var(--color-grey);
   color:white;
   margin:0.25em 0 0;
-  font-weight:600;
+
   width:100%;
   margin:0;
 }
@@ -167,6 +168,13 @@ button:disabled{
   background-color: var(  --color-orange-dark);
   transform:scale(1.02);
   transition:0.1s;
+}
+.reset-btn{
+  width:25%;
+  font-weight:600;background-color:var(--color-orange-dark)
+}
+.reset-btn:hover{
+background-color: var(--color-grey);
 }
 @media (max-width:500px){.build-door-btn{width:100%}}
 /*Buttons*/

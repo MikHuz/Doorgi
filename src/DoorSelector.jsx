@@ -32,10 +32,14 @@ import fullView from './assets/Designs/contemporary/Full_View_Aluminum.jpg'
 import Shoreline from './assets/door_imgs/carriage/Shoreline.jpg'
 import carriageSteel from  './assets/door_imgs/carriage/Steel Overlay.jpg'
 /*Carriage Designs*/
+import ten from './assets/Designs/carriage/10.jpg'
 import tenA from './assets/Designs/carriage/10A.jpg'
+import eleven from './assets/Designs/carriage/11.jpg'
 import elevenA from './assets/Designs/carriage/11A.jpg'
+import twelve from './assets/Designs/carriage/12.jpg'
 import twelveA from './assets/Designs/carriage/12A.jpg'
-import thiryThreeA from './assets/Designs/carriage/33A.jpg'
+import thirtyThree from './assets/Designs/carriage/33.jpg'
+import thirtyThreeA from './assets/Designs/carriage/33A.jpg'
 
 /*Wood Types*/
 import cedar from './assets/Colors/woods/accents-cedar.jpg';
@@ -306,26 +310,27 @@ windows:{
   hardware:{}
 }}]
 const carriageDoors=[
-{name:"Shoreline",defaultImg:Shoreline,id:"Shoreline",defaultDesign:"10A",defaultColor:null,rwd:"CHI_Shoreline.rwd",
- style:"Accents Overlay",
- colors:null,
- woods: {
+{name:"Shoreline",defaultImg:Shoreline,id:"Shoreline",defaultDesign:"10",defaultColor:"Driftwood",rwd:"CHI_Shoreline.rwd",
+  style:"Accents Overlay",
+  colors:null,
+  woods: {
     Cedar: cedar,
     "Dark Oak": darkOak,
     Driftwood: driftwood,
     Walnut: walnut
- }, 
- designs:{"10A":tenA,"11A":elevenA,"12A":twelveA,"33A":thiryThreeA},
- Insulation:{"StandardImg":carriageSteelStandard ,"Standard":null, 
+  }, 
+  designs:[{ "10": ten }, { "10A": tenA }, { "11": eleven }, { "11A": elevenA }, { "12": twelve }, { "12A": twelveA }, { "33": thirtyThree }, { "33A": thirtyThreeA }],
+  Insulation:{"StandardImg":carriageSteelStandard ,"Standard":null, 
             "PremiumImg": premiumShoreline , "Premium":{"Any Design":5602}},
  windows:null,
  hardware:null
 },
-{name:"Steel Overlay",defaultImg:carriageSteel,id:"Steel Overlay",defaultDesign:"10A",defaultColor:null,rwd:"CHI_OverlayCarriageHouse.rwd",
+{name:"Steel Overlay",defaultImg:carriageSteel,id:"Steel Overlay",defaultDesign:"11",defaultColor:"Bronze with Black",rwd:"CHI_OverlayCarriageHouse.rwd",
  style:"Steel Overlay",
- colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Bronze:"#6E6D69", Black:"#000000ff"},
+ colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Bronze:"#6E6D69", Black:"#000000ff",
+        "Bronze with Black":"#6E6D69,#000000ff","White with Black":"#EAEEED,#000000ff","Almond with Black":"#D5CBBF,#000000ff", "Sandstone with Black":"#9E9188,#000000ff"},
  woods:null,
- designs:{"10A":tenA,"11A":elevenA,"12A":twelveA,"33A":thiryThreeA},
+ designs:[{ "10": ten }, { "10A": tenA }, { "11": eleven }, { "11A": elevenA }, { "12": twelve }, { "12A": twelveA }, { "33": thirtyThree }, { "33A": thirtyThreeA }],
  Insulation:{"StandardImg":carriageSteelStandard ,"Standard":{"Any Design":5300}, 
             "PremiumImg": aluminumPremium , "Premium":{"Any Design":5600}},
  windows:null,
@@ -341,75 +346,16 @@ const carriageDoors=[
     position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     designerGlass: null,
-    inserts: {
-    "No Inserts": noInserts,
-    Stockton: stockton,
-    Madison:madison
-  },
-  hardware:null
+    inserts: {"Any Design":
+      {"No Inserts": noInserts,
+      Stockton: stockton,
+      Madison:madison}
+    },
+    hardware:null
   }
 },
-{name:"Stamped Carriage House",defaultImg:StampedCarriage,id:"StampedCarriage",defaultDesign:"Short Panel",defaultColor:"Brown",rwd:"CHI_StampedCarriageHouse.rwd",
-colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods: {
-  Cedar: cedar,
-  "Carbon Oak": carbon,
-  "Natural Oak": natural,
-  "Dark Oak": darkOak,
-  Mahogany: mahogany,
-  Driftwood: driftwood,
-  Walnut: walnut
-}, 
-designs:{"Short Panel":shortPanelStamped ,"Long Panel":longPanelStamped},
-Insulation:{"StandardImg": standardStampedCarriage,"Standard":{"Short Panel":5250, "Long Panel":5950}, 
-              "PremiumImg": premiumStampedCarriage, "Premium":{"Short Panel":5283,"Long Panel":5983,}},
- windows:{
-    position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
-    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
-    inserts: {
-    "No Inserts": noInserts,
-    Prairie: prarire,
-    Sherwood: sherwood,
-    Stockton: stockton,
-    Sunburst: sunburst,
-    Waterton: waterton,
-    Madison: madison,
-    Cascade: cascade
-  }
-  }
-},
-{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"Gray",rwd:"CHI_StampedShaker.rwd",
-colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
-woods: {
-  Cedar: cedar,
-  "Carbon Oak": carbon,
-  "Natural Oak": natural,
-  "Dark Oak": darkOak,
-  Mahogany: mahogany,
-  Driftwood: driftwood,
-  Walnut: walnut
-}, 
-designs:{"Shaker":stampedShakerDesign},
-Insulation:{"StandardImg": standardStampedShaker,"Standard":{"Shaker":2550}, 
-              "PremiumImg": premiumStampedShaker, "Premium":{"Shaker":2583}},
- windows:{
-    position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
-    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
-    inserts: {
-    "No Inserts": noInserts,
-    Prairie: prarire,
-    Sherwood: sherwood,
-    Stockton: stockton,
-    Sunburst: sunburst,
-    Waterton: waterton,
-    Madison: madison,
-    Cascade: cascade
-  }
-  },
-  hardware:{}
-}]
+{...traditionalDoors[2]},
+{...traditionalDoors[3]}]
 
 
 function DoorSelector({handleDoorSelection,doorType}) {
