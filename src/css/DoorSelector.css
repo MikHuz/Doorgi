@@ -6,7 +6,7 @@
   row-gap:1em;
   min-height:100vh;
   min-width:100vw;
-  background: rgba(0, 0, 0, 0.5); /* adjust opacity */
+  background: rgba(0, 0, 0, 0.3); /* adjust opacity */
 }
 #doorSelectCarousel{
   display:flex;

@@ -213,6 +213,7 @@ function Windows(props){
   const [glassType, setGlassType] = useState("Glass")
   const [selectedInsert,setInsert] = useState(null)
   const [showInserts,setShowInserts] = useState(false)
+  const [selectedPosition,setPosition] = useState(props.door!="Sterling" ? "FIRST ROW":"TOP ROW")                
   const selectedDesign = props.design
   console.log("Design:",selectedDesign)
   console.log("Type:",glassType)
@@ -230,11 +231,15 @@ function Windows(props){
     //   if (props.windows.inserts[selectedDesign][selectedInsert]==null){setInsert("No Inserts")}
     // }
   }, [props.design]);
-  const handleWindow = (glass,glassType)=>{/*Handles Actual Window Selection*/
-    position="FIRST ROW"/*Right now a single row is the default for all doors*/
-    if (props.door=="Sterling"){ 
+  const handleWindow = (glass,glassType,position)=>{/*Handles Actual Window Selection*/
+    if (position==undefined){
+      position=selectedPosition/*no pass in means position hasn't changed*/
+    }
+    else{/*An explict pass in mean user just changed a window position*/
+      position = position
+    }
+    if (props.door=="Sterling"){ /*Exception case for sterling, uses different APi logic*/
       glassType="Infinity Windows";
-      var position="TOP ROW"
     }
     setGlassType(glassType)
     if (glassType=="Glass"){ 
@@ -260,9 +265,32 @@ function Windows(props){
   const handleInsert = (insert) =>{
     setInsert(insert)
     props.handleWindow(selectedWindow,glassType,
-    (insert=="Sunburst"?"4 piece Sunburst" : insert),
-    (props.door == "Sterling") ? "TOP ROW": "FIRST ROW")
+    (insert=="Sunburst"?"4 piece Sunburst" : insert),selectedPosition)
   }
+  const handlePosition = (position)=>{
+    setPosition(position)
+    handleWindow(selectedWindow,glassType,position)
+  }
+  let positionDivs = null;
+  if (Object.keys(props.windows.position).length!=0){
+    console.log("Multiple positions available")
+    positionDivs = Object.entries(props.windows.position).map( ([position,url]) => {
+      return( 
+      <div 
+        key={position} 
+        className="position-box" 
+        onClick={() => handlePosition(position.toUpperCase())}
+      >
+      <h6>{position}</h6>
+      <img
+        src={url}
+        className={selectedPosition=== position.toUpperCase() ? 'selected-position' : ''}
+      />
+    </div>)
+    })
+  }
+  console.log("Positions:",positionDivs)
+
   let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
       <div key={glass} className={`window-box ${selectedWindow === glass ? 'selected-glass' : ''}`} 
@@ -324,7 +352,7 @@ function Windows(props){
   if (props.door === "Sterling") {
     glassTypes = (
       <h2>
-        <span onClick={() => handleGlassType("Infinity Windows")}>
+        <span>
           Infinity Windows
         </span>
       </h2>
@@ -392,8 +420,12 @@ function Windows(props){
 
   return (<>
     <div id="windows-container">
-      {/* {props.door.id == ""} */}
-      {(<>
+      {positionDivs!=null && 
+        <div id="window-positions">
+          <h2>Choose Window Position</h2>
+          {positionDivs}
+        </div>
+      }
       <div id="glass-type">
         {glassTypes}
       </div>
@@ -404,9 +436,7 @@ function Windows(props){
         ? styleLiteDivs
         : windowDivs}
       </div>
-      </>
-      )}
-     </div>
+    </div>
     {showInserts && props.windows.inserts!=null &&
       <div id="inserts">
         <h2>Choose a Window Insert</h2>
@@ -440,10 +470,13 @@ export default function Build(props) {
   const [selections, setSelections] = useState({
     "Size":  false, 
     "Color": false,
-    "Design":false
+    "Design":(Object.keys(selectedDoor.designs).length > 1 ? false:true)
+    /*Doors need a some values set always, such as default design set for API to work, 
+      meaning a door completion check relies partly on user click selections.
+      Doors that have only one design have no design selections and set this value to true*/
   });
-  // console.log("Selections:",selections)
-  // console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
+   console.log("Selections:",selections)
+   console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
   useEffect(() => {/*effect for ScrollBar removal*/ 
     document.body.classList.add('build-page');
     return () => {
@@ -546,8 +579,8 @@ export default function Build(props) {
     if (selectedDoor.id == "Aluminum"){
       if (!checked){handleWindow(null,null,null,null)}
       else{handleWindow(null,null,null, "SOLID BOTTOM 2 ROWS")}
-      return;
-    }/*Special Case doors have no browsing options so we dont want show windows to be set*/
+      return;/*Special Case doors have no browsing options so we don't want show windows to be set*/
+    }
     setShowWindows(checked);
     if (!checked && (selectedDoor.id === "Planks" || selectedDoor.id === "SkylineFlush")){
         setSelections(prev => ({ ...prev, Design: false }));
@@ -571,10 +604,10 @@ export default function Build(props) {
   }
   const isWindowSelectionComplete = (Glass, glassType, windowInserts, windowPosition) =>{
     console.log("INSIDE WINDOWSELECTION:",Glass,glassType,windowInserts)
-    if (glassType == "Glass"){
+    if (glassType == "Glass"){/*Normal glass needs inserts*/
       return Glass != null && glassType != null && windowInserts != null;
     }
-    else if (glassType!= null){
+    else if (glassType!= null){/*Infinity windows and designer glass go here*/
       return Glass != null && glassType != null
     }
   }
@@ -584,9 +617,10 @@ export default function Build(props) {
   let pattern = patterns[key]
   return pattern;
   }
-   const handleReset = ()=>{
+  const handleReset = ()=>{
     // Reset all selections
-    setSelections({ Size: false, Color: false, Design: false });
+    setSelections({ Size: false, Color: false, 
+                    Design:(Object.keys(selectedDoor.designs).length > 1 ? false:true) });
     setSize("Double");
     setDesign(selectedDoor.defaultDesign);
     setColor(selectedDoor.defaultColor);
@@ -610,10 +644,23 @@ export default function Build(props) {
     //setImage(selectedDoor.defaultImg);
 
     // Re-fetch default pattern from API
-    let defaultParameter = {"Width":"Reset",Design:selectedDoor.defaultDesign, [defaultColorType]:selectedDoor.defaultColor,
+    let defaultParameter = {"Width":"Double",Design:selectedDoor.defaultDesign, [defaultColorType]:selectedDoor.defaultColor,
       Glass:null,Position:null,"Window Inserts":null}
     setLoading(true)
     fetchDoor(getPattern("Double", selectedDoor.defaultDesign), defaultParameter);
+  }
+  const handleContinue = ()=>{
+    console.log("Size:", Size);
+    console.log("Design:", Design);
+    console.log("InsulationType:", InsulationType);
+    console.log("Insulation:", Insulation);
+    console.log("Color:", Color);
+    console.log("colorType:", colorType);
+    console.log("showWindows:", showWindows);
+    console.log("windowPosition:", windowPosition);
+    console.log("Glass:", Glass);
+    console.log("glassType:", glassType);
+    console.log("windowInserts:", windowInserts);
   }
   function fetchDoor(pattern, parameter){
     const rwd = selectedDoor.rwd
@@ -628,12 +675,10 @@ export default function Build(props) {
     var solidColorOrWood = colorType
     var glassOrDesigner = glassType
     var width=0;
-    if (parameter["Width"] === "Reset") {
-    width = "1280"; // force Double on reset
-    } else if ("Width" in parameter) {
-    width = parameter["Width"] === "Single" ? "640" : "1280";
+    if ("Width" in parameter) {
+      width = parameter["Width"] === "Single" ? "640" : "1280";
     } else {
-    width = Size === "Single" ? "640" : "1280";
+      width = Size === "Single" ? "640" : "1280";
     }
     for (let key in parameter){/*Handle color type, glass type,*/
       if (key == "Accents Woodtones" || key == "Solid Color") {solidColorOrWood = key}
@@ -651,14 +696,14 @@ export default function Build(props) {
       Position:windowPosition,
       "Window Inserts":windowInserts
     }
-    for (let key in parameter){/*Handles gridSettings field for the API body*/
+    for (let key in parameter){
       gridSettings[key] = parameter[key]/*Updates correct function passed parameter inside gridSettings*/
     }
     //console.log("Grid settings:",gridSettings)
 
     let gridSettingsParameter = ""
     for (let key in gridSettings) {
-      if (gridSettings[key] != null){/*Stringifies GridSettings to inject into API body*/
+      if (gridSettings[key] != null){/*Stringifies GridSettings to inject into the API body*/
         gridSettingsParameter += (key + "=" + gridSettings[key] +"|")
       }
     }
@@ -716,7 +761,7 @@ export default function Build(props) {
           <button className="back-btn" >Back</button>
         </Link>
         <button className="reset-btn" onClick={handleReset}>Reset</button>
-        <button className={`continue-btn ${doorValid ? "" : "disabled-bt"}`} disabled={!doorValid}>Continue</button>
+        <button className={`continue-btn ${doorValid ? "" : "disabled-bt"}`} disabled={!doorValid} onClick={handleContinue}>Continue</button>
       </div>
     </div>
     <div id="options-section">

@@ -4,11 +4,17 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: min(350px,45%) 1fr; 
-  border: 2px solid black;
+  outline: 2px solid black;
   height:95vh;
   max-height: 95vh;
-  width: 99vw;
+  width: 100vw;
   margin: 2.25vh auto;
+  box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+
+}
+@media(max-width:650px){
+  #build-page-grid {width:100vw; border-radius: 0px;}
 }
 @media(min-width:650px){
   #build-page-grid {grid-template-rows: 60% 1fr; }
@@ -20,6 +26,7 @@
   #build-page-grid {
     grid-template-columns: 65% 1fr;
     grid-template-rows: 100%;
+    width: 99vw;
   }
 }
 #door-section{
@@ -198,11 +205,6 @@
 #ins-premium-dialog{right:0;}
 #ins-standard-dialog{left:0;}
 }
-ul {
-  padding-left: 0;
-  list-style-position: inside; /* markers now count in the content box */
-}
-li{text-align: left;}
 .insulation-dialog > button{ font-size:0.6em;}
 .insulation-box > img {
   width: 100%; 
@@ -236,7 +238,7 @@ li{text-align: left;}
 #colors-container > h2{margin-bottom:min(20px,5%)}
 .color-box {/*Holds Color name and Color Icon*/
   flex:0 1 auto;
-  width:33%;
+  width:35%;
   max-width: 150px;
   margin:0;
   display:flex;
@@ -245,7 +247,7 @@ li{text-align: left;}
 }
 .color-box > h6{flex:1 1 auto;padding:0.3em;}
 .color-box div {/*Actual Color Icon*/
-  width: 80%;
+  width: 70%;
   aspect-ratio: 1;
   border-radius: 50%;
   margin-top:10%;
@@ -271,7 +273,36 @@ li{text-align: left;}
   column-gap:1rem;
   padding:0.5em 0 0.5em;
 }
-
+#window-positions{
+  margin:0;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+#window-positions > h2{width:100%;}
+.position-box{
+  display:flex;
+  flex-direction:column;
+  flex:1 1 auto;
+  gap:1em;
+  border-radius: 10%;
+  width:25%;
+  transition:0.2s;
+  margin:0;
+}
+.position-box > img{
+  min-width:100px;
+  min-height:60px; 
+  width:65%;
+  height:auto;
+}
+.position-box > img:hover{outline:2px solid black;}
+.selected-position{
+  outline:3px solid red;
+  transform:scale(1.05);
+}
 #glass-type{width: 100%;}
 #glass-type h2{
   display: flex;
@@ -371,7 +402,7 @@ box-shadow: 4px 4px 5px 5px rgba(0,0,0,0.5);
 }
 .window-box.selected-glass > div {
   transform: scale(1.02); /* extra boost only for the actual window icon*/
-  outline:2px solid red;
+  outline:3px solid red;
   transition: 0.1s;
 }
 .insert-box > div:hover{

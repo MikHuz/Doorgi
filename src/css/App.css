@@ -1,4 +1,7 @@
-/*NOT in use*/
+/*  NOT 
+    IN 
+    USE
+          */
 /*HomePage*/
 /*Door style selection*/
 #build-door-btn {
@@ -22,7 +25,6 @@
 #build-door-btn:hover{
   background-color: orangered;
 }
-
 
 .carousel-indicators {
   position: absolute; /* Adjust this value to your desired position */

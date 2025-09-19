@@ -3,7 +3,6 @@ import { Routes, Route, Link } from 'react-router-dom';
 import './css/DoorSelector.css'
 import Build from './Build.jsx'
 
-
 /*Traditional Doors*/
 import RaisedPanel from './assets/door_imgs/traditional/Raised_Panel.jpg';
 import StampedCarriage from './assets/door_imgs/traditional/Stamped_Carriage_House.jpg';
@@ -22,6 +21,7 @@ import Sterling  from './assets/door_imgs/contemporary/Sterling.jpg'
 import Planks from './assets/door_imgs/contemporary/Planks.jpg'
 import SkylineFlush from './assets/door_imgs/contemporary/Flush.jpg'
 import Aluminum from './assets/door_imgs/contemporary/Aluminum.jpg'
+
 /*Contemporary Designs*/
 import shortWindows from './assets/Designs/contemporary/No_Or_Short_Windows.jpg'
 import longWindows from './assets/Designs/contemporary/Long_Windows.jpg'
@@ -49,6 +49,15 @@ import darkOak from './assets/Colors/woods/accents-darkOak.jpg';
 import mahogany from './assets/Colors/woods/accents-mahogany.jpg';
 import driftwood from './assets/Colors/woods/accents-driftwood.jpg';
 import walnut from './assets/Colors/woods/accents-walnut.jpg';
+
+/*Window Position*/
+import top from './assets/window_position/1st.jpg'
+import topTwo from './assets/window_position/1st.jpg'
+import topRow from './assets/window_position/2_top_rows.jpg'
+import full from './assets/window_position/full.jpg'
+import right from './assets/window_position/right.jpg'
+import left from './assets/window_position/left.jpg'
+/*Window Position*/
 
 /*Glass*/
 import plain from './assets/Glass/Thumb_Plain.jpg'
@@ -143,7 +152,7 @@ const traditionalDoors=[
   hardware:null
   }
 },
-{name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
+{name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Short Panel",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
   colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
   woods: null,
   designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush,},
@@ -186,7 +195,7 @@ const traditionalDoors=[
     }
   }
 },
-{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"Gray",rwd:"CHI_StampedShaker.rwd",
+{name:"Stamped Shaker",defaultImg:StampedShaker,id:"StampedShaker",defaultDesign:"Shaker",defaultColor:"Bronze",rwd:"CHI_StampedShaker.rwd",
   colors:{White:"#EAEEED",Sandstone:"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"},
   woods: {
     Cedar: cedar,
@@ -221,7 +230,7 @@ const contemporaryDoors = [
   Insulation:{"StandardImg": standardStampedShaker,"Standard":null, 
               "PremiumImg": premiumSterling, "Premium":{"Flush":2783}},
   windows:{
-    position:{},
+    position:{"Top Row":top,"All Glass":full},
     glass:{"Tinted": tinted},
     designerGlass:null,
   inserts:null,
@@ -243,7 +252,7 @@ const contemporaryDoors = [
   Insulation:{"StandardImg": standardPlank,"Standard":null, 
               "PremiumImg": premiumPlank, "Premium":{"No Or Short Windows":2327, "Long Windows":2347}},
   windows:{
-    position:{},
+    position:{"First Row":top,"Right Edge":right,"Left Edge":left},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     styleLite:{"StyleLite Plain":litePlain,"StyleLite Tinted":liteTinted,"StyleLite Frosted":liteFrosted,"StyleLite Rain":liteRain},
     designerGlass:{  
@@ -276,7 +285,7 @@ const contemporaryDoors = [
   Insulation:{"StandardImg": standardInsulation,"Standard":{"No Or Short Windows":2150, "Long Windows":4150}, 
               "PremiumImg": premiumInsulation, "Premium":{"No Or Short Windows":2127, "Long Windows":2147}},
   windows:{
-    position:{},
+    position:{"First Row":top,"Right Edge":right,"Left Edge":left},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     styleLite:{"StyleLite Plain":litePlain,"StyleLite Tinted":liteTinted,"StyleLite Frosted":liteFrosted,"StyleLite Rain":liteRain},
     designerGlass: {
@@ -303,7 +312,6 @@ designs:{"Full View":fullView},
 Insulation:{"StandardImg": aluminumStandard ,"Standard":{"Full View":"3295R"}, 
             "PremiumImg": aluminumPremium , "Premium":{"Full View":"3297R"}},
 windows:{
-    position:{},
     glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
     designerGlass: null,
     inserts: null,
@@ -336,24 +344,7 @@ const carriageDoors=[
  windows:null,
  hardware:null
 },
-{name:"Recessed Panel",defaultImg:RecessedPanel,id:"Recessed",defaultDesign:"Flush",defaultColor:"Sandstone",rwd:"CHI_Recessed.rwd",
- colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF"},
- woods: null,
- designs:{"Short Panel":shortPanelRaised,"Long Panel":longPanelRaised,"Flush":flush},
- Insulation:{"StandardImg":standardRaisedPanel, "Standard":null, 
-              "PremiumImg": premiumRecessed, Premium:{"Short Panel":2298,"Long Panel":2294,"Flush":2291}},
- windows:{
-    position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
-    designerGlass: null,
-    inserts: {"Any Design":
-      {"No Inserts": noInserts,
-      Stockton: stockton,
-      Madison:madison}
-    },
-    hardware:null
-  }
-},
+{...traditionalDoors[1]},
 {...traditionalDoors[2]},
 {...traditionalDoors[3]}]
 
