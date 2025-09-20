@@ -211,9 +211,13 @@ function Insulations(props){
 function Windows(props){
   const [selectedWindow,setSelectedWindow] = useState(null)
   const [glassType, setGlassType] = useState("Glass")
-  const [selectedInsert,setInsert] = useState(null)
+  const [selectedInsert,setInsert] = useState(false)
   const [showInserts,setShowInserts] = useState(false)
-  const [selectedPosition,setPosition] = useState(props.door!="Sterling" ? "FIRST ROW":"TOP ROW")                
+  const [selectedPosition,setPosition] = 
+  useState(props.door=="Sterling" ? "TOP ROW":
+          props.door=="Steel Overlay" ? "DOUBLE ROW" : 
+          props.door=="Shoreline" ? "SINGLE ROW": 
+          "FIRST ROW")   /*Most doors are first row*/             
   const selectedDesign = props.design
   console.log("Design:",selectedDesign)
   console.log("Type:",glassType)
@@ -255,6 +259,7 @@ function Windows(props){
       setInsert(null)
     }
     setSelectedWindow(glass)
+      console.log("niggerSelected Insert",selectedInsert)
     props.handleWindow(glass,glassType,selectedInsert,position)/*Handles Windows API in parent*/
   }
   const handleGlassType = (type) =>{
@@ -475,8 +480,8 @@ export default function Build(props) {
       meaning a door completion check relies partly on user click selections.
       Doors that have only one design have no design selections and set this value to true*/
   });
-   console.log("Selections:",selections)
-   console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
+ //  console.log("Selections:",selections)
+  // console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
   useEffect(() => {/*effect for ScrollBar removal*/ 
     document.body.classList.add('build-page');
     return () => {
@@ -604,8 +609,9 @@ export default function Build(props) {
   }
   const isWindowSelectionComplete = (Glass, glassType, windowInserts, windowPosition) =>{
     console.log("INSIDE WINDOWSELECTION:",Glass,glassType,windowInserts)
-    if (glassType == "Glass"){/*Normal glass needs inserts*/
-      return Glass != null && glassType != null && windowInserts != null;
+    if (glassType == "Glass"){/*Normal glass needs inserts for most doors*/
+      return Glass != null && glassType != null && 
+      (selectedDoor.id=="Steel Overlay" || selectedDoor.id=="Shoreline" ? true: windowInserts != null);
     }
     else if (glassType!= null){/*Infinity windows and designer glass go here*/
       return Glass != null && glassType != null
@@ -873,7 +879,4 @@ const patterns = {
 
   AluminumSingleFullView:"21|-|-;21|-|-;21|-|-;21|-|-;",
   AluminumDoubleFullView:"21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;21|-|-|-|-;"
-
-
-
 };

@@ -7,6 +7,7 @@
   min-height:100vh;
   min-width:100vw;
   background: rgba(0, 0, 0, 0.3); /* adjust opacity */
+  
 }
 #doorSelectCarousel{
   display:flex;
@@ -16,6 +17,7 @@
   row-gap:1em;
   background-color: var(--color-orange-main);
   border-radius:16px;
+   background: linear-gradient(135deg, var(--color-orange-main), var(--color-orange-light));
 }
 #doorSelectInner{
   position:relative;

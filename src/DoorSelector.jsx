@@ -318,6 +318,20 @@ windows:{
   hardware:{}
 }}]
 const carriageDoors=[
+{name:"Steel Overlay",defaultImg:carriageSteel,id:"Steel Overlay",defaultDesign:"11",defaultColor:"Bronze with Black",rwd:"CHI_OverlayCarriageHouse.rwd",
+  style:"Steel Overlay",
+  colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Bronze:"#6E6D69", Black:"#000000ff",
+        "Bronze with Black":"#6E6D69,#000000ff","White with Black":"#EAEEED,#000000ff","Almond with Black":"#D5CBBF,#000000ff", "Sandstone with Black":"#9E9188,#000000ff"},
+  woods:null,
+  designs:[{ "10": ten }, { "10A": tenA }, { "11": eleven }, { "11A": elevenA }, { "12": twelve }, { "12A": twelveA }, { "33": thirtyThree }, { "33A": thirtyThreeA }],
+  Insulation:{"StandardImg":carriageSteelStandard ,"Standard":{"Any Design":5300}, 
+            "PremiumImg": aluminumPremium , "Premium":{"Any Design":5600}},
+  windows:null,
+  // {   
+  //   position:{},
+  //   glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips}},
+ hardware:null
+},
 {name:"Shoreline",defaultImg:Shoreline,id:"Shoreline",defaultDesign:"10",defaultColor:"Driftwood",rwd:"CHI_Shoreline.rwd",
   style:"Accents Overlay",
   colors:null,
@@ -330,18 +344,10 @@ const carriageDoors=[
   designs:[{ "10": ten }, { "10A": tenA }, { "11": eleven }, { "11A": elevenA }, { "12": twelve }, { "12A": twelveA }, { "33": thirtyThree }, { "33A": thirtyThreeA }],
   Insulation:{"StandardImg":carriageSteelStandard ,"Standard":null, 
             "PremiumImg": premiumShoreline , "Premium":{"Any Design":5602}},
- windows:null,
- hardware:null
-},
-{name:"Steel Overlay",defaultImg:carriageSteel,id:"Steel Overlay",defaultDesign:"11",defaultColor:"Bronze with Black",rwd:"CHI_OverlayCarriageHouse.rwd",
- style:"Steel Overlay",
- colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Bronze:"#6E6D69", Black:"#000000ff",
-        "Bronze with Black":"#6E6D69,#000000ff","White with Black":"#EAEEED,#000000ff","Almond with Black":"#D5CBBF,#000000ff", "Sandstone with Black":"#9E9188,#000000ff"},
- woods:null,
- designs:[{ "10": ten }, { "10A": tenA }, { "11": eleven }, { "11A": elevenA }, { "12": twelve }, { "12A": twelveA }, { "33": thirtyThree }, { "33A": thirtyThreeA }],
- Insulation:{"StandardImg":carriageSteelStandard ,"Standard":{"Any Design":5300}, 
-            "PremiumImg": aluminumPremium , "Premium":{"Any Design":5600}},
- windows:null,
+  windows:null,
+  // {   
+  //   position:{},
+  //   glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips}},
  hardware:null
 },
 {...traditionalDoors[1]},
