@@ -3,13 +3,21 @@ import { Routes, Route, Link,useLocation} from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import DoorSelector from "./DoorSelector.jsx";
 import {getDoors} from './door_data.jsx'
+import { getCarouselImages } from './door_data.jsx';  
 import Build from './Build.jsx'
 import './css/Home.css'
 import './css/index.css'
-let tradDoors = getDoors('traditional')
-let contDoors = getDoors('contemporary')
-let carrDoors = getDoors('carriage')
+/*Home Images*/
+const tradDoors = getDoors('traditional')
+const contDoors = getDoors('contemporary')
+const carrDoors = getDoors('carriage')
+/*Home Images*/
 
+/*SubType Images*/
+const subTypeImages = {traditional: getCarouselImages('traditional'),
+                      contemporary: getCarouselImages('contemporary'),
+                      carriage:getCarouselImages('carriage')}
+/*SubType Images*/
 function SlideShow(props){ /*Slideshow for each doorType carousel*/
     useEffect(() => {
       const carouselEl = document.getElementById(props.id);
@@ -99,7 +107,7 @@ function App() {
   let generatedRoutes = []
   for (const type in doorTypes){/*Route for each door type*/
     generatedRoutes.push(<Route path={`${type}/`} 
-    element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type}/>} />)
+    element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type} doorImages={subTypeImages[type]}/>} />)
     for (const doorName of doorTypes[type]){/*Route for doorType/doorName*/
       generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
     }

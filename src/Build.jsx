@@ -4,8 +4,8 @@ import './css/Build.css'
 import DoorSelector from "./DoorSelector.jsx";
 import doorgiLogo from '/logo.png'
 import RaisedPanel from './assets/door_imgs/traditional/Raised_Panel.jpg';
-import shortSize from './assets/door_imgs/carriage/Wood Overlay Short.jpg'
-import doubleSize from './assets/door_imgs/carriage/Wood Overlay.jpg'
+import shortSize from './assets/door_imgs/traditional/ShortPanel.jpg'
+import doubleSize from './assets/door_imgs/traditional/LongPanel.jpg'
 const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 function Colors(props) {
@@ -19,8 +19,9 @@ function Colors(props) {
     console.log("Color type:",type)
     props.handleColor(color,type);
   };
+  let colorDivs = null
   if(hasColor){
-    var colorDivs = Object.entries(props.colors).map(([colorName, hexCode]) => {
+    colorDivs = Object.entries(props.colors).map(([colorName, hexCode]) => {
       let backgroundColor= {}
       if (colorName.includes("with")){
         console.log("Two toned color")
@@ -33,7 +34,7 @@ function Colors(props) {
       }
       return(
       <div className="color-box" key={colorName}>
-        <h6>{colorName}</h6>
+        <h5>{colorName}</h5>
         <div
           style={backgroundColor}
           className={IconColor === colorName ? 'selected' : ''}
@@ -41,10 +42,11 @@ function Colors(props) {
         />
       </div>) });
   }
+  let woodDivs = null
   if (hasWood){
-    var woodDivs = Object.entries(props.woods).map( ([woodName,woodUrl]) => (
+    woodDivs = Object.entries(props.woods).map( ([woodName,woodUrl]) => (
       <div className="color-box" key={woodName}>
-        <h6>{woodName}</h6>
+        <h5>{woodName}</h5>
         <div
           style={{  backgroundImage: `url(${woodUrl})`}}
           className={IconColor === woodName ? 'selected' : ''}
@@ -54,18 +56,21 @@ function Colors(props) {
   }
   //console.log(colorDivs)
 return(
-<>   
-<div id="colors-container">
-  {!hasWood && hasColor && <h2><span>Solid Color</span></h2> }
-  {hasWood && !hasColor && <h2><span>Wood</span></h2> }
-  {hasWood && hasColor && <h2><span className={`attention ${colorType=="Solid Color" ? "selected-color":""}`} onClick ={() =>setColorType("Solid Color")}>Solid Color</span> 
-  <span>|</span> 
-  <span  className={`attention ${colorType=="Accents Woodtones" ? "selected-color":""}`} onClick ={() =>setColorType("Accents Woodtones")}>Wood</span> </h2>}
-
-  {colorType === "Solid Color" ? colorDivs: woodDivs}{/*Conditional Rendering for Color/wood*/}
-</div>
-</>
-    )
+<> 
+ <div id="colors-container">
+  <h2>Choose a Color</h2>
+  {hasColor &&
+    <div >
+      <h3>Solid Colors</h3>
+      {colorDivs} 
+    </div>}
+  {hasWood &&
+    <div>
+      <h3>Wood Colors</h3>
+      {woodDivs} 
+    </div>}
+  </div>
+  </> )
 }
 function Designs(props){
   //console.log("INSIDE COMPONENT:",props.designs)
@@ -161,16 +166,8 @@ function Insulations(props){
         </div>}
 
       </h3>
-      <img src={insulations.StandardImg}
+      <img src={insulations.StandardImg}  onClick={()=>handleInsulationType("Standard")}
            className={selectedInsulation === "Standard" ? "selected-ins" : ""}></img>
-      <input
-        type="radio"
-        name="insulation"
-        value="Standard"
-        checked={selectedInsulation=="Standard"}
-        onChange={(e)=>handleInsulationType(e)}
-        disabled={insulations.Standard==null ? true:false}
-      />
     </div>
     <div className='insulation-box'>
       <h3 className="insulation-header">
@@ -193,17 +190,9 @@ function Insulations(props){
           </ul>
           {/* <button onClick={closeDialog}>Close</button> */}
         </div>}
-
       </h3>
-      <img src={insulations.PremiumImg}  alt="Premium insulation"
+      <img src={insulations.PremiumImg}  onClick={()=>handleInsulationType("Premium")} alt="Premium insulation"
           className={selectedInsulation === "Premium" ? "selected-ins" : ""}></img>
-      <input
-        type="radio"
-        name="insulation"
-        value="Premium"
-        checked={selectedInsulation=="Premium"}
-        onChange={(e)=>handleInsulationType(e)}
-      />
     </div>
   </div>
   )
@@ -308,7 +297,7 @@ function Windows(props){
     return(
       <div key={glass} className={`window-box ${selectedWindow === glass ? 'selected-glass' : ''}`} 
           onClick={() => handleWindow(glass, "StyleLite")}>
-        <h5>{glassName}</h5>
+        <h3>{glassName}</h3>
         <div
           key={glass}
           style={{ backgroundImage: `url(${url})`}}
@@ -447,26 +436,31 @@ function Windows(props){
 
 export default function Build(props) {
   const selectedDoor = PersistentState("selectedDoor",props.selectedDoor)
+  const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Price, setPrice] = useState(1000)
   const [Size,setSize] = useState("Double")
-  const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Design,setDesign] = useState(selectedDoor.defaultDesign)
-  const [DesignStyle,setDesignStyle] = useState(null)
+  const [DesignStyle,setDesignStyle] = useState(null)/*UI highlight for design only*/
+
   const [InsulationType, setInsulationType] = useState("")
   const [Insulation, setInsulation] = useState("")
+
   const [Color, setColor] = useState(selectedDoor.defaultColor)
   const [colorType,setColorType] = selectedDoor.colors == null ? useState("Accents Woodtones"):
   Color in selectedDoor.colors ? useState("Solid Color") : useState("Accents Woodtones")
   const [IconColor, setIconColor] = useState(null);/*UI highlight for color only*/
+
   const [showWindows, setShowWindows] = useState(false)
-  const [windowPosition, setWindowPosition] = useState(null)
   const [windowCheckBox,setWindowCheckBox] = useState(false)
-  const [Glass, setGlass] = useState(null)
+  const [windowPosition, setWindowPosition] = useState(null)
+
   const [glassType,setGlassType] = useState(null)
+  const [Glass, setGlass] = useState(null)
   const [windowInserts, setWindowInserts] = useState(null)
+
   const [doorValid, setDoorValid] = useState(false)
   const [loading,setLoading] = useState(false);
-  //console.log("Model insulation:",Insulation)
+  const [viewportWidth,setViewport] = useState(window.innerWidth)
   const [selections, setSelections] = useState({
     "Size":  false, 
     "Color": false,
@@ -477,6 +471,7 @@ export default function Build(props) {
   });
    console.log("Selections:",selections)
    console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
+  console.log("Model insulation:",Insulation)
   useEffect(() => {/*effect for ScrollBar removal*/ 
     document.body.classList.add('build-page');
     return () => {
@@ -520,6 +515,13 @@ export default function Build(props) {
       console.log("Base cases for most doors failed")
     }
   })
+  useEffect(() => {/*Effect for dynamic button placement based on viewport changes*/
+    const handleResize = () => {
+      setViewport(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const markSelected = (option,value)=>{
     /*Some state options need to always be selected for API to work properly
@@ -546,8 +548,7 @@ export default function Build(props) {
     if (!selections["Design"]){markSelected("Design",true)}
     fetchDoor(getPattern(Size,design), {Design:design})
   }
-  const handleInsulationType = (e)=>{
-    const insulationType = e.target.value;
+  const handleInsulationType = (insulationType)=>{
     setInsulationType(insulationType)
     // console.log("Image URL:", selectedDoor.Insulation[insulationType]);
     // console.log("Insulation Model:", selectedDoor.Insulation[insulationType][Design])
@@ -749,31 +750,32 @@ export default function Build(props) {
       setTimeout(() =>setLoading(false), 500 )
     });
   }
+  let buttonPanel = <> 
+    {!loading ? <h2>Price: ${Price} </h2>:<h2>Loading...</h2>}
+    <div className="btns">
+      <Link to={`/${props.doorType}`}>
+        <button className="back-btn" >Back</button>
+      </Link>
+      <button className="reset-btn" onClick={handleReset}>Reset</button>
+      <button className={`continue-btn ${doorValid ? "" : "disabled-bt"}`} disabled={!doorValid} onClick={handleContinue}>Continue</button>
+    </div> </>
   return (
   <div id="build-page-grid">
     <div id="door-section">
-      <h2>
-        {selectedDoor.name}</h2>
+      <h1>{selectedDoor.name}</h1>
       <img src={loading ? doorgiLogo:Image} className={`${loading ? "loading-style" : ""}`} />
-      {!loading ? <h2>Price: ${Price} </h2>:<h2>Loading...</h2>} 
-       <div className="btns">
-        <Link to={`/${props.doorType}`}>
-          <button className="back-btn" >Back</button>
-        </Link>
-        <button className="reset-btn" onClick={handleReset}>Reset</button>
-        <button className={`continue-btn ${doorValid ? "" : "disabled-bt"}`} disabled={!doorValid} onClick={handleContinue}>Continue</button>
-      </div>
+      {viewportWidth > 1025 && buttonPanel}{/*Show panel for desktop only*/}
     </div>
     <div id="options-section">
       <div id="size-container"> 
         <h2>Size</h2>
         <div className='size-box'>
           <img src={shortSize} className="img-fluid"/>
-          <p className={`${selections["Size"]==true && Size === "Single" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Single")} >Single Door 8'X7'</p>
+          <p className={`${selections["Size"]==true && Size === "Single" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Single")} >Single Car 8'x7'</p>
         </div>
         <div className='size-box'>
            <img src={doubleSize} className="img-fluid"/>
-          <p className={`${selections["Size"]==true && Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Double Door 16'X7'</p>
+          <p className={`${selections["Size"]==true && Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Two Cars 16'x7'</p>
         </div>
       </div>
       {selectedDoor.id != "Planks" && selectedDoor.id!= "SkylineFlush" &&/*Some doors require designs in other places*/
@@ -785,7 +787,7 @@ export default function Build(props) {
 
       {selectedDoor.windows!=null &&
       <label id="windows-checkbox-label">
-        <h3 className='bolder'>Choose Windows?</h3>
+        <h2>Choose Windows?</h2>
         <input id="show-windows-check-box" type="checkbox" checked={windowCheckBox} onClick={(e) =>handleShowWindows(e)}/>
       </label>}
 
@@ -815,6 +817,7 @@ export default function Build(props) {
         />
         )}
       </>)}
+      {viewportWidth < 1025 && buttonPanel}{/*Show panel for mobile/tablet only*/}
     </div>
   </div>
   );

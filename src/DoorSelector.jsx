@@ -118,6 +118,8 @@ import carriageSteelStandard from'./assets/Insulation/carriage/5300_standard.jpg
 import carriageSteelPremium from'./assets/Insulation/carriage/5600_premium.jpg'
 
 let commonInserts = {"No Inserts": noInserts,Prairie: prarire,Sherwood: sherwood, Stockton: stockton,Sunburst: sunburst,Waterton: waterton,Cathedral: cathedral,Cascade: cascade}
+let commonWindows = {Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded}
+let commonDesignerGlass = {Temple: raisedTemple,Newport: raisedNewPort, "Somerset Brass": raisedSomsertSetBrass, "Somerset Platinum": raisedSomsertSetPlat,"Hawthorne Brass": raisedHawthorneBrass,"Hawthorne Platinum": raisedHawthornePlat}
 const traditionalDoors=[
 {name:"Raised Panel",defaultImg:RaisedPanel,id:"Raised",defaultDesign:"Short Panel",defaultColor:"Almond",rwd:"CHI_Raised.rwd",
   colors:{White:"#EAEEED","Sandstone":"#9E9188",Almond:"#D5CBBF",Brown:"#4D3B37",Bronze:"#6E6D69",Gray:"#9C9DA1","Desert Tan":"#CBC4B1","Black":"#242625","Graphite":"#46494E"/*,"Ever Green":"#114c36"*/},
@@ -135,15 +137,8 @@ const traditionalDoors=[
               "PremiumImg": premiumRaisedPanel, Premium:{"Short Panel":2283,"Long Panel":4283}},
   windows:{
     position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
-    designerGlass: {
-    Temple: raisedTemple,
-    Newport: raisedNewPort,
-    "Somerset Brass": raisedSomsertSetBrass,
-    "Somerset Platinum": raisedSomsertSetPlat,
-    "Hawthorne Brass": raisedHawthorneBrass,
-    "Hawthorne Platinum": raisedHawthornePlat
-    },
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
+    designerGlass: null,
     inserts: {
     "Any Design":{
       ...commonInserts
@@ -160,7 +155,7 @@ const traditionalDoors=[
               "PremiumImg": premiumRecessed, Premium:{"Short Panel":2298,"Long Panel":2294,"Flush":2291}},
   windows:{
     position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
     designerGlass: null,
     inserts: {"Any Design":
       {"No Inserts": noInserts,
@@ -186,8 +181,10 @@ const traditionalDoors=[
               "PremiumImg": premiumStampedCarriage, "Premium":{"Short Panel":5283,"Long Panel":5983,}},
   windows:{
     position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,"Seeded":seeded},
-    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
+     designerGlass:null
+    //{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence}
+    ,
     inserts: {
     "Any Design":{
       ...commonInserts
@@ -211,8 +208,10 @@ const traditionalDoors=[
               "PremiumImg": premiumStampedShaker, "Premium":{"Shaker":2583}},
   windows:{
     position:{},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips,Seeded:seeded},
-    designerGlass:{Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
+    designerGlass:null
+    // {Temple:carriageTemple,Newport:carriageNewport,Florence:carriageFlorence}
+    ,
     inserts: {
       "Any Design":{
       ...commonInserts
@@ -253,15 +252,9 @@ const contemporaryDoors = [
               "PremiumImg": premiumPlank, "Premium":{"No Or Short Windows":2327, "Long Windows":2347}},
   windows:{
     position:{"First Row":top,"Right Edge":right,"Left Edge":left},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
     styleLite:{"StyleLite Plain":litePlain,"StyleLite Tinted":liteTinted,"StyleLite Frosted":liteFrosted,"StyleLite Rain":liteRain},
-    designerGlass:{  
-      Temple: raisedTemple,
-      Newport: raisedNewPort,
-      "Somerset Brass": raisedSomsertSetBrass,
-      "Somerset Platinum": raisedSomsertSetPlat,
-      "Hawthorne Brass": raisedHawthorneBrass,
-      "Hawthorne Platinum": raisedHawthornePlat},
+    designerGlass:null,
     inserts: {
       "No Or Short Windows":{
        ...commonInserts
@@ -286,16 +279,9 @@ const contemporaryDoors = [
               "PremiumImg": premiumInsulation, "Premium":{"No Or Short Windows":2127, "Long Windows":2147}},
   windows:{
     position:{"First Row":top,"Right Edge":right,"Left Edge":left},
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
     styleLite:{"StyleLite Plain":litePlain,"StyleLite Tinted":liteTinted,"StyleLite Frosted":liteFrosted,"StyleLite Rain":liteRain},
-    designerGlass: {
-    Temple: raisedTemple,
-    Newport: raisedNewPort,
-    "Somerset Brass": raisedSomsertSetBrass,
-    "Somerset Platinum": raisedSomsertSetPlat,
-    "Hawthorne Brass": raisedHawthorneBrass,
-    "Hawthorne Platinum": raisedHawthornePlat
-    },
+    designerGlass: null,
      inserts: {
       "No Or Short Windows":{
        ...commonInserts
@@ -312,7 +298,7 @@ designs:{"Full View":fullView},
 Insulation:{"StandardImg": aluminumStandard ,"Standard":{"Full View":"3295R"}, 
             "PremiumImg": aluminumPremium , "Premium":{"Full View":"3297R"}},
 windows:{
-    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted,"Glue Chips":glueChips},
+    glass:{Plain:plain,Obscure:obscure,Frosted:frosted,Tinted:tinted},
     designerGlass: null,
     inserts: null,
   hardware:{}
@@ -348,13 +334,53 @@ const carriageDoors=[
 {...traditionalDoors[2]},
 {...traditionalDoors[3]}]
 
+function SlideShow({ doorsImgs, onClick, id }) {
+  let doorElements = [];
+  for (let i = 0; i < doorsImgs.length; i++) {
+    doorElements.push(
+      <div className={`carousel-item subtype-item ${i === 0 ? 'active' : ''}`} key={i}>
+        <img loading="eager" src={doorsImgs[i]} className="img-fluid" />
+      </div>
+    );
+  }
 
-function DoorSelector({handleDoorSelection,doorType}) {
+  return (
+    <div id={id} className="carousel slide subtype-carousel" onClick={onClick}>
+      <div className="carousel-inner subtype-inner">
+        {doorElements}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target={`#${id}`}
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target={`#${id}`}
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+function DoorSelector({handleDoorSelection,doorType,doorImages}) {
   const [doorIndex, setDoorIndex] = useState(0)
-  const carouselRef = useRef(null);
-  const headerRef = useRef(null);
-  const [buttonOffset, setButtonOffset] = useState(0);
-  const [ready, setReady] = useState(false);/*Waiting for header to load fully before JSX CSS positioning, to avoid load in artifacts*/
+  useEffect(()=>{
+    fetch('/test-deployment/dist/doorPrices.csv')
+    .then(res => res.text())
+    .then(text => {
+      const rows = text.trim().split('\n')
+      console.log("ROWS:\n", rows);
+  });
+  },[doorType])
   var Doors;
   switch(doorType){
     case("traditional"): Doors = traditionalDoors
@@ -364,91 +390,26 @@ function DoorSelector({handleDoorSelection,doorType}) {
     case("carriage"): Doors = carriageDoors
     break;
   }
-  const doorName = Doors[doorIndex].name.replace(/ /g, '_').toLowerCase()
-  useEffect(() => {
-      console.log("INSIDE USEEFFECT")
-      //Runs after render. This React hoook is used to handle interactions after everything in the component has rendered
-      //React strictmode calls this twice for bug detecton(not in production builds), as such this creat two event listeners 
-      const carousel = document.getElementById("doorSelectCarousel");
-      const handleSlide = (event) => {
-        console.log("EVENT:",  event)
-        const newIndex = event.to;
-        setDoorIndex(newIndex);
-        /*alert("Changed to door index: " + newIndex);*/
-      };
-
-      if (carousel) {
-        carousel.addEventListener("slid.bs.carousel", handleSlide);
-      }
-      //the return is optional and is the "cleanup function", react runs this upon the second useEffect call
-      return () => {
-        if (carousel) {//By remvoing the listener, you avoid the double behavior in strictMode
-          carousel.removeEventListener("slid.bs.carousel", handleSlide);
-        }
-      };
-    }, []);
-  useEffect(() => {
-    if (headerRef.current) {
-      setButtonOffset(headerRef.current.offsetHeight);
-      //alert(ready)
-        setReady(true)
-    }
-  }, []); // run once on mount; you can also run on resize
-  const handleBuildBtn = () =>{
-    handleDoorSelection(Doors[doorIndex]) 
+  const handleBuildBtn = (index) =>{handleDoorSelection(Doors[index]) }/*Goes to parent for correct Route*/
+  const handleClick = (e)=>{
+    console.log("Clicked")
   }
-
-  let doorElements =[]
-
-  for (let i = 0; i < Doors.length; i++) {
-    doorElements.push(
-      <div className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i} id="doorSelectCarouselItem">
-        <h1 id="doorName" ref={i === 0 ? headerRef : null}>{Doors[i].name}</h1>
-        <img src={Doors[i].defaultImg}  className="img-fluid" alt={Doors[i].name} />
-      </div>
-    );
-  }
-  //console.log("IS READY?: ",ready)
-  //console.log("DOORNAME:",doorName)
-
   return (
   <div id="centering-div">
-    <div id="doorSelectCarousel" className="carousel slide">
-      <div className="carousel-inner" id="doorSelectInner">
-        {doorElements}
-        <button id="prevDoor"className="carousel-control-prev" type="button" data-bs-target="#doorSelectCarousel" data-bs-slide="prev" 
-                 >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-        </button>
-
-        <button id="nextDoor"className="carousel-control-next" type="button" data-bs-target="#doorSelectCarousel" data-bs-slide="next"
-                >
-          <span id="btn"className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span id="btn2"className="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div className="carousel-indicators" id="indicatorDiv">
-        {Doors.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            data-bs-target="#doorSelectCarousel"
-            data-bs-slide-to={i}
-            className={`slide-btn ${i === 0 ? "active" : ""}`}
-            aria-current={i === 0}
-            aria-label={Doors[i].name}
-          /> ))}
-      </div>
-    </div>
-    <div className="btns">
-      <Link to={`/`}>
-        <button className="back-btn" onClick={handleBuildBtn}>Back</button>
-      </Link>
-      <Link to={`/${doorType}/${doorName}/build`}>
-        <button className="continue-btn" onClick={handleBuildBtn}>Build</button>
-      </Link>
-    </div>
+    {Object.keys(doorImages).map((subType,index) =>{
+      if (index >0){return;}
+      console.log("DOORTYPE:",subType)
+      const doorName = Doors[index].name.replace(/ /g, '_').toLowerCase()
+      return(
+      <div className="subtype-container" key={subType}>
+        <h2>{subType}</h2>
+        <SlideShow onClick={handleClick} doorsImgs={doorImages[subType]} id={`doorSelectCarousel-${index}`}/>
+        <Link to={`/${doorType}/${doorName}/build`}>
+          <button className="continue-btn" onClick={()=> handleBuildBtn(index)}>Build</button>
+        </Link>
+        </div>
+      )  
+    })}
   </div>
   );
 }
