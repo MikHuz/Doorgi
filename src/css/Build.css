@@ -55,32 +55,38 @@
 #options-section {
   display:flex;
   flex-direction:column;
+  align-items: center;
   width:100%;
   overflow-y: auto;  
   overflow-x:hidden;
-  row-gap:0em;
+  row-gap:1em;
 }
 #options-section > *{
-  padding:1rem 0 1rem;;
-  width:100%;
-  /* border:2px solid black; */
-  /* border-top-left-radius:16px;border-bottom-left-radius:16px; */
+  padding:1rem 0 1rem;
+  width:95%;
+  border:2px solid black; 
+  border-radius:16px;
+  max-width:700px;
+}
+#options-section > :first-child{
+  margin-top:0.5rem;
+}
+#options-section > :last-child{
+  margin-bottom:0.5rem;
 }
 #options-section > :nth-child(odd){
    background: linear-gradient(to right, var(--color-grey),var(--color-orange-dark));
 }
 #options-section > :nth-child(even){
-
-    background: linear-gradient(to right, var(--color-orange-main),var(--color-yellow));
+  background: linear-gradient(to right, var(--color-orange-main),var(--color-yellow));
 }
 @media(min-width:1025px){
- 
 }
 /*Grid Settings */
 
 /*Size Option*/
 #size-container{
-  width:100%;
+  /* width:100%; */
   display:flex;
   flex-wrap:wrap;  
   justify-content: center;
@@ -103,18 +109,23 @@
   max-height:70px;
   width:auto;
 }
+.size-box > img:hover{
+  outline:3px solid black;
+}
 #size-container p{
-  outline:2px solid black;
+  outline:3px solid black;
   border-radius:8px;
   width:fit-content;
   margin:0 auto;
   margin-top:0.5em;
   padding:0.25em;
+  font-weight:900;
+  transition:0.2s;
 } 
-@media(min-width:1025px){#size-container p{font-size:0.8em}}
+@media(min-width:1025px){#size-container p{font-size:1.1em}}
 #size-container p:not(.selected-size):hover{
-  transform:scale(1.05);
-  color:red;
+  transform:scale(1.03);
+  color:rgb(207, 5, 5);
   text-decoration: underline;;
   transition:transform 0.2s;
 }
@@ -174,6 +185,7 @@
 .insulation-box>img{transition: 0.2s;}
 .insulation-box>img:hover{
   transform:scale(1.05);
+  cursor:pointer;
   transition:0.2s;
 }
 .insulation-box >h3{
@@ -242,14 +254,14 @@
   flex-wrap: wrap;
   justify-content: center;
   width:100%;
-  gap:8px;
+  gap:2px;
   padding:1rem 0 1rem;
 }
 #colors-container > div> h3{text-align: center;width:100%;}
 .color-box {
   flex:0 1 auto;
-  width:35%;
-  max-width: 150px;   
+  width:33%;
+  max-width: 120px;   
   display: flex;
   flex-direction: column;
   outline: 2px solid black; 
@@ -275,13 +287,13 @@
 /*Windows*/
 #windows-container{/*Section For Checkbox, glass, inserts etc.*/
   display:flex;
-  width:100%;
+  /* width:100%; */
   flex-direction:column;
   row-gap:1em;
 }
 #windows-checkbox-label{
   display:flex;
-  width:100%;
+  /* width:100%; */
   align-items:center;
   justify-content: center;
   column-gap:1rem;
@@ -389,7 +401,65 @@ box-shadow: 4px 4px 5px 5px rgba(0,0,0,0.5);
 }
  @media (min-width:1025px){.insert-box >div {height:3.5vw}} 
 /*Windows*/
+.btns{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width:75%;
+  gap:0.5em;
+}
+.btns  button{font-weight:600}
+.btns > a:first-child{width:35%;margin-left:0.25em;}
+.btns > a:last-child{width:65%;}
+.btns > button:first-child{width:35%;}
+.btns > button:last-child{width:65%;}
 
+.back-btn{
+  background-color:var(--color-yellow);
+  color:black;
+  margin:0.25em 0 0;
+  width:100%;
+  margin:0;
+}
+.reset-btn{
+  width:25%;
+  font-weight:600;background-color:var(--color-orange-dark)
+}
+.continue-btn{
+  background-color:var(--color-grey);
+  color:white;
+  margin:0.25em 0 0;
+  width:100%;
+  margin:0;
+  margin-right:0.25em;
+}
+.back-btn:hover{
+  background-color: var(  --color-orange-dark);
+  transform:scale(1.02);
+  transition:0.1s;
+}
+.continue-btn:hover{
+  background-color: var(  --color-orange-dark);
+  transform:scale(1.02);
+  transition:0.1s;
+}
+
+.reset-btn:hover{
+background-color: var(--color-grey);
+}
+.back-btn:hover{
+  background-color: var(  --color-orange-dark);
+  transform:scale(1.02);
+  transition:0.1s;
+}
+.continue-btn:hover{
+  background-color: var(  --color-orange-dark);
+  transform:scale(1.02);
+  transition:0.1s;
+}
+.reset-btn:hover{
+background-color: var(--color-grey);
+}
 /*hover and  selection styles*/
 .selected {/*General selector*/
   outline:3px solid red;
@@ -422,6 +492,7 @@ box-shadow: 4px 4px 5px 5px rgba(0,0,0,0.5);
 .insert-box > div:hover{
   transform: scale(1.05);
   transition:0.2s;
+   cursor:pointer;
 }
 .selected-design{
   transform:scale(1.05);

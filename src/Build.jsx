@@ -770,11 +770,11 @@ export default function Build(props) {
       <div id="size-container"> 
         <h2>Size</h2>
         <div className='size-box'>
-          <img src={shortSize} className="img-fluid"/>
+          <img src={shortSize} className="img-fluid"  onClick={(e) => handleSize(e,"Single")}/>
           <p className={`${selections["Size"]==true && Size === "Single" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Single")} >Single Car 8'x7'</p>
         </div>
         <div className='size-box'>
-           <img src={doubleSize} className="img-fluid"/>
+           <img src={doubleSize} className="img-fluid"  onClick={(e) => handleSize(e,"Double")}/>
           <p className={`${selections["Size"]==true && Size === "Double" ? "selected-size" : ""}`} onClick={(e) => handleSize(e,"Double")} >Two Cars 16'x7'</p>
         </div>
       </div>

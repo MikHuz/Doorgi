@@ -1,5 +1,5 @@
 import { useState, useEffect,useRef} from 'react'
-import { Routes, Route, Link,useLocation} from 'react-router-dom';
+import { Routes, Route, Link,useLocation,useNavigate} from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import DoorSelector from "./DoorSelector.jsx";
 import {getDoors} from './door_data.jsx'
@@ -13,12 +13,13 @@ const contDoors = getDoors('contemporary')
 const carrDoors = getDoors('carriage')
 /*Home Images*/
 
-/*SubType Images*/
-const subTypeImages = {traditional: getCarouselImages('traditional'),
-                      contemporary: getCarouselImages('contemporary'),
-                      carriage:getCarouselImages('carriage')}
-/*SubType Images*/
+// /*SubType Images*/
+// const subTypeImages = {traditional: getCarouselImages('traditional',"desktop"),
+//                       contemporary: getCarouselImages('contemporary',"desktop"),
+//                       carriage:getCarouselImages('carriage',"desktop")}
+// /*SubType Images*/
 function SlideShow(props){ /*Slideshow for each doorType carousel*/
+  const navigate = useNavigate()
     useEffect(() => {
       const carouselEl = document.getElementById(props.id);
       if (carouselEl) {
@@ -28,9 +29,12 @@ function SlideShow(props){ /*Slideshow for each doorType carousel*/
         });*/
       }
   }, [props.id]);
+  const handleCarouselClick = () => {
+    navigate(`/${props.type}`)
+  }
   let doorElements = props.doors.map((imgSrc, i) => (
     <div id="homeItemSlide" className={`carousel-item ${i === 0 ? 'active' : ''} `} key={i}>
-      <img src={imgSrc} className="d-block w-100" alt={`Garage door ${i + 1}`} />
+      <img src={imgSrc} onClick={handleCarouselClick}className="d-block w-100" alt={`Garage door ${i + 1}`} />
       {/*<div class="carousel-caption" style={{bottom:"0px"}}>
         <h5>Second slide label</h5>
         <p>Some representative placeholder content for the second slide.</p>
@@ -45,11 +49,11 @@ function SlideShow(props){ /*Slideshow for each doorType carousel*/
           {doorElements}
         </div>
 
-        <button className="carousel-control-prev" type="button" data-bs-target={`#${props.id}`} data-bs-slide="prev">
+        <button id="homePrevBtn" className="carousel-control-prev" type="button" data-bs-target={`#${props.id}`} data-bs-slide="prev">
           <span className="carousel-control-prev-icon"></span>
         </button>
 
-        <button className="carousel-control-next" type="button" data-bs-target={`#${props.id}`} data-bs-slide="next">
+        <button id="homeNextBtn" className="carousel-control-next" type="button" data-bs-target={`#${props.id}`} data-bs-slide="next">
           <span className="carousel-control-next-icon"></span>
         </button>
       </div>
@@ -70,23 +74,23 @@ function HomePage() {
       <span>This is a span element (inline by default).</span>
       <button>Click Me</button>
     </div> */}
-    <h2 className="home-header">Traditional</h2>
-    <SlideShow id="Carousel-trad"  doors={tradDoors}/>
-    <Link id="view-btn-link"to="/traditional">
+    <h2 className="homeCarouselHeader">Traditional</h2>
+    <SlideShow id="Carousel-trad"  doors={tradDoors} type={"traditional"}/>
+    {/* <Link id="view-btn-link"to="/traditional">
       <button id="view-doors-type-btn" style={{}}>View Traditional Doors</button>
-    </Link>
+    </Link> */}
     
-    <h2  className="home-header">Contemporary</h2>
-    <SlideShow id="Carousel-cont" doors={contDoors}/>
-    <Link id="view-btn-link" to="/contemporary">
+    <h2 className="homeCarouselHeader">Contemporary</h2>
+    <SlideShow id="Carousel-cont" doors={contDoors} type={"contemporary"}/>
+    {/* <Link id="view-btn-link" to="/contemporary">
       <button id="view-doors-type-btn" style={{}}>View Contemporary Doors</button>
     </Link>
-    
-    <h2  className="home-header">Carriage</h2>
-    <SlideShow id="Carousel-carriage"  doors={carrDoors}/>
-    <Link id="view-btn-link" to="/carriage">
+     */}
+    <h2 className="homeCarouselHeader">Carriage</h2>
+    <SlideShow id="Carousel-carriage"  doors={carrDoors} type={"carriage"}/>
+    {/* <Link id="view-btn-link" to="/carriage">
       <button id="view-doors-type-btn" style={{}}>View Carriage Doors</button>
-    </Link>
+    </Link> */}
   </>);
 }
 
@@ -96,21 +100,16 @@ function Footer(){
   );
 }
 
-function App() {
+
+function App() {/*Route generations and door generation*/
   const [selectedDoor,setSelectedDoor] = useState(null)
-  const nodeRef = useRef(null); 
+  const [subTypeImages, setSubTypeImages] = useState({}); 
+  const [deviceType, setDeviceType] = useState(getDeviceType(window.innerWidth));
   const location = useLocation();
-  const handleDoorSelection = (door) =>{setSelectedDoor(door);}
-  const doorTypes = {traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
-                    contemporary:["sterling","planks","skyline_flush","aluminum"],
-                    carriage:["shoreline","overlay_shoreline", "steel_overlay","stamped_carriage_house","stamped_shaker","recessed_panel"]}
-  let generatedRoutes = []
-  for (const type in doorTypes){/*Route for each door type*/
-    generatedRoutes.push(<Route path={`${type}/`} 
-    element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type} doorImages={subTypeImages[type]}/>} />)
-    for (const doorName of doorTypes[type]){/*Route for doorType/doorName*/
-      generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
-    }
+  function getDeviceType(width) {
+    if (width < 768) return "mobile";
+    if (width < 1024) return "tablet";
+    return "desktop";
   }
   //console.log("ROUTES:", generatedRoutes)
   useEffect(() => {
@@ -122,6 +121,41 @@ function App() {
 
     return () => clearTimeout(timeout);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newType = getDeviceType(window.innerWidth);
+      // update only if type actually changes
+      setDeviceType(prev => (prev !== newType ? newType : prev));
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    //alert("Device type changed)")
+    console.log("Getting new images for:", deviceType);
+    setSubTypeImages({
+      traditional: getCarouselImages("traditional", deviceType),
+      contemporary: getCarouselImages("contemporary", deviceType),
+      carriage: getCarouselImages("carriage", deviceType),
+    });
+  }, [deviceType]);
+
+  const handleDoorSelection = (door) =>{setSelectedDoor(door);}
+  const doorTypes = {traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
+                    contemporary:["sterling","planks","skyline_flush","aluminum"],
+                    carriage:["shoreline","steel_overlay","wood_overlay","fiber_glass_overlay","stamped_carriage_house","stamped_shaker","recessed_panel"]}
+  let generatedRoutes = []
+  // console.log(subTypeImages["contemporary"])
+  for (const type in doorTypes){/*Route for each door type*/
+    generatedRoutes.push(<Route path={`${type}/`} 
+    element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type} doorImages={subTypeImages[type]}/>} />)
+    for (const doorName of doorTypes[type]){/*Route for doorType/doorName*/
+      generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
+    }
+  }
   return (<>
   {/*<Header/>*/}
     <Routes>

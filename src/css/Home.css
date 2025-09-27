@@ -7,7 +7,7 @@
 /* STYLES APP.JSX */
 
 /* Homepage */
-.home-header{
+.homeCarouselHeader{
   margin-bottom:0.75rem;
   text-align:center;
 }
@@ -16,9 +16,15 @@
   height: clamp(230px, 50vw, 500px);
   /* max-height:280px; */
   margin:0 auto;
+    margin-bottom:2rem;
   outline:2px solid black;
   border-radius: 8px;
-  box-shadow:0px 0px 6px 10px rgba(0,0,0,0.35)
+  box-shadow:0px 0px 6px 10px rgba(0,0,0,0.35);
+    transition:0.2s;
+}
+.homeCarousel:hover{
+  transform:scale(1.01);
+  transition:0.2s;
 }
  @media (min-width:900px){
 .homeCarousel{width:75%;height:35vw}
@@ -50,13 +56,14 @@
    border-radius: 8px;
   /*bordeR:2px solid blue;*/
 }
-.carousel-control-prev, .carousel-control-next{border-radius: 8px;opacity:1.0}
-.carousel-control-prev:hover,.carousel-control-next:hover {background-color: rgba(70, 60, 63, 0.15); }
+#homePrevBtn:hover,#homeNextBtn:hover {background-color: rgba(70, 60, 63, 0.25); }
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   transition: opacity 0.2s ease-in-out;
+  height:50px;
+  width:50px;
 }
-#view-btn-link{
+/* #view-btn-link{
   display: block;    
   text-align:center;
 }
@@ -73,6 +80,6 @@
   background-color: var(  --color-orange-dark);
   transform:scale(1.02);
   transition:0.1s;
-}
+} */
 
 /*Homepage*/
