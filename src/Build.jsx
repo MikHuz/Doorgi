@@ -204,9 +204,9 @@ function Windows(props){
   const [showInserts,setShowInserts] = useState(false)
   const [selectedPosition,setPosition] = useState(props.door!="Sterling" ? "FIRST ROW":"TOP ROW")                
   const selectedDesign = props.design
-  console.log("Design:",selectedDesign)
-  console.log("Type:",glassType)
-  console.log("Selected Insert",selectedInsert)
+  // console.log("Design:",selectedDesign)
+  // console.log("Type:",glassType)
+  // console.log("Selected Insert",selectedInsert)
   useEffect(() => {
     //If design changed to something that doesn't support StyleLite, reset
     if (props.design !== "Long Windows" && glassType === "StyleLite") {
@@ -248,7 +248,7 @@ function Windows(props){
   }
   const handleGlassType = (type) =>{
     setGlassType(type);
-    console.log("SELECTED WINDOW:",selectedWindow)
+    //console.log("SELECTED WINDOW:",selectedWindow)
     setShowInserts(type =="Glass" && (selectedWindow in props.windows.glass)? true : false )
   }
   const handleInsert = (insert) =>{
@@ -278,7 +278,7 @@ function Windows(props){
     </div>)
     })
   }
-  console.log("Positions:",positionDivs)
+  //console.log("Positions:",positionDivs)
 
   let windowDivs = (props.windows.glass!=null ? Object.entries(props.windows.glass).map( ([glass,url]) =>{
     return(
@@ -435,7 +435,8 @@ function Windows(props){
 }
 
 export default function Build(props) {
-  const selectedDoor = PersistentState("selectedDoor",props.selectedDoor)
+  const selectedDoor = props.selectedDoor
+  const prices = selectedDoor.prices
   const [Image,setImage] = useState(selectedDoor.defaultImg) 
   const [Price, setPrice] = useState(1000)
   const [Size,setSize] = useState("Double")
@@ -469,9 +470,42 @@ export default function Build(props) {
       meaning a door completion check relies partly on user click selections.
       Doors that have only one design have no design selections and set this value to true*/
   });
-   console.log("Selections:",selections)
-   console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
-  console.log("Model insulation:",Insulation)
+  //console.log("COLORTYPE:",colorType)
+  //console.log("CURRENT DOOR:",selectedDoor)
+  // console.log("Selections:",selections)
+  // console.log("Design:",Design,"Color:",Color,"Size:",Size,"ColorType:",colorType)
+   //console.log("Model insulation:",Insulation)
+
+  useEffect( ()=>{
+    //console.log("Detected change, getting new price")
+  let newPrice = 0
+      //console.log("NEW PRICE FOR DESIGN:",Design, newPrice)
+    if (Design && Size && InsulationType){
+      let ins = InsulationType=="Standard" ? "Non-insulated" : "Insulated"
+      let baseKeys = prices[Design][ins][Size]
+      let newPrice = Number(baseKeys["basePrice"])
+      console.log("\nNEW BASE PRICE", Design,ins,Size,newPrice)
+      console.log(baseKeys["options"])
+      if (colorType && colorType=="Accents Woodtones" && baseKeys["options"]["Accents Woodtones"]){
+          newPrice += Number(baseKeys["options"]["Accents Woodtones"])
+      }
+      if (Glass){
+        //console.log("GLASS SELECTED:",Glass)
+        newPrice += Number(baseKeys["options"]
+                          [glassType === "StyleLite" ? StyleLite : Glass])
+        //alert("glass selected")
+      } else{//alert("no glass")
+        }
+      if (windowInserts && windowInserts!= "No Inserts"){
+         newPrice += Number(baseKeys["options"]["Inserts"])
+        //alert("inserts")
+      } else{//alert("no inserts")
+        }
+      console.log("PRICE",Glass,windowInserts, newPrice)
+
+    }
+    else{console.log("MISSING BASE CHECKS")}
+  }, [Design,Size,InsulationType,colorType,Glass,windowInserts])
   useEffect(() => {/*effect for ScrollBar removal*/ 
     document.body.classList.add('build-page');
     return () => {
@@ -498,12 +532,12 @@ export default function Build(props) {
       } 
       else {
         setDoorValid(validity)/*False, base cases failed*/
-        console.log("bases cases for planks and flush failed");return;
+        //console.log("bases cases for planks and flush failed");return;
       }
     }
     else if (selections["Size"] && selections["Color"] && selections["Design"] && Insulation !== "") {/*Base Cases for most doors*/
       validity = true;/*Right now true*/
-      console.log("BASE CASES CHECKED")
+      //console.log("BASE CASES CHECKED")
       if (showWindows) {
         console.log("Checking if windows are complete")
         validity = isWindowSelectionComplete(Glass, glassType, windowInserts);
@@ -512,7 +546,7 @@ export default function Build(props) {
     } 
     else{ /*Most Doors fail*/
       setDoorValid(validity)
-      console.log("Base cases for most doors failed")
+     // console.log("Base cases for most doors failed")
     }
   })
   useEffect(() => {/*Effect for dynamic button placement based on viewport changes*/
@@ -614,7 +648,7 @@ export default function Build(props) {
   }
   const getPattern = (size, design)=>{
   let key = selectedDoor.id + size +design.replace(/ /g, '');;
-  console.log("Pattern key: ",key)
+  //console.log("Pattern key: ",key)
   let pattern = patterns[key]
   return pattern;
   }
@@ -626,7 +660,7 @@ export default function Build(props) {
     setDesign(selectedDoor.defaultDesign);
     setColor(selectedDoor.defaultColor);
     let defaultColorType = selectedDoor.colors == null ? "Accents Woodtones":
-    Color in selectedDoor.colors ? "Solid Color" : "Accents Woodtones"
+    selectedDoor.defaultColor in selectedDoor.colors ? "Solid Color" : "Accents Woodtones"
     setColorType(defaultColorType)
 
     // Reset window / insulation
@@ -671,7 +705,7 @@ export default function Build(props) {
     const firstRun = 1
     const api_key= "5809bc44-3cf7-42c5-8395-a9558bb40647"
     const responsePath = "https://chi-api.renoworks.com/data/CHI/"
-    console.log("Paramter passed:",parameter)/*Parameter refers to the door option(Ex. Color:Blue) user has selected at this time*/
+    //console.log("Paramter passed:",parameter)/*Parameter refers to the door option(Ex. Color:Blue) user has selected at this time*/
    // console.log(pattern)
     var solidColorOrWood = colorType
     var glassOrDesigner = glassType
@@ -688,7 +722,7 @@ export default function Build(props) {
       }
     }
     //console.log("Color Type:",solidColorOrWood)
-    console.log("Glass Or Designer:",glassOrDesigner)
+    //console.log("Glass Or Designer:",glassOrDesigner)
     let gridSettings={/*Create the gridSettings based on current door and values*/
       Width:Size,
       Design:Design,
@@ -708,7 +742,7 @@ export default function Build(props) {
         gridSettingsParameter += (key + "=" + gridSettings[key] +"|")
       }
     }
-    console.log("Grid settings parameter:",gridSettingsParameter)
+    //:",gridSettingsParameter)
     const formBody = new URLSearchParams();
     formBody.append("rwd", rwd);
     formBody.append("gridSettings", gridSettingsParameter);
@@ -751,7 +785,11 @@ export default function Build(props) {
     });
   }
   let buttonPanel = <> 
-    {!loading ? <h2>Price: ${Price} </h2>:<h2>Loading...</h2>}
+    {!loading ? <h2>Price: ${Price} </h2>:<h2 className="wave">
+    <span>L</span><span>o</span><span>a</span><span>d</span>
+    <span>i</span><span>n</span><span>g</span>
+    <span>.</span><span>.</span><span>.</span>
+  </h2>}
     <div className="btns">
       <Link to={`/${props.doorType}`}>
         <button className="back-btn" >Back</button>
@@ -763,8 +801,8 @@ export default function Build(props) {
   <div id="build-page-grid">
     <div id="door-section">
       <h1>{selectedDoor.name}</h1>
-      <img src={loading ? doorgiLogo:Image} className={`${loading ? "loading-style" : ""}`} />
-      {viewportWidth > 1025 && buttonPanel}{/*Show panel for desktop only*/}
+     <img src={loading ? doorgiLogo : Image}className={loading ? "loading-style" : ""}/>   
+      {viewportWidth > 1025 && buttonPanel}{/*Show panel here for desktop only*/}
     </div>
     <div id="options-section">
       <div id="size-container"> 
@@ -817,26 +855,12 @@ export default function Build(props) {
         />
         )}
       </>)}
-      {viewportWidth < 1025 && buttonPanel}{/*Show panel for mobile/tablet only*/}
+      {viewportWidth < 1025 && buttonPanel}{/*Show panel here for mobile/tablet only*/}
     </div>
   </div>
   );
 }
 
-function PersistentState(key,defaultDoor){
-  if (defaultDoor){
-    /*alert("Setting door")*/
-    localStorage.setItem(key,JSON.stringify(defaultDoor));
-    //console.log("RETURNING PROP DOOR")
-    //console.log(defaultDoor)
-    return defaultDoor
-  }
- /* alert("Returning from local storage")*/
-  //console.log("RETURNING LOCAL STORAGE DOOR:")
-  //console.log(JSON.parse(localStorage.getItem(key)) )
-  return JSON.parse(localStorage.getItem(key))
-
-}
 const patterns = {
   /*NameSizeDesign*/
   /*Traditional*/

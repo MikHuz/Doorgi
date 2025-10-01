@@ -88,6 +88,8 @@ button, input, select, textarea {
 img{
   display:block;
   max-width:100%;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
   
 }
 ul {

@@ -1,23 +1,19 @@
 import { useState, useEffect,useRef} from 'react'
 import { Routes, Route, Link,useLocation,useNavigate} from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import DoorSelector from "./DoorSelector.jsx";
-import {getDoors} from './door_data.jsx'
-import { getCarouselImages } from './door_data.jsx';  
-import Build from './Build.jsx'
-import './css/Home.css'
 import './css/index.css'
+import './css/Home.css'
+import DoorSelector from "./DoorSelector.jsx";
+import Build from './Build.jsx'
+import {getDoors} from './door_data.js'
+import {getHomeImages} from './home_door_images.js'
+import {getSubTypeImages } from './subtype_door_images.js';  
 /*Home Images*/
-const tradDoors = getDoors('traditional')
-const contDoors = getDoors('contemporary')
-const carrDoors = getDoors('carriage')
+const tradDoorsImages = getHomeImages('traditional')
+const contDoorsImages = getHomeImages('contemporary')
+const carrDoorsImages = getHomeImages('carriage')
 /*Home Images*/
 
-// /*SubType Images*/
-// const subTypeImages = {traditional: getCarouselImages('traditional',"desktop"),
-//                       contemporary: getCarouselImages('contemporary',"desktop"),
-//                       carriage:getCarouselImages('carriage',"desktop")}
-// /*SubType Images*/
 function SlideShow(props){ /*Slideshow for each doorType carousel*/
   const navigate = useNavigate()
     useEffect(() => {
@@ -32,7 +28,7 @@ function SlideShow(props){ /*Slideshow for each doorType carousel*/
   const handleCarouselClick = () => {
     navigate(`/${props.type}`)
   }
-  let doorElements = props.doors.map((imgSrc, i) => (
+  let doorElements = props.doorImgs.map((imgSrc, i) => (
     <div id="homeItemSlide" className={`carousel-item ${i === 0 ? 'active' : ''} `} key={i}>
       <img src={imgSrc} onClick={handleCarouselClick}className="d-block w-100" alt={`Garage door ${i + 1}`} />
       {/*<div class="carousel-caption" style={{bottom:"0px"}}>
@@ -63,31 +59,20 @@ function SlideShow(props){ /*Slideshow for each doorType carousel*/
 
 function HomePage() {
   return (<>  
-    {/* <div id="test-flex">
-      <h1 className="bg-orange-main">Header 1</h1>
-      <h2 className="bg-orange-dark">Header 2</h2>
-      <h3 className="bg-orange-light">Header 3</h3>
-      <h4 className="bg-yellow">Header 4</h4>
-      <h5 className="bg-main">Header 5</h5>
-      <h6 className="bg-dark">Header 6</h6>
-      <p>This is a paragraph of text to test scaling. Resize the window to see how clamp() behaves.</p>
-      <span>This is a span element (inline by default).</span>
-      <button>Click Me</button>
-    </div> */}
     <h2 className="homeCarouselHeader">Traditional</h2>
-    <SlideShow id="Carousel-trad"  doors={tradDoors} type={"traditional"}/>
+    <SlideShow id="Carousel-trad"  doorImgs={tradDoorsImages} type={"traditional"}/>
     {/* <Link id="view-btn-link"to="/traditional">
       <button id="view-doors-type-btn" style={{}}>View Traditional Doors</button>
     </Link> */}
     
     <h2 className="homeCarouselHeader">Contemporary</h2>
-    <SlideShow id="Carousel-cont" doors={contDoors} type={"contemporary"}/>
+    <SlideShow id="Carousel-cont" doorImgs={contDoorsImages} type={"contemporary"}/>
     {/* <Link id="view-btn-link" to="/contemporary">
       <button id="view-doors-type-btn" style={{}}>View Contemporary Doors</button>
     </Link>
      */}
     <h2 className="homeCarouselHeader">Carriage</h2>
-    <SlideShow id="Carousel-carriage"  doors={carrDoors} type={"carriage"}/>
+    <SlideShow id="Carousel-carriage"  doorImgs={carrDoorsImages} type={"carriage"}/>
     {/* <Link id="view-btn-link" to="/carriage">
       <button id="view-doors-type-btn" style={{}}>View Carriage Doors</button>
     </Link> */}
@@ -99,30 +84,44 @@ function Footer(){
   <h1>Footer</h1>
   );
 }
-
-
+function PersistentState(key, door){
+  if (door){
+    //alert("Setting door")
+    localStorage.setItem(key,JSON.stringify(door));
+  }
+ /* alert("Returning from local storage")*/
+  //console.log("RETURNING LOCAL STORAGE DOOR:")
+  //console.log(JSON.parse(localStorage.getItem(key)) )
+  const item = localStorage.getItem(key);
+  return item ? JSON.parse(item) : null; // fallback
+}
 function App() {/*Route generations and door generation*/
-  const [selectedDoor,setSelectedDoor] = useState(null)
+  const [selectedDoor,setSelectedDoor] = useState(PersistentState("selectedDoor",null))
   const [subTypeImages, setSubTypeImages] = useState({}); 
   const [deviceType, setDeviceType] = useState(getDeviceType(window.innerWidth));
+  // const [doorData, setDoorData] = useState(() => {
+  //   const stored = localStorage.getItem("doorsData");
+  //   return stored ? JSON.parse(stored) : null;
+  // });
+  const [doorData, setDoorData] = useState(null)
   const location = useLocation();
-  function getDeviceType(width) {
+//   console.log("SELECTED DOOR:",selectedDoor)
+ console.log("FULL DOOR DATA:",doorData)
+//   if (doorData){
+//   for (let type in doorData){
+//     console.log(`${type} DOORDATA IN APP:`, doorData[type])
+//     for (let i in doorData[type]){
+//       console.log(doorData[type][i])
+   
+//     }
+//   }
+// }
+  function getDeviceType(width){
     if (width < 768) return "mobile";
     if (width < 1024) return "tablet";
     return "desktop";
   }
-  //console.log("ROUTES:", generatedRoutes)
-  useEffect(() => {
-    //alert("Changing page")
-    document.body.classList.add("page-fade");
-    const timeout = setTimeout(() => {
-      document.body.classList.remove("page-fade");
-    }, 600);
-
-    return () => clearTimeout(timeout);
-  }, [location.pathname]);
-
-  useEffect(() => {
+  useEffect(() => {/*listener for window viewport change*/
     const handleResize = () => {
       const newType = getDeviceType(window.innerWidth);
       // update only if type actually changes
@@ -133,29 +132,74 @@ function App() {/*Route generations and door generation*/
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    //alert("Device type changed)")
-    console.log("Getting new images for:", deviceType);
-    setSubTypeImages({
-      traditional: getCarouselImages("traditional", deviceType),
-      contemporary: getCarouselImages("contemporary", deviceType),
-      carriage: getCarouselImages("carriage", deviceType),
-    });
-  }, [deviceType]);
+  useEffect(() => {/*fetch door data and prices. MAKE SURE TO UPDATE IF NEW CSV FILE IS REPLACED*/
+    // localStorage.removeItem("doorsData")
+    getDoors().then(allDoors => {
+        setDoorData(allDoors);
+    })
+    // const cachedDoors = localStorage.getItem("doorsData");
+    // if (!cachedDoors) {
+    //   // First-time fetch
+    //   getDoors().then(allDoors => {
+    //     setDoorData(allDoors);
+    //     // 🗄 Cache it
+    //     //alert("first doors fetch")
+    //     localStorage.setItem("doorsData", JSON.stringify(allDoors));
+    //   });
+    // }
+  }, []);
 
-  const handleDoorSelection = (door) =>{setSelectedDoor(door);}
+  useEffect(() => {/*Load carousel images for DoorSelector*/
+    const loadImages = async () => {
+      // localStorage.removeItem("subTypeImages")
+      const cached = localStorage.getItem("subTypeImages");
+      if (cached) setSubTypeImages(JSON.parse(cached));
+
+      const newImages = {
+        traditional: await getSubTypeImages("traditional", deviceType),
+        contemporary: await getSubTypeImages("contemporary", deviceType),
+        carriage: await getSubTypeImages("carriage", deviceType),
+      };
+
+      setSubTypeImages(newImages);
+      localStorage.setItem("subTypeImages", JSON.stringify(newImages));
+    };
+
+    loadImages();
+  }, [deviceType]);
+  
+  useEffect(() => {/*Page fade effect fro all components*/
+    //alert("Changing page")
+    document.body.classList.add("page-fade");
+    const timeout = setTimeout(() => {
+      document.body.classList.remove("page-fade");
+    }, 600);
+
+    return () => clearTimeout(timeout);
+  }, [location.pathname]);
+
+  const handleDoorSelection = (door) =>{
+    setSelectedDoor(door);
+    PersistentState("selectedDoor",door)
+  }/*Chosen door in DoorSelector to sent to Build*/
+  /*These types are for dynamic route generation*/
   const doorTypes = {traditional:["raised_panel","stamped_carriage_house","stamped_shaker","recessed_panel"], 
                     contemporary:["sterling","planks","skyline_flush","aluminum"],
                     carriage:["shoreline","steel_overlay","wood_overlay","fiber_glass_overlay","stamped_carriage_house","stamped_shaker","recessed_panel"]}
   let generatedRoutes = []
   // console.log(subTypeImages["contemporary"])
+  if (doorData!= null && Object.keys(subTypeImages).length > 0){
   for (const type in doorTypes){/*Route for each door type*/
     generatedRoutes.push(<Route path={`${type}/`} 
-    element={<DoorSelector handleDoorSelection={handleDoorSelection} doorType={type} doorImages={subTypeImages[type]}/>} />)
+                                element={<DoorSelector Doors={doorData[type]} handleDoorSelection={handleDoorSelection} 
+                                          doorType={type} doorImgs={subTypeImages[type]}/>} />)
     for (const doorName of doorTypes[type]){/*Route for doorType/doorName*/
-      generatedRoutes.push(<Route path={`${type}/${doorName}/build`} element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
+      generatedRoutes.push(<Route path={`${type}/${doorName}/build`} 
+                            element={<Build selectedDoor={selectedDoor} doorType={type}/>} />)
     }
   }
+  }
+  //console.log("ROUTES:", generatedRoutes)
   return (<>
   {/*<Header/>*/}
     <Routes>
